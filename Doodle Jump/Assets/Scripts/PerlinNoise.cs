@@ -39,7 +39,7 @@ public class PerlinNoise : MonoBehaviour {
 
 	void Update()
 	{
-		if (PlayerMovement2.isDead)
+		if (GameManager.currentPlayer.isDead)
 		{
 			Reset();
 			return;

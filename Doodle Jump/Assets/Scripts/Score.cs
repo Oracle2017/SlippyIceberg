@@ -15,24 +15,16 @@ public class Score : MonoBehaviour {
 		uiCurrentScoreText = GetComponent<Text>();
 		Reset();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		if (!PlayerMovement2.isDead)
-		{
-			UpdateScore();
-		}
-			
-	}
 
-	void UpdateScore()
+
+	public void UpdateScore()
 	{
 		currentScore += Time.deltaTime;
 
 		uiCurrentScoreText.text = ((int) currentScore).ToString();
 	}
 
-	public static void Reset()
+	public void Reset()
 	{
 		currentScore = 0f;
 	}

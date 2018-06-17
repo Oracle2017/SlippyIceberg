@@ -22,16 +22,9 @@ public class GameOver : MonoBehaviour {
 
 		CloseWindow();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		if (PlayerMovement2.isDead)
-		{
-			PopupWindow();
-		}
-	}
 
-	void PopupWindow()
+
+	public void DisplayWindow()
 	{
 		image.enabled = true;
 		rectTransform.localScale = Vector3.SmoothDamp(rectTransform.localScale, targetScale, ref scalingVelocity, 0.2f);
@@ -52,8 +45,5 @@ public class GameOver : MonoBehaviour {
 	{
 		image.enabled = false;
 		rectTransform.localScale = Vector3.zero;
-		PlayerMovement2.isDead = false;
-		Score.Reset();
-
 	}
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Controller2D))]
-public class Player : MonoBehaviour {
+public class Player2 : MonoBehaviour {
 	public float jumpHeight = 4;
 	public float timeToJumpApex = .4f;
 	float accelerationTimeAirborn = .2f;
