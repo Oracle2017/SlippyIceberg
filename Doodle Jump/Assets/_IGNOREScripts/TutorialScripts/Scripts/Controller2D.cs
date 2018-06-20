@@ -271,10 +271,10 @@ public class Controller2D : MonoBehaviour {
 			print("raycast 2 (yellow) hit somthing");
 		}*/
 
-		transform.RotateAround(PerlinNoise.platformSingleton.transform.position, new Vector3(0, 0, 1), PerlinNoise.platformSingleton.rotationZChange);
+		transform.RotateAround(GameManager.currentPlatform.transform.position, new Vector3(0, 0, 1), GameManager.currentPlatform.rotationZChange);
 		transform.localRotation = Quaternion.identity;
-		print("PerlinNoise.platformSingleton.transform.position = " + PerlinNoise.platformSingleton.transform.position);
-		print("PerlinNoise.platformSingleton.rotationZChange = " + PerlinNoise.platformSingleton.rotationZChange.ToString());
+		print("PerlinNoise.platformSingleton.transform.position = " + GameManager.currentPlatform.transform.position);
+		print("PerlinNoise.platformSingleton.rotationZChange = " + GameManager.currentPlatform.rotationZChange.ToString());
 	}
 
 	struct RaycastOrigins {

@@ -15,8 +15,11 @@ public class Player : MonoBehaviour {
 	[HideInInspector] public bool isDead;
 
 	// Use this for initialization
-	void Start () {
+	public void StartSettings () {
 		startPos = transform.position;
+
+		playerMovement.StartSettings();
+		playerCollision.StartSettings();
 	}
 	
 	// Update is called once per frame
@@ -27,7 +30,7 @@ public class Player : MonoBehaviour {
 
 		//TODO: must not be parented
 		// Parenting to obstacle for getting the rotation
-		transform.parent = PerlinNoise.platformSingleton.transform;
+		transform.parent = GameManager.currentPlatform.transform;
 		transform.localRotation = Quaternion.identity;
 
 		if (playerCollision.WaterCollisionCheck())
@@ -41,7 +44,7 @@ public class Player : MonoBehaviour {
 
 		if (playerCollision.collisionInfo.touchingObstacle)
 		{
-			playerCollision.collisionInfo.slopeAngle = PerlinNoise.platformSingleton.transform.rotation.eulerAngles.z;
+			playerCollision.collisionInfo.slopeAngle = GameManager.currentPlatform.transform.rotation.eulerAngles.z;
 			playerMovement.SlipPlayer(playerCollision.collisionInfo.slopeAngle);
 		}
 

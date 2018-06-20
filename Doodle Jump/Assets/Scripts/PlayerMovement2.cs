@@ -68,7 +68,7 @@ public class PlayerMovement2 : MonoBehaviour {
 
 
 	// Use this for initialization
-	void Start () {
+	public void StartSettings () {
 
 		minSlipVelocity = 0;
 		maxSlipVelocity = moveSpeed;

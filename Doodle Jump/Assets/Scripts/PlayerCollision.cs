@@ -13,8 +13,7 @@ public class PlayerCollision : MonoBehaviour {
 	// Necessary for collision detection variables.
 	float spriteWidth;
 	float spriteHeight;
-	float obstacleSpriteHeight;
-	Vector3 obstacleScale;
+
 
 
 	///<summary>
@@ -27,19 +26,13 @@ public class PlayerCollision : MonoBehaviour {
 	[SerializeField] int landSpeed = 8;
 
 	// Use this for initialization
-	void Start () {
+	public void StartSettings () {
 		SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
 		spriteWidth = spriteRenderer.sprite.bounds.size.x;
 		spriteHeight = spriteRenderer.sprite.bounds.size.y;
-		// TODO: obstacle must be instantiated
-		obstacleSpriteHeight = PerlinNoise.platformSingleton.transform.GetComponent<SpriteRenderer>().sprite.bounds.size.y;
-		obstacleScale = PerlinNoise.platformSingleton.transform.localScale;
+
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
 	/// <summary>
 	/// Check if the player is completely under water. If it is then it resets the player.
@@ -52,8 +45,8 @@ public class PlayerCollision : MonoBehaviour {
 
 		// extendX is the distance between center and right edge of the player.
 		// extendY is the distance between center and top edge of the player
-		Vector3 extendX =  transform.right * spriteWidth * obstacleScale.x * transform.localScale.x / 2;
-		Vector3 extendY = transform.up * spriteHeight * obstacleScale.y * transform.localScale.y / 2;
+		Vector3 extendX =  transform.right * spriteWidth * GameManager.currentPlatform.obstacleScale.x * transform.localScale.x / 2;
+		Vector3 extendY = transform.up * spriteHeight * GameManager.currentPlatform.obstacleScale.y * transform.localScale.y / 2;
 		Vector2 _rayOriginTopLeft = transform.position + -extendX + extendY;
 		Vector2 _rayOriginTopRight = transform.position + extendX + extendY;
 		rayOriginTopMax = (_rayOriginTopLeft.y >= _rayOriginTopRight.y)? _rayOriginTopLeft: _rayOriginTopRight;
@@ -87,7 +80,7 @@ public class PlayerCollision : MonoBehaviour {
 		{
 			int direction = -1 + 2 * i; // same but more expensive: (i == 0)? -1: 1; 
 			// TODO: put some variables at Start() to make it less computer epensive.
-			Vector2 _rayOrigin = transform.position + direction * transform.right * spriteWidth * obstacleScale.x * transform.localScale.x / 2 - transform.up * spriteHeight * obstacleScale.y * transform.localScale.y / 2;
+			Vector2 _rayOrigin = transform.position + direction * transform.right * spriteWidth * GameManager.currentPlatform.obstacleScale.x * transform.localScale.x / 2 - transform.up * spriteHeight * GameManager.currentPlatform.obstacleScale.y * transform.localScale.y / 2;
 			RaycastHit2D _hit = Physics2D.Raycast(_rayOrigin, Vector2.up * -1, rayLength, collisionMask);
 
 			if (_hit)
@@ -121,7 +114,7 @@ public class PlayerCollision : MonoBehaviour {
 		for (int i = 0; i < 2; i++)
 		{
 			int direction = (i == 0)? -1: 1;
-			Vector2 _rayOrigin = transform.position + direction * transform.right * spriteWidth * obstacleScale.x * transform.localScale.x / 2 - transform.up * spriteHeight * obstacleScale.y * transform.localScale.y / 2;
+			Vector2 _rayOrigin = transform.position + direction * transform.right * spriteWidth * GameManager.currentPlatform.obstacleScale.x * transform.localScale.x / 2 - transform.up * spriteHeight * GameManager.currentPlatform.obstacleScale.y * transform.localScale.y / 2;
 			Debug.DrawRay(_rayOrigin, Vector2.up * -1 * rayLength, Color.green);
 		}
 

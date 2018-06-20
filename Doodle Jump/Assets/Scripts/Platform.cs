@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PerlinNoise : MonoBehaviour {
+public class Platform : MonoBehaviour {
 
 
 	public int scale = 10;
 	public float offset = 100f;
 
-	[HideInInspector] public static PerlinNoise platformSingleton;
 	[HideInInspector] public float rotationZChange;
 	float currentVelocity;
 
@@ -21,12 +20,10 @@ public class PerlinNoise : MonoBehaviour {
 	bool isChangingAmplitude;
 	bool isStarting;
 
-	void Awake()
-	{
-		platformSingleton = this;
-	}
+	[HideInInspector] public float obstacleSpriteHeight;
+	[HideInInspector] public Vector3 obstacleScale;
 
-	void Start()
+	public void StartSettings()
 	{
 		offset = Random.Range(0, 100000);
 		rotationSpeed = 0.1f;
@@ -34,10 +31,13 @@ public class PerlinNoise : MonoBehaviour {
 
 		startRotationSpeed = rotationSpeed;
 		startRotationMultiplier = rotationMultiplier;
+
+		obstacleSpriteHeight = transform.GetComponent<SpriteRenderer>().sprite.bounds.size.y;
+		obstacleScale = transform.localScale;
 	}
 
 
-	void Update()
+	public void UpdatePlatform()
 	{
 		if (GameManager.currentPlayer.isDead)
 		{
@@ -129,7 +129,7 @@ public class PerlinNoise : MonoBehaviour {
 		isStarting = true;
 	}
 
-	void Reset()
+	public void Reset()
 	{
 		transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
 		rotationSpeed = startRotationSpeed;
