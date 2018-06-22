@@ -20,6 +20,8 @@ public class Platform : MonoBehaviour {
 	bool isChangingAmplitude;
 	bool isStarting;
 
+	[HideInInspector] public float rotationVelocity;
+
 	[HideInInspector] public float obstacleSpriteHeight;
 	[HideInInspector] public Vector3 obstacleScale;
 
@@ -58,6 +60,7 @@ public class Platform : MonoBehaviour {
 
 
 		float currentRotation = Mathf.SmoothDampAngle(transform.rotation.eulerAngles.z, RotationTarget(), ref currentVelocity, 0.2f);
+		rotationVelocity = Mathf.DeltaAngle(transform.localRotation.eulerAngles.z, currentRotation);
 		transform.localRotation = Quaternion.Euler(0f, 0f, currentRotation);
 		Debug.DrawRay(transform.position, transform.up.normalized, Color.green);
 

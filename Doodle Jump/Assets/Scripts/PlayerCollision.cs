@@ -8,6 +8,8 @@ public class PlayerCollision : MonoBehaviour {
 	[SerializeField] LayerMask waterMask;
 	Vector2 rayOriginTopMax;
 	float rayLength;
+	float skinWidth = 0.15f;
+	float totalRotationVelocity;
 
 
 	// Necessary for collision detection variables.
@@ -23,13 +25,16 @@ public class PlayerCollision : MonoBehaviour {
 
 
 
-	[SerializeField] int landSpeed = 8;
+	[SerializeField] float landSpeed = 8f;
 
 	// Use this for initialization
 	public void StartSettings () {
 		SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-		spriteWidth = spriteRenderer.sprite.bounds.size.x;
-		spriteHeight = spriteRenderer.sprite.bounds.size.y;
+		// max width and height of a sprite of the animation.
+		spriteWidth = 2.40f;//spriteRenderer.sprite.bounds.size.x;
+		spriteHeight = 2.92f;//spriteRenderer.sprite.bounds.size.y;
+		print(spriteWidth);
+		print(spriteHeight);
 
 	}
 	
@@ -74,32 +79,45 @@ public class PlayerCollision : MonoBehaviour {
 
 		rayLength = Mathf.Abs(landSpeed * Time.deltaTime);
 
+
 		// Double Raycasting (both down sides). Because we want to see if the player is fully not touching the obstacle.
 		// TODO: not sure if raycasts are even needed here
-		for (int i = 0; i < 2; i++)
+		for (int i = 0; i < 3; i++)
 		{
-			int direction = -1 + 2 * i; // same but more expensive: (i == 0)? -1: 1; 
+			int direction = -1 + i; // same but more expensive: (i == 0)? -1: 1; 
 			// TODO: put some variables at Start() to make it less computer epensive.
-			Vector2 _rayOrigin = transform.position + direction * transform.right * spriteWidth * GameManager.currentPlatform.obstacleScale.x * transform.localScale.x / 2 - transform.up * spriteHeight * GameManager.currentPlatform.obstacleScale.y * transform.localScale.y / 2;
+			Vector3 parentScale = Vector3.one;//(transform.parent == GameManager.currentPlatform.transform)? GameManager.currentPlatform.obstacleScale: Vector3.one;
+			Vector2 _rayOrigin = transform.position + direction * transform.right * spriteWidth / 2 * transform.localScale.x * parentScale.x - transform.up * spriteHeight / 2 * transform.localScale.y * parentScale.y;
 			RaycastHit2D _hit = Physics2D.Raycast(_rayOrigin, Vector2.up * -1, rayLength, collisionMask);
 
 			if (_hit)
 			{
+				if (collisionInfo.touchingObstacle)
+				{
+					float rotationVelocity = GameManager.currentPlatform.rotationVelocity;
+					totalRotationVelocity += rotationVelocity;
+					print("totalRotationVelocity = " + rotationVelocity.ToString());
+					transform.RotateAround(GameManager.currentPlatform.transform.position, Vector3.forward, rotationVelocity);
+				}
+
 				if (!collisionInfo.touchingObstacle)
 				{
 					transform.position -= new Vector3(0, _hit.distance, 0);
 					collisionInfo.touchingObstacle = true;
+					transform.parent = null;//GameManager.currentPlatform.transform;
+					transform.rotation = GameManager.currentPlatform.transform.rotation;
 				}
 
 				break;
 			}
 
-			else if (i == 1)
+			else if (i == 2)
 			{
 				// Both raycasts don't make a hit
 				collisionInfo.touchingObstacle = false;
+				//transform.position -= new Vector3(0, landSpeed * Time.deltaTime, 0);
 				transform.parent = null;
-				transform.position -= new Vector3(0, landSpeed * Time.deltaTime, 0);
+				//transform.rotation = Quaternion.identity;
 			}
 
 		}
@@ -111,11 +129,13 @@ public class PlayerCollision : MonoBehaviour {
 	public void DebugRays()
 	{
 		// TODO: not totally correct, they should be recalculated. They are 1 frame behind.
-		for (int i = 0; i < 2; i++)
+		for (int i = 0; i < 3; i++)
 		{
-			int direction = (i == 0)? -1: 1;
-			Vector2 _rayOrigin = transform.position + direction * transform.right * spriteWidth * GameManager.currentPlatform.obstacleScale.x * transform.localScale.x / 2 - transform.up * spriteHeight * GameManager.currentPlatform.obstacleScale.y * transform.localScale.y / 2;
-			Debug.DrawRay(_rayOrigin, Vector2.up * -1 * rayLength, Color.green);
+			int direction = -1 + i; // same but more expensive: (i == 0)? -1: 1; 
+			// TODO: put some variables at Start() to make it less computer epensive.
+			Vector3 parentScale = Vector3.one;//(transform.parent == GameManager.currentPlatform.transform)? GameManager.currentPlatform.obstacleScale: Vector3.one;
+			Vector2 _rayOrigin = transform.position + direction * transform.right * spriteWidth / 2 * transform.localScale.x * parentScale.x - transform.up * spriteHeight / 2 * transform.localScale.y * parentScale.y;
+			Debug.DrawRay(_rayOrigin, Vector2.up * -1 * rayLength, Color.red);
 		}
 
 		Debug.DrawRay(rayOriginTopMax, Vector2.up * -1 * 0.1f, Color.cyan);

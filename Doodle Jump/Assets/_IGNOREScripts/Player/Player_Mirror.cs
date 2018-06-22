@@ -39,10 +39,18 @@ public class Player_Mirror : MonoBehaviour {
 
 	void InstantiatePlayerReflection()
 	{
-		playerReflection = new GameObject("Player reflection");
+		playerReflection = new GameObject(gameObject.name + " Reflection");
 		SpriteRenderer playerSprite = playerReflection.AddComponent<SpriteRenderer>();
 		playerSprite.sprite = GetComponent<SpriteRenderer>().sprite;
 
+		// Add collider to the reflection
+		BoxCollider2D boxCollider2D = playerReflection.AddComponent<BoxCollider2D>();
+		boxCollider2D.size = GetComponent<BoxCollider2D>().size;
+		boxCollider2D.offset = GetComponent<BoxCollider2D>().offset;
+		playerReflection.tag = gameObject.tag;
+		playerReflection.layer = gameObject.layer;
+
+		// pretty useless i think
 		playerReflection.transform.localScale = transform.localScale;
 		playerReflection.transform.rotation = transform.rotation;
 		playerReflection.transform.position = new Vector2(0, 0);
@@ -50,6 +58,9 @@ public class Player_Mirror : MonoBehaviour {
 
 	void Reflection()
 	{
+		playerReflection.transform.rotation = transform.rotation;
+		playerReflection.transform.localScale = transform.lossyScale;
+
 		if ((transform.position.x + spriteWidth * transform.localScale.x / 2) >= cameraBounds.extents.x)
 		{
 			playerReflection.SetActive(true);

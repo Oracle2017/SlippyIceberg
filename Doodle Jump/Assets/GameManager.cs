@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour {
 		{
 			currentPlayer = Instantiate(playerPrefab.gameObject, playerPrefab.transform.position, playerPrefab.transform.rotation).GetComponent<Player>();
 		}
+			
 
 		currentPlatform.StartSettings();
 		currentPlayer.StartSettings();
@@ -37,8 +38,8 @@ public class GameManager : MonoBehaviour {
 
 		if (!currentPlayer.isDead)
 		{
-			currentPlayer.UpdatePlayer();
 			currentPlatform.UpdatePlatform();
+			currentPlayer.UpdatePlayer();
 			score.UpdateScore();
 		}
 
@@ -54,5 +55,6 @@ public class GameManager : MonoBehaviour {
 		currentPlatform.Reset();
 		gameOver.CloseWindow();
 		score.Reset();
+		print("reset");
 	}
 }

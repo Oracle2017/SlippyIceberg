@@ -9,6 +9,8 @@ public class Player : MonoBehaviour {
 
 	[SerializeField] PlayerMovement2 playerMovement;
 	[SerializeField] PlayerCollision playerCollision;
+	[SerializeField] PlayerJump playerJump;
+	[SerializeField] bool slip;
 
 	// Reset Variables
 	Vector3 startPos;
@@ -28,10 +30,7 @@ public class Player : MonoBehaviour {
 		if (isDead)
 			return;
 
-		//TODO: must not be parented
-		// Parenting to obstacle for getting the rotation
-		transform.parent = GameManager.currentPlatform.transform;
-		transform.localRotation = Quaternion.identity;
+		//transform.localRotation = Quaternion.identity;
 
 		if (playerCollision.WaterCollisionCheck())
 		{
@@ -42,11 +41,13 @@ public class Player : MonoBehaviour {
 
 		playerMovement.Move(playerCollision.collisionInfo.touchingObstacle);
 
-		if (playerCollision.collisionInfo.touchingObstacle)
+		if (playerCollision.collisionInfo.touchingObstacle && slip)
 		{
 			playerCollision.collisionInfo.slopeAngle = GameManager.currentPlatform.transform.rotation.eulerAngles.z;
 			playerMovement.SlipPlayer(playerCollision.collisionInfo.slopeAngle);
 		}
+
+		playerJump.UpdateSettings(playerCollision.collisionInfo.touchingObstacle);
 
 		playerCollision.DebugRays();
 	}
@@ -55,5 +56,6 @@ public class Player : MonoBehaviour {
 	{
 		isDead = false;
 		transform.position = startPos;
+		playerJump.Reset();
 	}
 }
