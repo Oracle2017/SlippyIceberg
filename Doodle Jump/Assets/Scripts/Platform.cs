@@ -1,11 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Platform : MonoBehaviour {
-
-
-	public int scale = 10;
-	public float offset = 100f;
+public abstract class Platform : MonoBehaviour {
 
 	[HideInInspector] public float rotationZChange;
 	float currentVelocity;
@@ -14,8 +10,15 @@ public class Platform : MonoBehaviour {
 	float startRotationSpeed;
 	float startRotationMultiplier;
 
-	float rotationSpeed;
-	float rotationMultiplier;
+	[Header("Speed of the rotation")]
+	[SerializeField] protected float rotationSpeed = 0.1f;
+	[SerializeField] float IncreasePerSecond = 10;
+	[SerializeField] float SpeedIncrease = 1.5f;
+	[SerializeField] float rotationSpeedLimit = 1.5f;
+	[Space(10)]
+
+	[Header("Force of the rotation")]
+	[SerializeField] protected float rotationMultiplier = 1;
 	bool isChangingSpeed;
 	bool isChangingAmplitude;
 	bool isStarting;
@@ -25,12 +28,8 @@ public class Platform : MonoBehaviour {
 	[HideInInspector] public float obstacleSpriteHeight;
 	[HideInInspector] public Vector3 obstacleScale;
 
-	public void StartSettings()
+	public virtual void StartSettings()
 	{
-		offset = Random.Range(0, 100000);
-		rotationSpeed = 0.1f;
-		rotationMultiplier = 1;
-
 		startRotationSpeed = rotationSpeed;
 		startRotationMultiplier = rotationMultiplier;
 
@@ -39,54 +38,39 @@ public class Platform : MonoBehaviour {
 	}
 
 
-	public void UpdatePlatform()
+	public virtual void UpdatePlatform()
 	{
-		if (GameManager.currentPlayer.isDead)
-		{
-			Reset();
-			return;
-		}
-
-
 		if (!isStarting)
 		{
 			StartCoroutine(StartWait(2f));
 			return;
 		}
-
-		offset += Time.deltaTime * rotationSpeed;
-		//transform.localRotation = Quaternion.Euler(0f, 0f, RotationTarget());
-		//print(transform.right.normalized);*/
-
+			
 
 		float currentRotation = Mathf.SmoothDampAngle(transform.rotation.eulerAngles.z, RotationTarget(), ref currentVelocity, 0.2f);
 		rotationVelocity = Mathf.DeltaAngle(transform.localRotation.eulerAngles.z, currentRotation);
 		transform.localRotation = Quaternion.Euler(0f, 0f, currentRotation);
+
 		Debug.DrawRay(transform.position, transform.up.normalized, Color.green);
 
-		if (rotationSpeed < 1f)
+		if (rotationSpeed < rotationSpeedLimit)
 		{
-			StartCoroutine(ChangeSpeed(8f));
+			StartCoroutine(ChangeSpeed(IncreasePerSecond));
 		}
 
 		/*if (rotationMultiplier < 2)
 		{
 			
-			StartCoroutine(ChangeRotationAmplitude(5f));
+			StartCoroutine(ChangeRotationAmplitude(10f));
 		}*/
 	}
 
-	float RotationTarget()
+	protected abstract float RotationTarget();
+
+
+	protected float RegulateAngle(float _rotationTarget)
 	{
-		float zRotation = scale + offset;
-		float sample = Mathf.PerlinNoise(zRotation, 0);
-		sample = Mathf.Clamp(sample, 0, 1);
-		float rotationTarget = Utils.Map(sample * rotationMultiplier, 0, 1, -90, 90);
-
-		//rotationZChange = (transform.rotation.z > rotationZ)? transform.rotation.eulerAngles.z - rotationZ: (rotationZ - transform.rotation.eulerAngles.z) * -1;
-		//print(rotationZChange);
-
-		float rotationZ360 = (Mathf.Sign(rotationTarget) == -1)? rotationTarget + 360: rotationTarget;
+		float rotationZ360 = (Mathf.Sign(_rotationTarget) == -1)? _rotationTarget + 360: _rotationTarget;
 		if (transform.rotation.z > rotationZ360)
 		{
 			rotationZChange = transform.rotation.eulerAngles.z - rotationZ360;
@@ -94,13 +78,10 @@ public class Platform : MonoBehaviour {
 
 		else 
 		{
-			//print("transform.rotation.z <= rotationZ");
-			//print(rotationZ - transform.rotation.eulerAngles.z);
-			rotationZChange = rotationTarget - transform.rotation.eulerAngles.z;
+			rotationZChange = _rotationTarget - transform.rotation.eulerAngles.z;
 		}
 
-		return rotationTarget;
-
+		return _rotationTarget;
 	}
 
 	IEnumerator ChangeSpeed(float waitTime)
@@ -109,7 +90,7 @@ public class Platform : MonoBehaviour {
 		{
 			isChangingSpeed = true;
 			yield return new WaitForSeconds(waitTime);
-			rotationSpeed *= 2;
+			rotationSpeed *= SpeedIncrease;
 			isChangingSpeed = false;
 		}
 	}
@@ -132,12 +113,12 @@ public class Platform : MonoBehaviour {
 		isStarting = true;
 	}
 
-	public void Reset()
+	public virtual void Reset()
 	{
+		rotationVelocity = 0;
 		transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
 		rotationSpeed = startRotationSpeed;
 		rotationMultiplier = startRotationMultiplier;
 		isStarting = false;
-		offset = Random.Range(0, 100000);
 	}
 }

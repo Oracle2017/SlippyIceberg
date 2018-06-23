@@ -56,6 +56,7 @@ public class Player : MonoBehaviour {
 	{
 		isDead = false;
 		transform.position = startPos;
+		playerCollision.Reset();
 		playerJump.Reset();
 	}
 }

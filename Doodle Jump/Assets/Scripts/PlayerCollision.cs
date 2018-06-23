@@ -96,7 +96,7 @@ public class PlayerCollision : MonoBehaviour {
 				{
 					float rotationVelocity = GameManager.currentPlatform.rotationVelocity;
 					totalRotationVelocity += rotationVelocity;
-					print("totalRotationVelocity = " + rotationVelocity.ToString());
+					//print("totalRotationVelocity = " + rotationVelocity.ToString());
 					transform.RotateAround(GameManager.currentPlatform.transform.position, Vector3.forward, rotationVelocity);
 				}
 
@@ -150,5 +150,10 @@ public class PlayerCollision : MonoBehaviour {
 			touchingObstacle = false;
 			collider = null;
 		}
+	}
+
+	public void Reset()
+	{
+		transform.rotation = Quaternion.identity;
 	}
 }
