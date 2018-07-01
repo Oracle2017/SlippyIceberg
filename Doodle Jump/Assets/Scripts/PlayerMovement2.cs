@@ -81,7 +81,9 @@ public class PlayerMovement2 : MonoBehaviour {
 	public void Move(bool _isTouchingObstacle)
 	{
 		float hypothenus = (moveSpeed) * Time.deltaTime;
-		float angle = -1 * Vector2.SignedAngle(transform.right, Vector2.right);
+		// TODO: FIX THIS SHIT HERE UNDER
+		float angle = GameManager.currentPlatform.currentRotation;// -1 * Vector2.SignedAngle(transform.right, Vector2.right);
+		print("movement angle = " + angle);
 		float x = Mathf.Cos(angle * Mathf.Deg2Rad) * hypothenus;
 		float y = Mathf.Sin(angle * Mathf.Deg2Rad) * hypothenus;
 		Vector3 movePosition = new Vector3(x, y, 0);
@@ -134,9 +136,8 @@ public class PlayerMovement2 : MonoBehaviour {
 				
 				spriteRenderer.flipX = true;
 
-		if (_isTouchingObstacle)
+				if (_isTouchingObstacle)
 				{
-					
 					transform.position -= movePosition;
 				}
 
@@ -153,7 +154,7 @@ public class PlayerMovement2 : MonoBehaviour {
 
 				spriteRenderer.flipX = false;
 
-			if (_isTouchingObstacle)
+				if (_isTouchingObstacle)
 				{
 					transform.position += movePosition;
 				}
@@ -161,6 +162,7 @@ public class PlayerMovement2 : MonoBehaviour {
 				else 
 				{
 					transform.position += Vector3.right * moveSpeed * Time.deltaTime;
+
 				}
 			}
 

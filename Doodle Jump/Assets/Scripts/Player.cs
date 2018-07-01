@@ -37,13 +37,13 @@ public class Player : MonoBehaviour {
 			isDead = true;
 		}
 
-		playerCollision.PlatformCollisionCheck();
+		playerCollision.PlatformCollisionCheck(playerJump.landingSpeed);
 
 		playerMovement.Move(playerCollision.collisionInfo.touchingObstacle);
 
 		if (playerCollision.collisionInfo.touchingObstacle && slip)
 		{
-			playerCollision.collisionInfo.slopeAngle = GameManager.currentPlatform.transform.rotation.eulerAngles.z;
+			playerCollision.collisionInfo.slopeAngle = playerCollision.collisionInfo.currentPlatform.transform.rotation.eulerAngles.z;
 			playerMovement.SlipPlayer(playerCollision.collisionInfo.slopeAngle);
 		}
 

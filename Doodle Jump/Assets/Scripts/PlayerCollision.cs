@@ -8,8 +8,9 @@ public class PlayerCollision : MonoBehaviour {
 	[SerializeField] LayerMask waterMask;
 	Vector2 rayOriginTopMax;
 	float rayLength;
-	float skinWidth = 0.15f;
+	[SerializeField] float skinWidth;
 	float totalRotationVelocity;
+	bool touchedObstacleOnce;
 
 
 	// Necessary for collision detection variables.
@@ -23,9 +24,8 @@ public class PlayerCollision : MonoBehaviour {
 	/// </summary>
 	public CollisionInfo collisionInfo;
 
+	[SerializeField] GameObject UIHelper;
 
-
-	[SerializeField] float landSpeed = 8f;
 
 	// Use this for initialization
 	public void StartSettings () {
@@ -33,9 +33,6 @@ public class PlayerCollision : MonoBehaviour {
 		// max width and height of a sprite of the animation.
 		spriteWidth = 2.40f;//spriteRenderer.sprite.bounds.size.x;
 		spriteHeight = 2.92f;//spriteRenderer.sprite.bounds.size.y;
-		print(spriteWidth);
-		print(spriteHeight);
-
 	}
 	
 
@@ -50,8 +47,8 @@ public class PlayerCollision : MonoBehaviour {
 
 		// extendX is the distance between center and right edge of the player.
 		// extendY is the distance between center and top edge of the player
-		Vector3 extendX =  transform.right * spriteWidth * GameManager.currentPlatform.obstacleScale.x * transform.localScale.x / 2;
-		Vector3 extendY = transform.up * spriteHeight * GameManager.currentPlatform.obstacleScale.y * transform.localScale.y / 2;
+		Vector3 extendX =  transform.right * spriteWidth  * transform.localScale.x / 2;
+		Vector3 extendY = transform.up * spriteHeight * transform.localScale.y / 2;
 		Vector2 _rayOriginTopLeft = transform.position + -extendX + extendY;
 		Vector2 _rayOriginTopRight = transform.position + extendX + extendY;
 		rayOriginTopMax = (_rayOriginTopLeft.y >= _rayOriginTopRight.y)? _rayOriginTopLeft: _rayOriginTopRight;
@@ -74,10 +71,10 @@ public class PlayerCollision : MonoBehaviour {
 	/// <summary>
 	/// Check if the player is touching a platform. If yes then it readjusts the position.
 	/// </summary>
-	public void PlatformCollisionCheck()
+	public void PlatformCollisionCheck(float _landSpeed)
 	{
 
-		rayLength = Mathf.Abs(landSpeed * Time.deltaTime);
+		rayLength = Mathf.Abs(_landSpeed * Time.deltaTime) + 1;
 
 
 		// Double Raycasting (both down sides). Because we want to see if the player is fully not touching the obstacle.
@@ -86,26 +83,49 @@ public class PlayerCollision : MonoBehaviour {
 		{
 			int direction = -1 + i; // same but more expensive: (i == 0)? -1: 1; 
 			// TODO: put some variables at Start() to make it less computer epensive.
-			Vector3 parentScale = Vector3.one;//(transform.parent == GameManager.currentPlatform.transform)? GameManager.currentPlatform.obstacleScale: Vector3.one;
-			Vector2 _rayOrigin = transform.position + direction * transform.right * spriteWidth / 2 * transform.localScale.x * parentScale.x - transform.up * spriteHeight / 2 * transform.localScale.y * parentScale.y;
-			RaycastHit2D _hit = Physics2D.Raycast(_rayOrigin, Vector2.up * -1, rayLength, collisionMask);
+
+			//- (direction * transform.right * skinWidth)
+			Vector2 _rayOrigin = transform.position + 
+				direction * (transform.right * spriteWidth / 2 * transform.localScale.x) - 
+				(transform.up * spriteHeight / 2 * transform.localScale.y);
+			RaycastHit2D _hit = Physics2D.Raycast(_rayOrigin + Vector2.up, Vector2.up * -1, rayLength, collisionMask);
 
 			if (_hit)
 			{
+				touchedObstacleOnce = true;
+
 				if (collisionInfo.touchingObstacle)
 				{
-					float rotationVelocity = GameManager.currentPlatform.rotationVelocity;
+					float rotationVelocity = collisionInfo.currentPlatform.rotationVelocity;
 					totalRotationVelocity += rotationVelocity;
 					//print("totalRotationVelocity = " + rotationVelocity.ToString());
-					transform.RotateAround(GameManager.currentPlatform.transform.position, Vector3.forward, rotationVelocity);
+					transform.RotateAround(collisionInfo.currentPlatform.transform.position, Vector3.forward, rotationVelocity);
 				}
 
 				if (!collisionInfo.touchingObstacle)
 				{
-					transform.position -= new Vector3(0, _hit.distance, 0);
+					float playerRotationZ = Vector3.SignedAngle(Vector3.up, _hit.normal, Vector3.forward);
+
+
+					collisionInfo.currentPlatform = _hit.transform.GetComponent<Platform>();
 					collisionInfo.touchingObstacle = true;
-					transform.parent = null;//GameManager.currentPlatform.transform;
-					transform.rotation = GameManager.currentPlatform.transform.rotation;
+
+
+
+
+					transform.rotation = Quaternion.identity;
+					Vector3 positionOffset = (Vector3) _rayOrigin - 
+						(transform.position + 
+						direction * (transform.right * spriteWidth / 2 * transform.localScale.x) - 
+							(transform.up * spriteHeight / 2 * transform.localScale.y)); 
+					transform.position += positionOffset;
+					Instantiate(UIHelper, _rayOrigin, Quaternion.identity);
+					transform.RotateAround(_rayOrigin, Vector3.forward, playerRotationZ);
+					transform.position -= new Vector3(0, _hit.distance - 1, 0);
+					print("hit distance = " + _hit.distance);
+					//transform.rotation = Quaternion.Euler(0, 0, playerRotationZ);//collisionInfo.currentPlatform.transform.rotation;
+					//Debug.Break();
+					return;
 				}
 
 				break;
@@ -117,7 +137,13 @@ public class PlayerCollision : MonoBehaviour {
 				collisionInfo.touchingObstacle = false;
 				//transform.position -= new Vector3(0, landSpeed * Time.deltaTime, 0);
 				transform.parent = null;
+
 				//transform.rotation = Quaternion.identity;
+
+				if (touchedObstacleOnce)
+				{
+					//Debug.Break();
+				}
 			}
 
 		}
@@ -133,8 +159,10 @@ public class PlayerCollision : MonoBehaviour {
 		{
 			int direction = -1 + i; // same but more expensive: (i == 0)? -1: 1; 
 			// TODO: put some variables at Start() to make it less computer epensive.
-			Vector3 parentScale = Vector3.one;//(transform.parent == GameManager.currentPlatform.transform)? GameManager.currentPlatform.obstacleScale: Vector3.one;
-			Vector2 _rayOrigin = transform.position + direction * transform.right * spriteWidth / 2 * transform.localScale.x * parentScale.x - transform.up * spriteHeight / 2 * transform.localScale.y * parentScale.y;
+			Vector2 _rayOrigin = transform.position + 
+				direction * (transform.right * spriteWidth / 2 * transform.localScale.x) - 
+				(transform.up * spriteHeight / 2 * transform.localScale.y) + Vector3.up;
+			
 			Debug.DrawRay(_rayOrigin, Vector2.up * -1 * rayLength, Color.red);
 		}
 
@@ -142,18 +170,20 @@ public class PlayerCollision : MonoBehaviour {
 	}
 
 	public struct CollisionInfo {
+		public Platform currentPlatform;
 		public bool touchingObstacle;
-		public GameObject collider;
 		public float slopeAngle;
 
 		public void Reset() {
 			touchingObstacle = false;
-			collider = null;
+			currentPlatform = null;
 		}
 	}
 
 	public void Reset()
 	{
 		transform.rotation = Quaternion.identity;
+		collisionInfo.Reset();
+		touchedObstacleOnce = false;
 	}
 }

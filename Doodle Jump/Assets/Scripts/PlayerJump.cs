@@ -14,7 +14,7 @@ public class PlayerJump : MonoBehaviour {
 	[Range(0.0f, 1.0f)]
 	[SerializeField] float jumpSpeed;
 	[SerializeField] int jumpHeight;
-	[SerializeField] float landingSpeed = 1;
+	[SerializeField] public float landingSpeed = 1;
 	[SerializeField] bool canFall;
 
 

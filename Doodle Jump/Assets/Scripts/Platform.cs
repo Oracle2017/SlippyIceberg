@@ -5,6 +5,7 @@ public abstract class Platform : MonoBehaviour {
 
 	[HideInInspector] public float rotationZChange;
 	float currentVelocity;
+	[HideInInspector] public float currentRotation;
 
 	// For resetting values when player replays
 	float startRotationSpeed;
@@ -21,7 +22,10 @@ public abstract class Platform : MonoBehaviour {
 	[SerializeField] protected float rotationMultiplier = 1;
 	bool isChangingSpeed;
 	bool isChangingAmplitude;
-	bool isStarting;
+	bool roundStart;
+	float roundTimeLimit;
+	float roundTimer;
+	bool stop;
 
 	[HideInInspector] public float rotationVelocity;
 
@@ -35,21 +39,34 @@ public abstract class Platform : MonoBehaviour {
 
 		obstacleSpriteHeight = transform.GetComponent<SpriteRenderer>().sprite.bounds.size.y;
 		obstacleScale = transform.localScale;
+
+		roundTimeLimit = 2f;
 	}
 
 
 	public virtual void UpdatePlatform()
 	{
-		if (!isStarting)
+		rotationVelocity = 0f;
+
+		if (Input.GetMouseButtonDown(1))
 		{
-			StartCoroutine(StartWait(2f));
+			stop = !stop;
+		}
+
+		if (stop)
+			return;
+
+		if (!roundStart)
+		{
+			StartWait(roundTimeLimit);
 			return;
 		}
 			
 
-		float currentRotation = Mathf.SmoothDampAngle(transform.rotation.eulerAngles.z, RotationTarget(), ref currentVelocity, 0.2f);
+		currentRotation = Mathf.SmoothDampAngle(transform.rotation.eulerAngles.z, RotationTarget(), ref currentVelocity, 0.2f);
 		rotationVelocity = Mathf.DeltaAngle(transform.localRotation.eulerAngles.z, currentRotation);
 		transform.localRotation = Quaternion.Euler(0f, 0f, currentRotation);
+		print("platform angle = " + currentRotation);
 
 		Debug.DrawRay(transform.position, transform.up.normalized, Color.green);
 
@@ -107,10 +124,18 @@ public abstract class Platform : MonoBehaviour {
 		}
 	}
 
-	IEnumerator StartWait(float waitTime)
+	void StartWait(float _waitTime)
 	{
-		yield return new WaitForSeconds(waitTime);
-		isStarting = true;
+		if (roundTimer < roundTimeLimit)
+		{
+			roundTimer += Time.deltaTime;
+			return;
+		}
+
+		else 
+		{
+			roundStart = true;
+		}
 	}
 
 	public virtual void Reset()
@@ -119,6 +144,7 @@ public abstract class Platform : MonoBehaviour {
 		transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
 		rotationSpeed = startRotationSpeed;
 		rotationMultiplier = startRotationMultiplier;
-		isStarting = false;
+		roundStart = false;
+		roundTimer = 0;
 	}
 }

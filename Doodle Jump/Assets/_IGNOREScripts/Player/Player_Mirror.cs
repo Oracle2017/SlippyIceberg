@@ -44,9 +44,9 @@ public class Player_Mirror : MonoBehaviour {
 		playerSprite.sprite = GetComponent<SpriteRenderer>().sprite;
 
 		// Add collider to the reflection
-		BoxCollider2D boxCollider2D = playerReflection.AddComponent<BoxCollider2D>();
-		boxCollider2D.size = GetComponent<BoxCollider2D>().size;
-		boxCollider2D.offset = GetComponent<BoxCollider2D>().offset;
+		EdgeCollider2D edgeCollider2D = playerReflection.AddComponent<EdgeCollider2D>();
+		//edgeCollider2D.size = GetComponent<EdgeCollider2D>().size;
+		edgeCollider2D.offset = GetComponent<EdgeCollider2D>().offset;
 		playerReflection.tag = gameObject.tag;
 		playerReflection.layer = gameObject.layer;
 

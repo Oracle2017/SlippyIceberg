@@ -10,7 +10,6 @@ public class Platform_Swing : Platform {
 		float sample = Mathf.Sin(Mathf.Deg2Rad * timer);
 		timer+= Time.deltaTime * rotationSpeed;
 		sample = Mathf.Clamp(sample * rotationMultiplier, -1, 1);
-		print(sample);
 		float rotationTarget = Utils.Map(sample, -1, 1, -60, 60);
 
 		rotationTarget = RegulateAngle(rotationTarget);
