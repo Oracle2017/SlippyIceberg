@@ -25,6 +25,7 @@ public class PlayerCollision : MonoBehaviour {
 	public CollisionInfo collisionInfo;
 
 	[SerializeField] GameObject UIHelper;
+	float platformPreviousRotZ;
 
 
 	// Use this for initialization
@@ -96,16 +97,17 @@ public class PlayerCollision : MonoBehaviour {
 
 				if (collisionInfo.touchingObstacle)
 				{
-					float rotationVelocity = collisionInfo.currentPlatform.rotationVelocity;
+					float rotationVelocity = _hit.collider.transform.rotation.eulerAngles.z - platformPreviousRotZ;//collisionInfo.currentPlatform.rotationVelocity;
+					platformPreviousRotZ = _hit.collider.transform.rotation.eulerAngles.z;
 					totalRotationVelocity += rotationVelocity;
 					//print("totalRotationVelocity = " + rotationVelocity.ToString());
 					transform.RotateAround(collisionInfo.currentPlatform.transform.position, Vector3.forward, rotationVelocity);
 				}
 
-				if (!collisionInfo.touchingObstacle)
+				else if (!collisionInfo.touchingObstacle)
 				{
 					float playerRotationZ = Vector3.SignedAngle(Vector3.up, _hit.normal, Vector3.forward);
-
+					platformPreviousRotZ = playerRotationZ;
 
 					collisionInfo.currentPlatform = _hit.transform.GetComponent<Platform>();
 					collisionInfo.touchingObstacle = true;
@@ -113,15 +115,23 @@ public class PlayerCollision : MonoBehaviour {
 
 
 
-					transform.rotation = Quaternion.identity;
+					/*transform.rotation = Quaternion.identity;
 					Vector3 positionOffset = (Vector3) _rayOrigin - 
 						(transform.position + 
 						direction * (transform.right * spriteWidth / 2 * transform.localScale.x) - 
 							(transform.up * spriteHeight / 2 * transform.localScale.y)); 
 					transform.position += positionOffset;
+
 					Instantiate(UIHelper, _rayOrigin, Quaternion.identity);
 					transform.RotateAround(_rayOrigin, Vector3.forward, playerRotationZ);
-					transform.position -= new Vector3(0, _hit.distance - 1, 0);
+					transform.position -= new Vector3(0, _hit.distance - 1, 0);*/
+					transform.rotation = Quaternion.Euler(0, 0, playerRotationZ);
+					Vector3 fromPos = (transform.position + 
+						direction * (transform.right * spriteWidth / 2 * transform.localScale.x) - 
+						(transform.up * spriteHeight / 2 * transform.localScale.y)); 
+					Vector3 targetPos = (Vector3) _hit.point;
+					transform.position += targetPos - fromPos;
+
 					print("hit distance = " + _hit.distance);
 					//transform.rotation = Quaternion.Euler(0, 0, playerRotationZ);//collisionInfo.currentPlatform.transform.rotation;
 					//Debug.Break();
