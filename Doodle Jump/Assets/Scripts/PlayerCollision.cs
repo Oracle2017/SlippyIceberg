@@ -94,14 +94,22 @@ public class PlayerCollision : MonoBehaviour {
 			if (_hit)
 			{
 				touchedObstacleOnce = true;
+				float rotationVelocity = Vector3.SignedAngle(Vector3.up, _hit.normal, Vector3.forward) - platformPreviousRotZ;
+				if (Mathf.Abs(rotationVelocity) >= 2)
+				{
+					collisionInfo.touchingObstacle = false;
+				}
 
 				if (collisionInfo.touchingObstacle)
 				{
-					float rotationVelocity = _hit.collider.transform.rotation.eulerAngles.z - platformPreviousRotZ;//collisionInfo.currentPlatform.rotationVelocity;
-					platformPreviousRotZ = _hit.collider.transform.rotation.eulerAngles.z;
+					//collisionInfo.currentPlatform.rotationVelocity;
+					platformPreviousRotZ = Vector3.SignedAngle(Vector3.up, _hit.normal, Vector3.forward);
+					print("rotation velocity = " + rotationVelocity);
+					print("hit distance = " + _hit.distance);
 					totalRotationVelocity += rotationVelocity;
 					//print("totalRotationVelocity = " + rotationVelocity.ToString());
 					transform.RotateAround(collisionInfo.currentPlatform.transform.position, Vector3.forward, rotationVelocity);
+					return;
 				}
 
 				else if (!collisionInfo.touchingObstacle)
@@ -126,11 +134,15 @@ public class PlayerCollision : MonoBehaviour {
 					transform.RotateAround(_rayOrigin, Vector3.forward, playerRotationZ);
 					transform.position -= new Vector3(0, _hit.distance - 1, 0);*/
 					transform.rotation = Quaternion.Euler(0, 0, playerRotationZ);
-					Vector3 fromPos = (transform.position + 
+					/*Vector3 fromPos = (transform.position + 
 						direction * (transform.right * spriteWidth / 2 * transform.localScale.x) - 
 						(transform.up * spriteHeight / 2 * transform.localScale.y)); 
 					Vector3 targetPos = (Vector3) _hit.point;
-					transform.position += targetPos - fromPos;
+					transform.position += targetPos - fromPos;*/
+
+					transform.position = (Vector3) _hit.point + 
+						-direction * (transform.right * spriteWidth / 2 * transform.localScale.x) +
+						transform.up * spriteHeight / 2 * transform.localScale.y;
 
 					print("hit distance = " + _hit.distance);
 					//transform.rotation = Quaternion.Euler(0, 0, playerRotationZ);//collisionInfo.currentPlatform.transform.rotation;

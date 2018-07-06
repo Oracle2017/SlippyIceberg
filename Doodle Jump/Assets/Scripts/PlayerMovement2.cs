@@ -83,7 +83,7 @@ public class PlayerMovement2 : MonoBehaviour {
 		float hypothenus = (moveSpeed) * Time.deltaTime;
 		// TODO: FIX THIS SHIT HERE UNDER
 		float angle = transform.rotation.eulerAngles.z;// GameManager.currentPlatform.currentRotation;// -1 * Vector2.SignedAngle(transform.right, Vector2.right);
-		print("movement angle = " + angle);
+		//print("movement angle = " + angle);
 		float x = Mathf.Cos(angle * Mathf.Deg2Rad) * hypothenus;
 		float y = Mathf.Sin(angle * Mathf.Deg2Rad) * hypothenus;
 		Vector3 movePosition = new Vector3(x, y, 0);

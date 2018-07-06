@@ -66,7 +66,7 @@ public abstract class Platform : MonoBehaviour {
 		currentRotation = Mathf.SmoothDampAngle(transform.rotation.eulerAngles.z, RotationTarget(), ref currentVelocity, 0.2f);
 		rotationVelocity = Mathf.DeltaAngle(transform.localRotation.eulerAngles.z, currentRotation);
 		transform.localRotation = Quaternion.Euler(0f, 0f, currentRotation);
-		print("platform angle = " + currentRotation);
+		//print("platform angle = " + currentRotation);
 
 		Debug.DrawRay(transform.position, transform.up.normalized, Color.green);
 
