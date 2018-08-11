@@ -6,13 +6,17 @@ public class Player_Mirror : MonoBehaviour {
 	Bounds cameraBounds;
 	float spriteWidth;
 	GameObject playerReflection;
+	SpriteRenderer playerSprite;
+	SpriteRenderer reflectionSprite;
+	Animator anim;
 
 	// Use this for initialization
 	void Start () {
 		InstantiatePlayerReflection();
 
 		cameraBounds = CameraExtensions.OrthographicBounds(Camera.main);
-		spriteWidth = GetComponent<SpriteRenderer>().sprite.bounds.size.x;
+		playerSprite = GetComponent<SpriteRenderer>();
+		spriteWidth = playerSprite.sprite.bounds.size.x;
 	}
 
 	// Update is called once per frame
@@ -40,9 +44,12 @@ public class Player_Mirror : MonoBehaviour {
 	void InstantiatePlayerReflection()
 	{
 		playerReflection = new GameObject(gameObject.name + " Reflection");
-		SpriteRenderer playerSprite = playerReflection.AddComponent<SpriteRenderer>();
-		playerSprite.sprite = GetComponent<SpriteRenderer>().sprite;
+		reflectionSprite = playerReflection.AddComponent<SpriteRenderer>();
+		reflectionSprite.sprite = GetComponent<SpriteRenderer>().sprite;
+		anim = playerReflection.AddComponent<Animator>();
+		anim.runtimeAnimatorController = GetComponent<Animator>().runtimeAnimatorController;
 
+		/*
 		// Add collider to the reflection
 		EdgeCollider2D edgeCollider2D = playerReflection.AddComponent<EdgeCollider2D>();
 		//edgeCollider2D.size = GetComponent<EdgeCollider2D>().size;
@@ -53,13 +60,15 @@ public class Player_Mirror : MonoBehaviour {
 		// pretty useless i think
 		playerReflection.transform.localScale = transform.localScale;
 		playerReflection.transform.rotation = transform.rotation;
-		playerReflection.transform.position = new Vector2(0, 0);
+		playerReflection.transform.position = new Vector2(0, 0);*/
 	}
 
 	void Reflection()
 	{
 		playerReflection.transform.rotation = transform.rotation;
+		reflectionSprite.flipX = playerSprite.flipX;
 		playerReflection.transform.localScale = transform.lossyScale;
+		//playerReflection.transform.rotation = transform.rotation;
 
 		if ((transform.position.x + spriteWidth * transform.localScale.x / 2) >= cameraBounds.extents.x)
 		{

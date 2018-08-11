@@ -27,6 +27,8 @@ public class PlayerCollision : MonoBehaviour {
 	[SerializeField] GameObject UIHelper;
 	float platformPreviousRotZ;
 
+	int[] raycastOrder;
+
 
 	// Use this for initialization
 	public void StartSettings () {
@@ -34,6 +36,7 @@ public class PlayerCollision : MonoBehaviour {
 		// max width and height of a sprite of the animation.
 		spriteWidth = 2.40f;//spriteRenderer.sprite.bounds.size.x;
 		spriteHeight = 2.92f;//spriteRenderer.sprite.bounds.size.y;
+		raycastOrder = new int[] { 0, -1, 1 };
 	}
 	
 
@@ -82,7 +85,8 @@ public class PlayerCollision : MonoBehaviour {
 		// TODO: not sure if raycasts are even needed here
 		for (int i = 0; i < 3; i++)
 		{
-			int direction = -1 + i; // same but more expensive: (i == 0)? -1: 1; 
+			int direction = raycastOrder[i];//-1 + i; // same but more expensive: (i == 0)? -1: 1; 
+			//int direction = -1 + i;
 			// TODO: put some variables at Start() to make it less computer epensive.
 
 			//- (direction * transform.right * skinWidth)
@@ -120,25 +124,8 @@ public class PlayerCollision : MonoBehaviour {
 					collisionInfo.currentPlatform = _hit.transform.GetComponent<Platform>();
 					collisionInfo.touchingObstacle = true;
 
-
-
-
-					/*transform.rotation = Quaternion.identity;
-					Vector3 positionOffset = (Vector3) _rayOrigin - 
-						(transform.position + 
-						direction * (transform.right * spriteWidth / 2 * transform.localScale.x) - 
-							(transform.up * spriteHeight / 2 * transform.localScale.y)); 
-					transform.position += positionOffset;
-
-					Instantiate(UIHelper, _rayOrigin, Quaternion.identity);
-					transform.RotateAround(_rayOrigin, Vector3.forward, playerRotationZ);
-					transform.position -= new Vector3(0, _hit.distance - 1, 0);*/
 					transform.rotation = Quaternion.Euler(0, 0, playerRotationZ);
-					/*Vector3 fromPos = (transform.position + 
-						direction * (transform.right * spriteWidth / 2 * transform.localScale.x) - 
-						(transform.up * spriteHeight / 2 * transform.localScale.y)); 
-					Vector3 targetPos = (Vector3) _hit.point;
-					transform.position += targetPos - fromPos;*/
+
 
 					transform.position = (Vector3) _hit.point + 
 						-direction * (transform.right * spriteWidth / 2 * transform.localScale.x) +
@@ -179,7 +166,8 @@ public class PlayerCollision : MonoBehaviour {
 		// TODO: not totally correct, they should be recalculated. They are 1 frame behind.
 		for (int i = 0; i < 3; i++)
 		{
-			int direction = -1 + i; // same but more expensive: (i == 0)? -1: 1; 
+			int direction = raycastOrder[i];
+			//int direction = -1 + i; // same but more expensive: (i == 0)? -1: 1; 
 			// TODO: put some variables at Start() to make it less computer epensive.
 			Vector2 _rayOrigin = transform.position + 
 				direction * (transform.right * spriteWidth / 2 * transform.localScale.x) - 
@@ -199,6 +187,15 @@ public class PlayerCollision : MonoBehaviour {
 		public void Reset() {
 			touchingObstacle = false;
 			currentPlatform = null;
+		}
+	}
+
+	void OnTriggerEnter2D(Collider2D col)
+	{
+		if (col.tag == "Coin")
+		{
+			print("touched coin");
+			Destroy(col.gameObject);
 		}
 	}
 
