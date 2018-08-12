@@ -25,7 +25,7 @@ public abstract class Platform : MonoBehaviour {
 	bool roundStart;
 	float roundTimeLimit;
 	float roundTimer;
-	bool stop;
+	public bool stop;
 
 	[HideInInspector] public float rotationVelocity;
 

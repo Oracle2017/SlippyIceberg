@@ -108,8 +108,8 @@ public class PlayerCollision : MonoBehaviour {
 				{
 					//collisionInfo.currentPlatform.rotationVelocity;
 					platformPreviousRotZ = Vector3.SignedAngle(Vector3.up, _hit.normal, Vector3.forward);
-					print("rotation velocity = " + rotationVelocity);
-					print("hit distance = " + _hit.distance);
+					//print("rotation velocity = " + rotationVelocity);
+					//print("hit distance = " + _hit.distance);
 					totalRotationVelocity += rotationVelocity;
 					//print("totalRotationVelocity = " + rotationVelocity.ToString());
 					transform.RotateAround(collisionInfo.currentPlatform.transform.position, Vector3.forward, rotationVelocity);
@@ -194,6 +194,8 @@ public class PlayerCollision : MonoBehaviour {
 	{
 		if (col.tag == "Coin")
 		{
+			GameManager.amountOfLevelCoins--;
+			GameManager.levelCoinIndex++;
 			print("touched coin");
 			Destroy(col.gameObject);
 		}

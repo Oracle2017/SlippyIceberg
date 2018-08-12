@@ -6,8 +6,11 @@ public class Platform_ScaleChanger : MonoBehaviour {
 
 	Vector3 currentScaleVelocity;
 	Vector3 currentLocalScale;
-	Vector3 currentScaleTarget;
+	//Vector3 currentScaleTarget;
 	bool isScaling;
+	Vector3 newScale;
+	float transitionSpeed;
+	bool platformStop;
 
 	void Start()
 	{
@@ -16,28 +19,25 @@ public class Platform_ScaleChanger : MonoBehaviour {
 
 	void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.S))
-		{
-			isScaling = true;
-			currentScaleTarget = new Vector3(3 * currentLocalScale.x, transform.localScale.y, transform.localScale.z);
-			print("current local scale x = " + transform.localScale.x);
-			print("target scale x = " + 3 * currentLocalScale.x);
-		}
-
 		if (isScaling)
 		{
-			ChangeScaleTo(currentScaleTarget, 10f);
-			if (transform.localScale.x == currentScaleTarget.x)
+			transform.localScale = Vector3.SmoothDamp(transform.localScale, newScale, ref currentScaleVelocity, transitionSpeed);
+			if (transform.localScale.x - newScale.x <= 0.1f && 
+				transform.localScale.x - newScale.x >= -0.1f)
 			{
 				currentLocalScale = transform.localScale;
 				isScaling = false;
+				GetComponent<Platform>().stop = platformStop;
 			}
 		}
 	}
 
-	void ChangeScaleTo(Vector3 _newScale, float _transitionSpeed)
+	public void ChangeScaleTo(float _newScaleX, float _transitionSpeed, bool _platformStop)
 	{
-		transform.localScale = Vector3.SmoothDamp(transform.localScale, _newScale, ref currentScaleVelocity, _transitionSpeed);
+		newScale = new Vector3(_newScaleX, transform.localScale.y, transform.localScale.z);
+		transitionSpeed = _transitionSpeed;
+		isScaling = true;
+		platformStop = _platformStop;
 	}
 		
 }

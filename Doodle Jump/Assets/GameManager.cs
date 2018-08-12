@@ -10,6 +10,15 @@ public class GameManager : MonoBehaviour {
 	[SerializeField] Score score;
 	[SerializeField] GameOver gameOver;
 
+
+	[SerializeField] Transform[] levelCoins;
+	[HideInInspector] public static int amountOfLevelCoins;
+	[HideInInspector] public static int levelCoinIndex; // amount of coins catched in a level
+	int currentLevel;
+
+	[SerializeField] Level[] levels;
+	 
+
 	// Use this for initialization
 	void Start () {
 
@@ -31,14 +40,19 @@ public class GameManager : MonoBehaviour {
 
 		currentPlatform.StartSettings();
 		currentPlayer.StartSettings();
+
+		currentLevel = -1;
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
-
+		
 		if (!currentPlayer.isDead)
 		{
+			LevelSwitcher();
+			levels[currentLevel].UpdateSettings();
+			print("currentLevel = " + currentLevel);
 			currentPlatform.UpdatePlatform();
 			currentPlayer.UpdatePlayer();
 			score.UpdateScore();
@@ -50,12 +64,47 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
+	void LevelSwitcher()
+	{
+		print("amount of coins = " + amountOfLevelCoins);
+
+		if (amountOfLevelCoins > 0)
+		{
+			return;
+		}
+			
+
+		if (amountOfLevelCoins <= 0)
+		{
+			currentLevel = (currentLevel + 1) % levels.Length;
+			levelCoinIndex = 0;
+		}
+
+		switch (currentLevel)
+		{
+			case 0:
+				levels[0].StartSettings();
+				break;
+			case 1:
+				levels[1].StartSettings();
+				break;
+		}
+	}
+
+	void InstantiateNextCoin(Transform _coins)
+	{		
+		Transform coin = levelCoins[currentLevel].GetChild(levelCoinIndex);
+		Instantiate(coin.gameObject, coin.position, coin.rotation);
+	}
+
 	public void RestartGame()
 	{
 		currentPlayer.Reset();
 		currentPlatform.Reset();
 		gameOver.CloseWindow();
 		score.Reset();
+		currentLevel = -1;
+		amountOfLevelCoins = 0;
 		print("reset");
 	}
 }
