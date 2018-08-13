@@ -25,6 +25,7 @@ public class Platform_ScaleChanger : MonoBehaviour {
 			if (transform.localScale.x - newScale.x <= 0.1f && 
 				transform.localScale.x - newScale.x >= -0.1f)
 			{
+				print("scaled finish");
 				currentLocalScale = transform.localScale;
 				isScaling = false;
 				GetComponent<Platform>().stop = platformStop;

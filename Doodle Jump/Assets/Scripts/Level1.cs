@@ -30,6 +30,7 @@ public class Level1 : Level {
 	{
 		Platform_ScaleChanger _platformScaleChanger = GameManager.currentPlatform.GetComponent<Platform_ScaleChanger>();
 		_platformScaleChanger.ChangeScaleTo(0.6f, 1.5f, false);
+		print("can swing ? " + !GameManager.currentPlatform.shouldStabilize);
 		GameManager.amountOfLevelCoins = 2;
 		previousAmountOfLevelCoins = -1;
 		/*for (int i = 0; i < levelCoins.childCount; i++)
@@ -43,6 +44,9 @@ public class Level1 : Level {
 	void Reset()
 	{
 		index = 1;
+		GameManager.currentPlatform.swingTimer = 0f;
+		GameManager.currentPlatform.currentVelocity = 0f;
+		GameManager.currentPlatform.platformShouldWait = true;
 
 		if (currentCoin != null)
 		{

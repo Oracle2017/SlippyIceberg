@@ -131,7 +131,7 @@ public class PlayerCollision : MonoBehaviour {
 						-direction * (transform.right * spriteWidth / 2 * transform.localScale.x) +
 						transform.up * spriteHeight / 2 * transform.localScale.y;
 
-					print("hit distance = " + _hit.distance);
+					//print("hit distance = " + _hit.distance);
 					//transform.rotation = Quaternion.Euler(0, 0, playerRotationZ);//collisionInfo.currentPlatform.transform.rotation;
 					//Debug.Break();
 					return;

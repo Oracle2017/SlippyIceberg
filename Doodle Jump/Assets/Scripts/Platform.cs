@@ -4,7 +4,7 @@ using System.Collections;
 public abstract class Platform : MonoBehaviour {
 
 	[HideInInspector] public float rotationZChange;
-	float currentVelocity;
+	[HideInInspector] public float currentVelocity;
 	[HideInInspector] public float currentRotation;
 
 	// For resetting values when player replays
@@ -16,24 +16,27 @@ public abstract class Platform : MonoBehaviour {
 	[SerializeField] float IncreasePerSecond = 10;
 	[SerializeField] float SpeedIncrease = 1.5f;
 	[SerializeField] float rotationSpeedLimit = 1.5f;
+	[HideInInspector] public float rotationVelocity; // TODO: useless?
+	public bool stop;
+	[HideInInspector] public bool shouldStabilize; // rotation to 0
+	[HideInInspector] public float swingTimer;
 	[Space(10)]
 
 	[Header("Force of the rotation")]
 	[SerializeField] protected float rotationMultiplier = 1;
 	bool isChangingSpeed;
 	bool isChangingAmplitude;
-	bool roundStart;
+	[HideInInspector] public bool platformShouldWait;
 	float roundTimeLimit;
 	float roundTimer;
-	public bool stop;
-
-	[HideInInspector] public float rotationVelocity;
 
 	[HideInInspector] public float obstacleSpriteHeight;
 	[HideInInspector] public Vector3 obstacleStartScale;
 
 	public virtual void StartSettings()
 	{
+		platformShouldWait = true;
+
 		startRotationSpeed = rotationSpeed;
 		startRotationMultiplier = rotationMultiplier;
 
@@ -56,15 +59,27 @@ public abstract class Platform : MonoBehaviour {
 		if (stop)
 			return;
 
-		if (!roundStart)
+		//print("roundstart = " + roundStart);
+
+		if (platformShouldWait)
 		{
+			print(" platform is waiting ");
 			StartWait(roundTimeLimit);
 			return;
 		}
 			
+		//print("swing ? " + !shouldStabilize);
 
-		currentRotation = Mathf.SmoothDampAngle(transform.rotation.eulerAngles.z, RotationTarget(), ref currentVelocity, 0.2f);
-		rotationVelocity = Mathf.DeltaAngle(transform.localRotation.eulerAngles.z, currentRotation);
+		if (shouldStabilize)
+		{
+			currentRotation =  Mathf.SmoothDampAngle(transform.rotation.eulerAngles.z, 0f, ref currentVelocity, 1f);
+		}
+
+		else 
+		{
+			currentRotation = Mathf.SmoothDampAngle(transform.rotation.eulerAngles.z, RotationTarget(), ref currentVelocity, 0.2f);
+		}
+		//rotationVelocity = Mathf.DeltaAngle(transform.localRotation.eulerAngles.z, currentRotation);
 		transform.localRotation = Quaternion.Euler(0f, 0f, currentRotation);
 		//print("platform angle = " + currentRotation);
 
@@ -134,17 +149,19 @@ public abstract class Platform : MonoBehaviour {
 
 		else 
 		{
-			roundStart = true;
+			platformShouldWait = false;
+			roundTimer = 0;
 		}
 	}
 
 	public virtual void Reset()
 	{
-		rotationVelocity = 0;
+		currentVelocity = 0f;
+		rotationVelocity = 0f;
 		transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
 		rotationSpeed = startRotationSpeed;
 		rotationMultiplier = startRotationMultiplier;
-		roundStart = false;
+		platformShouldWait = true;
 		roundTimer = 0;
 		transform.localScale = obstacleStartScale;
 	}

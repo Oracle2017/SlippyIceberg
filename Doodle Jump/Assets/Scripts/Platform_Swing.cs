@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Platform_Swing : Platform {
-	float timer;
 	[Space(10)]
 	[Header("Swing Parameters")]
 	[SerializeField] float tiltDegree;
 
 	protected override float RotationTarget()
 	{
-		float sample = Mathf.Sin(Mathf.Deg2Rad * timer);
-		timer+= Time.deltaTime * rotationSpeed;
+		float sample = Mathf.Sin(Mathf.Deg2Rad * swingTimer);
+		swingTimer+= Time.deltaTime * rotationSpeed;
 		sample = Mathf.Clamp(sample * rotationMultiplier, -1, 1);
 		float rotationTarget = Utils.Map(sample, -1, 1, -tiltDegree, tiltDegree);
 
@@ -23,6 +22,6 @@ public class Platform_Swing : Platform {
 	public override void Reset()
 	{
 		base.Reset();
-		timer = 0;
+		swingTimer = 0;
 	}
 }

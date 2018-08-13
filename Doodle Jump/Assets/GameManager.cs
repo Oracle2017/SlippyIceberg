@@ -52,7 +52,6 @@ public class GameManager : MonoBehaviour {
 		{
 			LevelSwitcher();
 			levels[currentLevel].UpdateSettings();
-			print("currentLevel = " + currentLevel);
 			currentPlatform.UpdatePlatform();
 			currentPlayer.UpdatePlayer();
 			score.UpdateScore();
@@ -66,7 +65,7 @@ public class GameManager : MonoBehaviour {
 
 	void LevelSwitcher()
 	{
-		print("amount of coins = " + amountOfLevelCoins);
+		//print("amount of coins = " + amountOfLevelCoins);
 
 		if (amountOfLevelCoins > 0)
 		{
@@ -77,6 +76,7 @@ public class GameManager : MonoBehaviour {
 		if (amountOfLevelCoins <= 0)
 		{
 			currentLevel = (currentLevel + 1) % levels.Length;
+			print("currentLevel = " + currentLevel);
 			levelCoinIndex = 0;
 		}
 
@@ -89,12 +89,6 @@ public class GameManager : MonoBehaviour {
 				levels[1].StartSettings();
 				break;
 		}
-	}
-
-	void InstantiateNextCoin(Transform _coins)
-	{		
-		Transform coin = levelCoins[currentLevel].GetChild(levelCoinIndex);
-		Instantiate(coin.gameObject, coin.position, coin.rotation);
 	}
 
 	public void RestartGame()
