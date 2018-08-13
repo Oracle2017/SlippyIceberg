@@ -80,15 +80,7 @@ public class GameManager : MonoBehaviour {
 			levelCoinIndex = 0;
 		}
 
-		switch (currentLevel)
-		{
-			case 0:
-				levels[0].StartSettings();
-				break;
-			case 1:
-				levels[1].StartSettings();
-				break;
-		}
+		levels[currentLevel].StartSettings();
 	}
 
 	public void RestartGame()

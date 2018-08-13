@@ -44,6 +44,8 @@ public class Level1 : Level {
 	void Reset()
 	{
 		index = 1;
+
+		// Should swing and not stabilize anymore, TODO: find better way to do this
 		GameManager.currentPlatform.swingTimer = 0f;
 		GameManager.currentPlatform.currentVelocity = 0f;
 		GameManager.currentPlatform.platformShouldWait = true;
