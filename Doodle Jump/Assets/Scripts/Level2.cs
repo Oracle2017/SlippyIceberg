@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Level2 : Level {
-	float platformMoveSpeed = 10;
+	// Platform vars
+	float platformMoveSpeed = 20;
 	float platformMoveTimer;
 	float platformScaleTarget = 0.25f;
 	float currentVelocity;
 	bool shouldMoveLeftAndRight;
 	bool isPlatformScaling;
+
 
 	// Use this for initialization
 	public override void StartSettings () {
@@ -35,9 +37,10 @@ public class Level2 : Level {
 
 		else if (shouldMoveLeftAndRight)
 		{
-			//GameManager.currentPlatform.platformShouldWait = true;
 			MoveLeftAndRight(2.45f);
 		}
+
+		base.UpdateSettings();
 	}
 
 	void MoveLeftAndRight(float _dist)
@@ -64,9 +67,10 @@ public class Level2 : Level {
 		GameManager.currentPlatform.stop = true;
 	}
 
-	void Reset()
+	public override void Reset()
 	{
-		GameManager.amountOfLevelCoins = 9999;
+		base.Reset();
+
 		shouldMoveLeftAndRight = false;
 		isPlatformScaling = false;
 		platformMoveTimer = 0;

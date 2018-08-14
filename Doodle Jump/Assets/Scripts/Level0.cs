@@ -24,6 +24,8 @@ public class Level0 : Level {
 			print("STOP STABILIZING NOW");
 			isGrowing = true;
 		}
+
+		base.UpdateSettings();
 	}
 
 	void LevelStart()
@@ -42,17 +44,19 @@ public class Level0 : Level {
 		//print("level coins = " + levelCoins);
 		GameManager.currentPlatform.stop = true;
 
-		for (int i = 0; i < levelCoins.childCount; i++)
+		/*for (int i = 0; i < levelCoins.childCount; i++)
 		{
 			Transform coin = levelCoins.GetChild(i);
 			GameObject currentCoin = Instantiate(coin.gameObject, coin.position, coin.rotation);
 			currentCoins.Add(currentCoin);
-		}
+		}*/
 	}
 
-	void Reset()
+ 	public override void Reset()
 	{
-		if (currentCoins.Count > 0)
+		base.Reset();
+
+		/*if (currentCoins.Count > 0)
 		{
 			for (int i = 0; i < currentCoins.Count; i++)
 			{
@@ -61,7 +65,7 @@ public class Level0 : Level {
 			}
 
 			currentCoins.Clear();
-		}
+		}*/
 
 		isGrowing = false;
 		GameManager.currentPlatform.shouldStabilize = false;

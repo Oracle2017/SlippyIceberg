@@ -10,6 +10,7 @@ public abstract class Platform : MonoBehaviour {
 	// For resetting values when player replays
 	float startRotationSpeed;
 	float startRotationMultiplier;
+	[HideInInspector] public Vector3 startPos;
 
 	[Header("Speed of the rotation")]
 	[SerializeField] protected float rotationSpeed = 0.1f;
@@ -36,6 +37,8 @@ public abstract class Platform : MonoBehaviour {
 	public virtual void StartSettings()
 	{
 		platformShouldWait = true;
+
+		startPos = transform.position;
 
 		startRotationSpeed = rotationSpeed;
 		startRotationMultiplier = rotationMultiplier;
@@ -156,6 +159,7 @@ public abstract class Platform : MonoBehaviour {
 
 	public virtual void Reset()
 	{
+		transform.position = startPos;
 		currentVelocity = 0f;
 		rotationVelocity = 0f;
 		transform.localRotation = Quaternion.Euler(0f, 0f, 0f);

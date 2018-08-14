@@ -89,6 +89,7 @@ public class GameManager : MonoBehaviour {
 		currentPlatform.Reset();
 		gameOver.CloseWindow();
 		score.Reset();
+		levels[currentLevel].Reset();
 		currentLevel = -1;
 		amountOfLevelCoins = 0;
 		print("reset");
