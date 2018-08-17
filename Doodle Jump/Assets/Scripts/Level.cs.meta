@@ -5,6 +5,8 @@ MonoImporter:
   serializedVersion: 2
   defaultReferences:
   - levelCoins: {instanceID: 0}
+  - coinPrefab: {fileID: 114993164877121942, guid: f49162653974c4354abbe8ce8c170e1d,
+      type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

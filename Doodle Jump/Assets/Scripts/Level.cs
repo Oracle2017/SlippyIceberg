@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Level : MonoBehaviour {
 	[SerializeField] public Transform levelCoins;
+	[HideInInspector] public GameObject coinPrefab;
 
 	protected Transform coin; 
 	protected GameObject currentCoin;
@@ -26,8 +27,11 @@ public class Level : MonoBehaviour {
 		{
 			print("instantiate new coin!");
 			coin = levelCoins.GetChild(index);
-			currentCoin = Instantiate(coin.gameObject, coin.position, coin.rotation);
+			//currentCoin = Instantiate(coin.gameObject, coin.position, coin.rotation);
+			currentCoin = Instantiate(coinPrefab, coin.position, Quaternion.identity);
 			index = (index + 1) % levelCoins.childCount;
+
+
 		}
 
 		previousAmountOfLevelCoins = GameManager.amountOfLevelCoins;

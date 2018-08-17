@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour {
 	public static Platform currentPlatform;
 	[SerializeField] Score score;
 	[SerializeField] GameOver gameOver;
+	[SerializeField] GameObject coinPrefab;
 
 
 	[SerializeField] Transform[] levelCoins;
@@ -19,6 +20,8 @@ public class GameManager : MonoBehaviour {
 	[SerializeField] Level[] levels;
 
 	int amountOfLevelsPassed;
+
+	[HideInInspector] public static GameObject GUICanvas;
 	 
 
 	// Use this for initialization
@@ -44,6 +47,16 @@ public class GameManager : MonoBehaviour {
 		currentPlayer.StartSettings();
 
 		currentLevel = -1;
+
+		GUICanvas = Instantiate(new GameObject("GUI Canvas"), Vector3.zero, Quaternion.identity);
+		Canvas _canvas = GUICanvas.AddComponent<Canvas>();
+		_canvas.renderMode = RenderMode.ScreenSpaceCamera;
+		_canvas.worldCamera = Camera.main;
+
+		for (int i = 0; i < levels.Length; i++)
+		{
+			levels[i].coinPrefab = coinPrefab;
+		}
 	}
 	
 	// Update is called once per frame
