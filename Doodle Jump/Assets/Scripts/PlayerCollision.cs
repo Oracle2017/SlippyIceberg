@@ -78,7 +78,8 @@ public class PlayerCollision : MonoBehaviour {
 	public void PlatformCollisionCheck(float _landSpeed)
 	{
 
-		rayLength = Mathf.Abs(_landSpeed * Time.deltaTime) + 1;
+		float skinHeight = 0.3f;
+		rayLength = Mathf.Abs(_landSpeed * Time.deltaTime) + skinHeight;
 
 
 		// Double Raycasting (both down sides). Because we want to see if the player is fully not touching the obstacle.
@@ -90,10 +91,11 @@ public class PlayerCollision : MonoBehaviour {
 			// TODO: put some variables at Start() to make it less computer epensive.
 
 			//- (direction * transform.right * skinWidth)
+
 			Vector2 _rayOrigin = transform.position + 
 				direction * (transform.right * spriteWidth / 2 * transform.localScale.x) - 
 				(transform.up * spriteHeight / 2 * transform.localScale.y);
-			RaycastHit2D _hit = Physics2D.Raycast(_rayOrigin + Vector2.up, Vector2.up * -1, rayLength, collisionMask);
+			RaycastHit2D _hit = Physics2D.Raycast(_rayOrigin + Vector2.up * skinHeight, Vector2.up * -1, rayLength, collisionMask);
 
 			if (_hit)
 			{
@@ -142,7 +144,7 @@ public class PlayerCollision : MonoBehaviour {
 
 			else if (i == 2)
 			{
-				// Both raycasts don't make a hit
+				// All raycasts don't make a hit
 				collisionInfo.touchingObstacle = false;
 				//transform.position -= new Vector3(0, landSpeed * Time.deltaTime, 0);
 				transform.parent = null;
@@ -171,7 +173,7 @@ public class PlayerCollision : MonoBehaviour {
 			// TODO: put some variables at Start() to make it less computer epensive.
 			Vector2 _rayOrigin = transform.position + 
 				direction * (transform.right * spriteWidth / 2 * transform.localScale.x) - 
-				(transform.up * spriteHeight / 2 * transform.localScale.y) + Vector3.up;
+				(transform.up * spriteHeight / 2 * transform.localScale.y);// + Vector3.up;
 			
 			Debug.DrawRay(_rayOrigin, Vector2.up * -1 * rayLength, Color.red);
 		}

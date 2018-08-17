@@ -4,49 +4,43 @@ using UnityEngine;
 
 public class Level2 : Level {
 	// Platform vars
-	float platformMoveSpeed = 20;
 	float platformMoveTimer;
-	float platformScaleTarget = 0.25f;
+	[SerializeField] float scaleXTarget = 0.25f;
 	float currentVelocity;
-	bool shouldMoveLeftAndRight;
-	bool isPlatformScaling;
-
 
 	// Use this for initialization
 	public override void StartSettings () {
 		Reset();
-		StabilizePlatform();
 	}
 
 	public override void UpdateSettings () {
-		if (!isPlatformScaling &&
+		
+		// Wait til stabilizing is done
+		if (!(
 			GameManager.currentPlatform.currentRotation >= -0.1f &&
-			GameManager.currentPlatform.currentRotation <= 0.1f)
+			GameManager.currentPlatform.currentRotation <= 0.1f))
 		{
-			ShrinkPlatform();
-
-			shouldMoveLeftAndRight = true;
-
-			if (GameManager.currentPlatform.transform.localScale.x >= platformScaleTarget - 0.01f &&
-				GameManager.currentPlatform.transform.localScale.x <= platformScaleTarget + 0.01f)
-			{
-				shouldMoveLeftAndRight = true;
-				isPlatformScaling = true;
-			}
+			return;
 		}
 
-		else if (shouldMoveLeftAndRight)
+		ShrinkPlatform();
+
+		// Wait til scaling is done
+		if (!(GameManager.currentPlatform.transform.localScale.x >= scaleXTarget - 0.01f &&
+			GameManager.currentPlatform.transform.localScale.x <= scaleXTarget + 0.01f))
 		{
-			MoveLeftAndRight(2.45f);
+			return;
 		}
 
+
+		MoveLeftAndRight(2.45f);
 		base.UpdateSettings();
 	}
 
 	void MoveLeftAndRight(float _dist)
 	{
 		float sample = Mathf.Sin(Mathf.Deg2Rad * platformMoveTimer);
-		platformMoveTimer+= Time.deltaTime * platformMoveSpeed;
+		platformMoveTimer+= Time.deltaTime * GameManager.currentPlatform.moveSpeed;
 		sample = Mathf.Clamp(sample, -1, 1);
 		float moveTarget = Utils.Map(sample, -1, 1, -_dist, _dist);
 
@@ -54,27 +48,19 @@ public class Level2 : Level {
 		GameManager.currentPlatform.transform.position = new Vector3(platformPosX, GameManager.currentPlatform.transform.position.y);
 	}
 
-	void StabilizePlatform()
-	{
-		GameManager.currentPlatform.shouldStabilize = true;
-	}
-
 	void ShrinkPlatform()
 	{
 		// Shrink and stop
 		Platform_ScaleChanger _platformScaleChanger = GameManager.currentPlatform.GetComponent<Platform_ScaleChanger>();
-		_platformScaleChanger.ChangeScaleTo(platformScaleTarget, 1.5f, true);
-		GameManager.currentPlatform.stop = true;
+		_platformScaleChanger.ChangeScaleTo(scaleXTarget, 1.5f, true);
 	}
 
 	public override void Reset()
 	{
 		base.Reset();
 
-		shouldMoveLeftAndRight = false;
-		isPlatformScaling = false;
 		platformMoveTimer = 0;
 		currentVelocity = 0;
-		GameManager.currentPlatform.shouldStabilize = false;
+		GameManager.currentPlatform.shouldStabilize = true;
 	}
 }

@@ -4,19 +4,24 @@ using System.Collections;
 public abstract class Platform : MonoBehaviour {
 
 	[HideInInspector] public float rotationZChange;
-	[HideInInspector] public float currentVelocity;
+	[HideInInspector] public float currentRotationVelocity;
 	[HideInInspector] public float currentRotation;
 
 	// For resetting values when player replays
-	float startRotationSpeed;
+
 	float startRotationMultiplier;
 	[HideInInspector] public Vector3 startPos;
 
 	[Header("Speed of the rotation")]
-	[SerializeField] protected float rotationSpeed = 0.1f;
-	[SerializeField] float IncreasePerSecond = 10;
-	[SerializeField] float SpeedIncrease = 1.5f;
-	[SerializeField] float rotationSpeedLimit = 1.5f;
+	[HideInInspector] public float startMoveSpeed; 
+	[SerializeField] public float moveSpeed = 40f;
+	[SerializeField] public float moveSpeedIncrease = 1.5f;
+	[SerializeField] public float moveSpeedLimit = 120f;
+
+	[HideInInspector] public float startRotationSpeed; 
+	[SerializeField] public float rotationSpeed = 0.1f;
+	[SerializeField] public float SpeedIncrease = 1.5f;
+	[SerializeField] public float rotationSpeedLimit = 1.5f;
 	[HideInInspector] public float rotationVelocity; // TODO: useless?
 	public bool stop;
 	[HideInInspector] public bool shouldStabilize; // rotation to 0
@@ -40,8 +45,9 @@ public abstract class Platform : MonoBehaviour {
 
 		startPos = transform.position;
 
-		startRotationSpeed = rotationSpeed;
-		startRotationMultiplier = rotationMultiplier;
+		startRotationSpeed = rotationSpeed; // Speed
+		startRotationMultiplier = rotationMultiplier; // Amplitude
+		startMoveSpeed = moveSpeed;
 
 		obstacleSpriteHeight = transform.GetComponent<SpriteRenderer>().sprite.bounds.size.y;
 		obstacleStartScale = transform.localScale;
@@ -75,12 +81,12 @@ public abstract class Platform : MonoBehaviour {
 
 		if (shouldStabilize)
 		{
-			currentRotation =  Mathf.SmoothDampAngle(transform.rotation.eulerAngles.z, 0f, ref currentVelocity, 1f);
+			currentRotation =  Mathf.SmoothDampAngle(transform.rotation.eulerAngles.z, 0f, ref currentRotationVelocity, 1f);
 		}
 
 		else 
 		{
-			currentRotation = Mathf.SmoothDampAngle(transform.rotation.eulerAngles.z, RotationTarget(), ref currentVelocity, 0.2f);
+			currentRotation = Mathf.SmoothDampAngle(transform.rotation.eulerAngles.z, RotationTarget(), ref currentRotationVelocity, 0.2f);
 		}
 		//rotationVelocity = Mathf.DeltaAngle(transform.localRotation.eulerAngles.z, currentRotation);
 		transform.localRotation = Quaternion.Euler(0f, 0f, currentRotation);
@@ -88,10 +94,10 @@ public abstract class Platform : MonoBehaviour {
 
 		Debug.DrawRay(transform.position, transform.up.normalized, Color.green);
 
-		if (rotationSpeed < rotationSpeedLimit)
+		/*if (rotationSpeed < rotationSpeedLimit)
 		{
 			StartCoroutine(ChangeSpeed(IncreasePerSecond));
-		}
+		}*/
 
 		/*if (rotationMultiplier < 2)
 		{
@@ -119,7 +125,7 @@ public abstract class Platform : MonoBehaviour {
 		return _rotationTarget;
 	}
 
-	IEnumerator ChangeSpeed(float waitTime)
+	/*IEnumerator ChangeSpeed(float waitTime)
 	{
 		if (!isChangingSpeed)
 		{
@@ -140,7 +146,7 @@ public abstract class Platform : MonoBehaviour {
 			rotationMultiplier += 0.5f;
 			isChangingAmplitude = false;
 		}
-	}
+	}*/
 
 	void StartWait(float _waitTime)
 	{
@@ -160,11 +166,12 @@ public abstract class Platform : MonoBehaviour {
 	public virtual void Reset()
 	{
 		transform.position = startPos;
-		currentVelocity = 0f;
+		currentRotationVelocity = 0f;
 		rotationVelocity = 0f;
 		transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
 		rotationSpeed = startRotationSpeed;
 		rotationMultiplier = startRotationMultiplier;
+		moveSpeed = startMoveSpeed;
 		platformShouldWait = true;
 		roundTimer = 0;
 		transform.localScale = obstacleStartScale;

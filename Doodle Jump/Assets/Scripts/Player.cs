@@ -37,19 +37,26 @@ public class Player : MonoBehaviour {
 			isDead = true;
 		}
 
+
 		playerCollision.PlatformCollisionCheck(playerJump.landingSpeed);
+		playerCollision.DebugRays();
 
 		playerMovement.Move(playerCollision.collisionInfo.touchingObstacle);
 
 		if (playerCollision.collisionInfo.touchingObstacle && slip)
 		{
-			playerCollision.collisionInfo.slopeAngle = playerCollision.collisionInfo.currentPlatform.transform.rotation.eulerAngles.z;
+			playerCollision.collisionInfo.slopeAngle = 
+				playerCollision.collisionInfo.currentPlatform.transform.rotation.eulerAngles.z;
+			// Vector2.SignedAngle(Vector2.up, playerCollision.collisionInfo.currentPlatform.transform.rotation.eulerAngles);//
+			playerCollision.collisionInfo.slopeAngle = Mathf.DeltaAngle(0f, playerCollision.collisionInfo.slopeAngle);
+
+			print("initial slope angle = " + playerCollision.collisionInfo.slopeAngle);
 			playerMovement.SlipPlayer(playerCollision.collisionInfo.slopeAngle);
 		}
 
 		playerJump.UpdateSettings(playerCollision.collisionInfo.touchingObstacle);
 
-		playerCollision.DebugRays();
+
 	}
 
 	public void Reset()

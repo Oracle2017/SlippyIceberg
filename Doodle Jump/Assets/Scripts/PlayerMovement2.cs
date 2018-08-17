@@ -176,6 +176,7 @@ public class PlayerMovement2 : MonoBehaviour {
 	//TODO: I think this should be ostacle independent
 	public void SlipPlayer(float _slopeAngle)
 	{
+		/*print("regular slope angle = " + _slopeAngle);
 		float angle = -1 * Vector2.SignedAngle(transform.right, Vector2.right);
 
 		if (angle < 0)
@@ -183,7 +184,9 @@ public class PlayerMovement2 : MonoBehaviour {
 			_slopeAngle = 90 - Mathf.Abs(_slopeAngle % 90);
 		}
 
-		float slipVelocity = Utils.Map(Mathf.Abs(_slopeAngle % 90), 0, 89, minSlipVelocity, maxSlipVelocity);
+		print("recalculated slope angle = " + _slopeAngle);
+
+		float slipVelocity = Utils.Map(Mathf.Abs(_slopeAngle % 90), 0, 90, minSlipVelocity, maxSlipVelocity);
 
 		float hypothenus = slipVelocity * Time.deltaTime;
 		float x = Mathf.Cos(angle * Mathf.Deg2Rad) * hypothenus;
@@ -199,7 +202,23 @@ public class PlayerMovement2 : MonoBehaviour {
 		else 
 		{
 			transform.position -= movePosition;
+		}*/
+
+		if (Mathf.Abs(_slopeAngle) > 90)
+		{
+			_slopeAngle = _slopeAngle - Mathf.Sign(_slopeAngle) * 180;//- Mathf.Sign(_slopeAngle) * 90 + (_slopeAngle % 90);
 		}
+
+		float slipVelocity = -1 * Utils.Map(_slopeAngle, -90, 90, -maxSlipVelocity, maxSlipVelocity);
+		print ("regular slope angle = " + _slopeAngle + " - " + "slip velocity = " + slipVelocity);
+
+		float hypothenus = slipVelocity * Time.deltaTime;
+		float x = Mathf.Cos(_slopeAngle * Mathf.Deg2Rad) * hypothenus;
+		float y = Mathf.Sin(_slopeAngle * Mathf.Deg2Rad) * hypothenus;
+		Vector3 movePosition = new Vector3(x, y, 0);
+
+		transform.position += movePosition;
+
 
 	}
 

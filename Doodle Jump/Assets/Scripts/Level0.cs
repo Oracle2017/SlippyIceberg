@@ -5,44 +5,54 @@ using UnityEngine;
 public class Level0 : Level {
 	List<GameObject> currentCoins = new List<GameObject>();
 	bool isGrowing;
+	bool isPlatformCentered;
+	Vector3 currentMoveVelocity;
+	[SerializeField] float scaleXTarget = 1.3f;
 
 	// Use this for initialization
 	public override void StartSettings () {
 		Reset();
-		LevelStart();
 	}
 	
 	// Update is called once per frame
 	public override void UpdateSettings () {
-		//print("Update Settings Grow!");
-		if (!isGrowing &&
+
+		if (!(
 			GameManager.currentPlatform.currentRotation >= -0.1f &&
-			GameManager.currentPlatform.currentRotation <= 0.1f)
+			GameManager.currentPlatform.currentRotation <= 0.1f))
+		{
+			return;
+		}
+
+		CenterPlatform();
+
+		if (!isGrowing &&
+			GameManager.currentPlatform.transform.position.x >= GameManager.currentPlatform.startPos.x - 0.1f &&
+			GameManager.currentPlatform.transform.position.x <= GameManager.currentPlatform.startPos.x + 0.1f) 
 		{
 			LevelGrow();
-			GameManager.currentPlatform.shouldStabilize = false;
-			print("STOP STABILIZING NOW");
 			isGrowing = true;
 		}
 
 		base.UpdateSettings();
 	}
+		
 
-	void LevelStart()
+	void CenterPlatform()
 	{
-		GameManager.currentPlatform.shouldStabilize = true;
-		GameManager.amountOfLevelCoins = levelCoins.childCount;
+		GameManager.currentPlatform.transform.position = Vector3.SmoothDamp(
+			GameManager.currentPlatform.transform.position,
+			GameManager.currentPlatform.startPos,
+			ref currentMoveVelocity, 
+			1f);
 	}
 
 	void LevelGrow()
 	{
-		//print("Level Grow!");
+		print("Level Grow!");
 		Platform_ScaleChanger _platformScaleChanger = GameManager.currentPlatform.GetComponent<Platform_ScaleChanger>();
-		_platformScaleChanger.ChangeScaleTo(GameManager.currentPlatform.obstacleStartScale.x, 1.5f, true);
+		_platformScaleChanger.ChangeScaleTo(GameManager.currentPlatform.obstacleStartScale.x, scaleXTarget, true);
 		//print("start scale = " + GameManager.currentPlatform.obstacleStartScale.x);
-
-		//print("level coins = " + levelCoins);
-		GameManager.currentPlatform.stop = true;
 
 		/*for (int i = 0; i < levelCoins.childCount; i++)
 		{
@@ -68,6 +78,9 @@ public class Level0 : Level {
 		}*/
 
 		isGrowing = false;
-		GameManager.currentPlatform.shouldStabilize = false;
+		currentMoveVelocity = Vector3.zero;
+
+		GameManager.currentPlatform.shouldStabilize = true;
+		GameManager.amountOfLevelCoins = levelCoins.childCount;
 	}
 }

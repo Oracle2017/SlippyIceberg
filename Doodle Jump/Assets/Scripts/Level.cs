@@ -9,6 +9,7 @@ public class Level : MonoBehaviour {
 	protected GameObject currentCoin;
 	protected int previousAmountOfLevelCoins;
 	protected int index = 1;
+	[HideInInspector] public bool isLevelFinished;
 
 	public virtual void StartSettings () {
 		
@@ -16,6 +17,11 @@ public class Level : MonoBehaviour {
 	
 	// Update is called once per frame
 	public virtual void UpdateSettings () {
+		CheckAllCoinsCollected();
+	}
+
+	void CheckAllCoinsCollected()
+	{
 		if (GameManager.amountOfLevelCoins != previousAmountOfLevelCoins)
 		{
 			print("instantiate new coin!");
@@ -38,5 +44,7 @@ public class Level : MonoBehaviour {
 		{
 			Destroy(currentCoin);
 		}
+
+		isLevelFinished = false;
 	}
 }

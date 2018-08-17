@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Level1 : Level {
+	[SerializeField] float scaleXTarget = 0.6f;
 
 	// Use this for initialization
 	public override void StartSettings () {
@@ -11,27 +12,29 @@ public class Level1 : Level {
 	}
 
 	public override void UpdateSettings () {
-		base.UpdateSettings();
+		if (GameManager.currentPlatform.transform.localScale.x >= scaleXTarget - 0.1f &&
+			GameManager.currentPlatform.transform.localScale.x <= scaleXTarget + 0.1f)
+		{
+			base.UpdateSettings();
+		}
 	}
 	
 	void LevelShrink()
 	{
 		Platform_ScaleChanger _platformScaleChanger = GameManager.currentPlatform.GetComponent<Platform_ScaleChanger>();
-		_platformScaleChanger.ChangeScaleTo(0.6f, 1.5f, false);
+		_platformScaleChanger.ChangeScaleTo(scaleXTarget, 1.5f, false);
 		//print("can swing ? " + !GameManager.currentPlatform.shouldStabilize);
-
 	}
 
 	public override void Reset()
 	{
 		base.Reset();
 
+		GameManager.currentPlatform.shouldStabilize = false;
 		// Should swing and not stabilize anymore, TODO: find better way to do this
 		GameManager.currentPlatform.swingTimer = 0f;
-		GameManager.currentPlatform.currentVelocity = 0f;
+		GameManager.currentPlatform.currentRotationVelocity = 0f;
 		GameManager.currentPlatform.platformShouldWait = true;
-
-
 	}
 		
 }

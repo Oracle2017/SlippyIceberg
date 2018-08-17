@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour {
 	int currentLevel;
 
 	[SerializeField] Level[] levels;
+
+	int amountOfLevelsPassed;
 	 
 
 	// Use this for initialization
@@ -42,7 +44,6 @@ public class GameManager : MonoBehaviour {
 		currentPlayer.StartSettings();
 
 		currentLevel = -1;
-
 	}
 	
 	// Update is called once per frame
@@ -52,6 +53,7 @@ public class GameManager : MonoBehaviour {
 		{
 			LevelSwitcher();
 			levels[currentLevel].UpdateSettings();
+
 			currentPlatform.UpdatePlatform();
 			currentPlayer.UpdatePlayer();
 			score.UpdateScore();
@@ -75,16 +77,39 @@ public class GameManager : MonoBehaviour {
 
 		if (amountOfLevelCoins <= 0)
 		{
+			amountOfLevelsPassed++;
 			currentLevel = (currentLevel + 1) % levels.Length;
 			print("currentLevel = " + currentLevel);
 			levelCoinIndex = 0;
+
+			if (amountOfLevelsPassed > 1 && 
+				amountOfLevelsPassed % levels.Length == 1)
+			{
+				float temp_rotationSpeed = GameManager.currentPlatform.rotationSpeed * GameManager.currentPlatform.SpeedIncrease; 
+				GameManager.currentPlatform.rotationSpeed = (temp_rotationSpeed < GameManager.currentPlatform.rotationSpeedLimit)? 
+					temp_rotationSpeed: 
+					GameManager.currentPlatform.rotationSpeed;
+				
+				float temp_moveSpeed = GameManager.currentPlatform.moveSpeed * GameManager.currentPlatform.moveSpeedIncrease; 
+				GameManager.currentPlatform.moveSpeed = (temp_moveSpeed < GameManager.currentPlatform.moveSpeedLimit)? 
+					temp_moveSpeed: 
+					GameManager.currentPlatform.moveSpeed;
+			}
 		}
+
+		/*if (levels[currentLevel].isLevelFinished || currentLevel == -1)
+		{
+			currentLevel = (currentLevel + 1) % levels.Length;
+			print("currentLevel = " + currentLevel);
+			levelCoinIndex = 0;
+		}*/
 
 		levels[currentLevel].StartSettings();
 	}
 
 	public void RestartGame()
 	{
+		amountOfLevelsPassed = 0;
 		currentPlayer.Reset();
 		currentPlatform.Reset();
 		gameOver.CloseWindow();
@@ -92,6 +117,8 @@ public class GameManager : MonoBehaviour {
 		levels[currentLevel].Reset();
 		currentLevel = -1;
 		amountOfLevelCoins = 0;
+		GameManager.currentPlatform.moveSpeed = GameManager.currentPlatform.startMoveSpeed;
+		GameManager.currentPlatform.rotationSpeed = GameManager.currentPlatform.startRotationSpeed;
 		print("reset");
 	}
 }
