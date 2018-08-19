@@ -29,13 +29,15 @@ public class GameOver : MonoBehaviour {
 		image.enabled = true;
 		rectTransform.localScale = Vector3.SmoothDamp(rectTransform.localScale, targetScale, ref scalingVelocity, 0.2f);
 
-		int currentScore =  (int) Score.currentScore;
-		ScoreText.text = currentScore.ToString();
+		int currentTime =  (int) Score.currentTime;
+		ScoreText.text = currentTime.ToString();
+		int currentLvl = Score.currentLvl;
+		int amountOfCoins = Score.amountOfCoins;
 
 		// Save data
-		if (PlayerPrefs.GetInt("Highscore") < currentScore)
+		if (PlayerPrefs.GetInt("Highscore") < currentTime)
 		{
-			PlayerPrefs.SetInt("Highscore", currentScore);
+			PlayerPrefs.SetInt("Highscore", currentTime);
 		}
 
 		HighscoreText.text = "HIGHSCORE\t\t" + PlayerPrefs.GetInt("Highscore");

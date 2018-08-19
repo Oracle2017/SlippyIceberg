@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour {
 
 			currentPlatform.UpdatePlatform();
 			currentPlayer.UpdatePlayer();
-			score.UpdateScore();
+			score.UpdateScores();
 		}
 
 		else 
@@ -91,6 +91,7 @@ public class GameManager : MonoBehaviour {
 		if (amountOfLevelCoins <= 0)
 		{
 			amountOfLevelsPassed++;
+			Score.currentLvl = amountOfLevelsPassed;
 			currentLevel = (currentLevel + 1) % levels.Length;
 			print("currentLevel = " + currentLevel);
 			levelCoinIndex = 0;

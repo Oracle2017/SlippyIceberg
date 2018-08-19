@@ -4,29 +4,38 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 
-[RequireComponent(typeof(Text))]
 public class Score : MonoBehaviour {
-	[HideInInspector] public static double currentScore;
-	int highScore;
-	Text uiCurrentScoreText;
+	[HideInInspector] public static int currentLvl;
+	[SerializeField] Text currentLvlText;
+	[HideInInspector] public static int amountOfCoins;
+	[SerializeField] Text amountOfCoinsText;
+
+	[HideInInspector] public static double currentTime;
+	//[SerializeField] Text currentTimeText;
 
 	// Use this for initialization
 	void Start () {
-		uiCurrentScoreText = GetComponent<Text>();
+
+
 		Reset();
 	}
 
 
-	public void UpdateScore()
+	public void UpdateScores()
 	{
-		currentScore += Time.deltaTime;
+		currentLvlText.text = "STAGE " + currentLvl.ToString();
+		amountOfCoinsText.text = amountOfCoins.ToString();
 
-		uiCurrentScoreText.text = ((int) currentScore).ToString();
+		currentTime += Time.deltaTime;
+		//currentTimeText.text = ((int) currentTime).ToString();
 	}
 
 	public void Reset()
 	{
-		currentScore = 0f;
+		currentLvl = 0;
+		amountOfCoins = 0;
+
+		currentTime = 0f;
 	}
 		
 }
