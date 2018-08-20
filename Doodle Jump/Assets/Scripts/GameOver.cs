@@ -4,8 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class GameOver : MonoBehaviour {
-	public Text ScoreText;
-	public Text HighscoreText;
+	[SerializeField] Text timeScoreText;
+	[SerializeField] Text timeHighscoreText;
+	[SerializeField] Text coinsScoreText;
+	[SerializeField] Text coinsHighscoreText;
+	[SerializeField] Text stageScoreText;
+	[SerializeField] Text stageHighscoreText;
 	Vector3 targetScale;
 	Vector3 scalingVelocity;
 	RectTransform rectTransform;
@@ -29,8 +33,9 @@ public class GameOver : MonoBehaviour {
 		image.enabled = true;
 		rectTransform.localScale = Vector3.SmoothDamp(rectTransform.localScale, targetScale, ref scalingVelocity, 0.2f);
 
-		int currentTime =  (int) Score.currentTime;
-		ScoreText.text = currentTime.ToString();
+		/*int currentTime =  (int) Score.currentTime;
+		timeScoreText.text = currentTime.ToString();
+
 		int currentLvl = Score.currentLvl;
 		int amountOfCoins = Score.amountOfCoins;
 
@@ -40,7 +45,23 @@ public class GameOver : MonoBehaviour {
 			PlayerPrefs.SetInt("Highscore", currentTime);
 		}
 
-		HighscoreText.text = "HIGHSCORE\t\t" + PlayerPrefs.GetInt("Highscore");
+		timeHighscoreText.text = "HIGHSCORE\t\t" + PlayerPrefs.GetInt("Highscore");*/
+
+		SetScore(Score.currentLvl, "stageHighscore", stageScoreText, stageHighscoreText, "HIGHSCORE\t\t");
+		SetScore(Score.amountOfCoins, "coinsHighscore", coinsScoreText, coinsHighscoreText);
+		SetScore((int) Score.currentTime, "timeHighscore", timeScoreText, timeHighscoreText);
+
+	}
+
+	void SetScore(int _score, string _highscoreName, Text _scoreText, Text _highscoreText, string _highscorePrefix = "")
+	{
+		if (PlayerPrefs.GetInt(_highscoreName) < _score)
+		{
+			PlayerPrefs.SetInt(_highscoreName, _score);
+		}
+
+		_scoreText.text = _score.ToString();
+		_highscoreText.text = _highscorePrefix + PlayerPrefs.GetInt(_highscoreName);
 	}
 
 	public void CloseWindow()
