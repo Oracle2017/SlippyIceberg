@@ -79,7 +79,5 @@ public class Level0 : Level {
 
 		isGrowing = false;
 		currentMoveVelocity = Vector3.zero;
-
-		GameManager.amountOfLevelCoins = levelCoins.childCount;
 	}
 }

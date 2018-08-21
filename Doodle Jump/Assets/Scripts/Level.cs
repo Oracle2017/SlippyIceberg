@@ -61,9 +61,9 @@ public class Level : MonoBehaviour {
 
 	public virtual void Reset()
 	{
-		index = 1;
+		index = 0;
 
-		GameManager.amountOfLevelCoins = levelCoins.childCount;
+		GameManager.amountOfLevelCoins = 6;//levelCoins.childCount;
 		previousAmountOfLevelCoins = -1;
 
 		if (currentCoin != null)

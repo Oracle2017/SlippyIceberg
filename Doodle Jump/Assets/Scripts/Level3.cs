@@ -15,6 +15,8 @@ public class Level3 : Level {
 	bool isGrowing;
 	int blockNr;
 	bool shouldBlockWait;
+	int amountOfBlockfoldersSpawned;
+	int amountOfBlockfoldersLimit = 3;
 
 	public override void StartSettings () {
 		Reset();
@@ -41,7 +43,7 @@ public class Level3 : Level {
 			
 		base.UpdateSettings();
 
-		if (!IsWaiting(GameManager.waitTime) && !shouldBlockWait)
+		if (!IsWaiting(GameManager.waitTime) && !shouldBlockWait && amountOfBlockfoldersSpawned < amountOfBlockfoldersLimit)
 		{
 			StartCoroutine(BlocksFallDownDomino(fallAfterSeconds));
 		}
@@ -58,6 +60,8 @@ public class Level3 : Level {
 
 	void InstantiateBlocks()
 	{
+		blocksFolder = Instantiate(new GameObject("Blocks Folder"), Vector3.zero, Quaternion.identity);
+
 		for (int i = 0; i < amountOfBlocks; i++)
 		{
 			Vector3 _pos = new Vector3(i * (blockWidth + seperationDist), 0);
@@ -82,15 +86,23 @@ public class Level3 : Level {
 		{
 			//InstantiateBlocks();
 			//blockNr = 0;
+
+			InstantiateBlocks();
+			blockNr = 0;
+			shouldBlockWait = false;
+			amountOfBlockfoldersSpawned++;
 			yield break;
 		}
 
-		shouldBlockWait = true;
-		FallingBlock _block = blocksFolder.transform.GetChild(blockNr).GetComponent<FallingBlock>();
-		_block.canFall = true;
-		yield return new WaitForSeconds(_waitTime);
-		blockNr++;
-		shouldBlockWait = false;
+		else 
+		{
+			shouldBlockWait = true;
+			FallingBlock _block = blocksFolder.transform.GetChild(blockNr).GetComponent<FallingBlock>();
+			_block.canFall = true;
+			yield return new WaitForSeconds(_waitTime);
+			blockNr++;
+			shouldBlockWait = false;
+		}
 	}
 
 	void LevelGrow()
@@ -104,23 +116,28 @@ public class Level3 : Level {
 	{
 		base.Reset();
 
-		if (blocksFolder != null)
+		/*if (blocksFolder != null)
 		{
 			for (int i = 0; i < blocksFolder.transform.childCount; i++)
 			{
 				Destroy(blocksFolder.transform.GetChild(i).gameObject);
 			}
+
+			blocksFolder.transform.position = Vector3.zero;
 		}
 
 		else {
 			blocksFolder = Instantiate(new GameObject("Blocks Folder"), Vector3.zero, Quaternion.identity);
-		}
+		}*/
 			
+
 		blockWidth = blockPrefab.GetComponent<SpriteRenderer>().sprite.bounds.size.x;
 		isGrowing = false;
 		currentMoveVelocity = Vector3.zero;
+		//blocksFolder = Instantiate(new GameObject("Blocks Folder"), Vector3.zero, Quaternion.identity);
 		blockNr = 0;
 		shouldBlockWait = false;
+		amountOfBlockfoldersSpawned = 0;
 
 		InstantiateBlocks();
 	}
