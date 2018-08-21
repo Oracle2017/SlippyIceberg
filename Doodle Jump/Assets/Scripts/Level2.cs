@@ -26,15 +26,18 @@ public class Level2 : Level {
 		ShrinkPlatform();
 
 		// Wait til scaling is done
-		if (!(GameManager.currentPlatform.transform.localScale.x >= scaleXTarget - 0.01f &&
-			GameManager.currentPlatform.transform.localScale.x <= scaleXTarget + 0.01f))
+		if (!(GameManager.currentPlatform.transform.localScale.x >= scaleXTarget - 0.1f &&
+			GameManager.currentPlatform.transform.localScale.x <= scaleXTarget + 0.1f))
 		{
 			return;
 		}
-
-
-		MoveLeftAndRight(2.45f);
+			
 		base.UpdateSettings();
+
+		if (!IsWaiting(GameManager.waitTime))
+		{
+			MoveLeftAndRight(2.45f);
+		}
 	}
 
 	void MoveLeftAndRight(float _dist)
@@ -61,6 +64,5 @@ public class Level2 : Level {
 
 		platformMoveTimer = 0;
 		currentVelocity = 0;
-		GameManager.currentPlatform.shouldStabilize = true;
 	}
 }

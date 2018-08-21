@@ -7,7 +7,7 @@ public class Level0 : Level {
 	bool isGrowing;
 	bool isPlatformCentered;
 	Vector3 currentMoveVelocity;
-	[SerializeField] float scaleXTarget = 1.3f;
+	[SerializeField] float scaleXTarget = 1.6f;
 
 	// Use this for initialization
 	public override void StartSettings () {
@@ -51,7 +51,7 @@ public class Level0 : Level {
 	{
 		print("Level Grow!");
 		Platform_ScaleChanger _platformScaleChanger = GameManager.currentPlatform.GetComponent<Platform_ScaleChanger>();
-		_platformScaleChanger.ChangeScaleTo(GameManager.currentPlatform.obstacleStartScale.x, scaleXTarget, true);
+		_platformScaleChanger.ChangeScaleTo(scaleXTarget, 1.5f, false);
 		//print("start scale = " + GameManager.currentPlatform.obstacleStartScale.x);
 
 		/*for (int i = 0; i < levelCoins.childCount; i++)
@@ -80,7 +80,6 @@ public class Level0 : Level {
 		isGrowing = false;
 		currentMoveVelocity = Vector3.zero;
 
-		GameManager.currentPlatform.shouldStabilize = true;
 		GameManager.amountOfLevelCoins = levelCoins.childCount;
 	}
 }

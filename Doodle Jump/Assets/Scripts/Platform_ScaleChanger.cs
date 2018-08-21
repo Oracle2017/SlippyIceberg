@@ -10,7 +10,6 @@ public class Platform_ScaleChanger : MonoBehaviour {
 	bool isScaling;
 	Vector3 newScale;
 	float transitionSpeed;
-	bool platformStop;
 
 	void Start()
 	{
@@ -22,13 +21,11 @@ public class Platform_ScaleChanger : MonoBehaviour {
 		if (isScaling)
 		{
 			transform.localScale = Vector3.SmoothDamp(transform.localScale, newScale, ref currentScaleVelocity, transitionSpeed);
-			if (transform.localScale.x - newScale.x <= 0.1f && 
-				transform.localScale.x - newScale.x >= -0.1f)
+			if (transform.localScale.x - newScale.x <= 0.01f && 
+				transform.localScale.x - newScale.x >= -0.01f)
 			{
-				print("scaled finish");
 				currentLocalScale = transform.localScale;
 				isScaling = false;
-				GetComponent<Platform>().stop = platformStop;
 			}
 		}
 	}
@@ -38,7 +35,7 @@ public class Platform_ScaleChanger : MonoBehaviour {
 		newScale = new Vector3(_newScaleX, transform.localScale.y, transform.localScale.z);
 		transitionSpeed = _transitionSpeed;
 		isScaling = true;
-		platformStop = _platformStop;
+		//GetComponent<Platform>().stop = _platformStop;
 	}
 		
 }

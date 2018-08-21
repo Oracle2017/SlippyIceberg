@@ -16,6 +16,11 @@ public class Level1 : Level {
 			GameManager.currentPlatform.transform.localScale.x <= scaleXTarget + 0.1f)
 		{
 			base.UpdateSettings();
+
+			if (!IsWaiting(GameManager.waitTime))
+			{
+				GameManager.currentPlatform.shouldStabilize = false;
+			}
 		}
 	}
 	
@@ -30,11 +35,10 @@ public class Level1 : Level {
 	{
 		base.Reset();
 
-		GameManager.currentPlatform.shouldStabilize = false;
 		// Should swing and not stabilize anymore, TODO: find better way to do this
 		GameManager.currentPlatform.swingTimer = 0f;
 		GameManager.currentPlatform.currentRotationVelocity = 0f;
-		GameManager.currentPlatform.platformShouldWait = true;
+		//GameManager.currentPlatform.platformShouldWait = true;
 	}
 		
 }

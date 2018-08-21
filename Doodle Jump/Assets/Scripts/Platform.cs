@@ -32,7 +32,7 @@ public abstract class Platform : MonoBehaviour {
 	[SerializeField] protected float rotationMultiplier = 1;
 	bool isChangingSpeed;
 	bool isChangingAmplitude;
-	[HideInInspector] public bool platformShouldWait;
+	//[HideInInspector] public bool platformShouldWait;
 	float roundTimeLimit;
 	float roundTimer;
 
@@ -41,7 +41,7 @@ public abstract class Platform : MonoBehaviour {
 
 	public virtual void StartSettings()
 	{
-		platformShouldWait = true;
+		//platformShouldWait = false;
 
 		startPos = transform.position;
 
@@ -68,16 +68,15 @@ public abstract class Platform : MonoBehaviour {
 		if (stop)
 			return;
 
-		//print("roundstart = " + roundStart);
 
-		if (platformShouldWait)
+		/*if (platformShouldWait)
 		{
-			print(" platform is waiting ");
+			//print(" platform is waiting ");
 			StartWait(roundTimeLimit);
 			return;
-		}
+		}*/
 			
-		//print("swing ? " + !shouldStabilize);
+
 
 		if (shouldStabilize)
 		{
@@ -148,7 +147,7 @@ public abstract class Platform : MonoBehaviour {
 		}
 	}*/
 
-	void StartWait(float _waitTime)
+	/*void StartWait(float _waitTime)
 	{
 		if (roundTimer < roundTimeLimit)
 		{
@@ -161,7 +160,8 @@ public abstract class Platform : MonoBehaviour {
 			platformShouldWait = false;
 			roundTimer = 0;
 		}
-	}
+	}*/
+		
 
 	public virtual void Reset()
 	{
@@ -172,7 +172,7 @@ public abstract class Platform : MonoBehaviour {
 		rotationSpeed = startRotationSpeed;
 		rotationMultiplier = startRotationMultiplier;
 		moveSpeed = startMoveSpeed;
-		platformShouldWait = true;
+		//platformShouldWait = true;
 		roundTimer = 0;
 		transform.localScale = obstacleStartScale;
 	}

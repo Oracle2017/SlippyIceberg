@@ -210,7 +210,7 @@ public class PlayerMovement2 : MonoBehaviour {
 		}
 
 		float slipVelocity = -1 * Utils.Map(_slopeAngle, -90, 90, -maxSlipVelocity, maxSlipVelocity);
-		print ("regular slope angle = " + _slopeAngle + " - " + "slip velocity = " + slipVelocity);
+		//print ("regular slope angle = " + _slopeAngle + " - " + "slip velocity = " + slipVelocity);
 
 		float hypothenus = slipVelocity * Time.deltaTime;
 		float x = Mathf.Cos(_slopeAngle * Mathf.Deg2Rad) * hypothenus;

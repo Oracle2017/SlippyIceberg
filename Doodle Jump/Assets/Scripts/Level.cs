@@ -10,7 +10,8 @@ public class Level : MonoBehaviour {
 	protected GameObject currentCoin;
 	protected int previousAmountOfLevelCoins;
 	protected int index = 1;
-	[HideInInspector] public bool isLevelFinished;
+
+	protected float waitTimer;
 
 	public virtual void StartSettings () {
 		
@@ -18,6 +19,11 @@ public class Level : MonoBehaviour {
 	
 	// Update is called once per frame
 	public virtual void UpdateSettings () {
+		if (IsWaiting(GameManager.waitTime))
+		{
+			return;
+		}
+
 		CheckAllCoinsCollected();
 	}
 
@@ -37,6 +43,22 @@ public class Level : MonoBehaviour {
 		previousAmountOfLevelCoins = GameManager.amountOfLevelCoins;
 	}
 
+	protected bool IsWaiting(float _waitTimeLimit)
+	{
+		if (waitTimer < _waitTimeLimit)
+		{
+			waitTimer += Time.deltaTime;
+			//GameManager.currentPlatform.stop = true;
+			return true;
+		}
+
+		else 
+		{
+			print("not waiting");
+			return false;
+		}
+	}
+
 	public virtual void Reset()
 	{
 		index = 1;
@@ -48,7 +70,9 @@ public class Level : MonoBehaviour {
 		{
 			Destroy(currentCoin);
 		}
+			
+		waitTimer = 0;
 
-		isLevelFinished = false;
+		GameManager.currentPlatform.shouldStabilize = true;
 	}
 }

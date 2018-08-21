@@ -50,7 +50,7 @@ public class Player : MonoBehaviour {
 			// Vector2.SignedAngle(Vector2.up, playerCollision.collisionInfo.currentPlatform.transform.rotation.eulerAngles);//
 			playerCollision.collisionInfo.slopeAngle = Mathf.DeltaAngle(0f, playerCollision.collisionInfo.slopeAngle);
 
-			print("initial slope angle = " + playerCollision.collisionInfo.slopeAngle);
+			//print("initial slope angle = " + playerCollision.collisionInfo.slopeAngle);
 			playerMovement.SlipPlayer(playerCollision.collisionInfo.slopeAngle);
 		}
 
