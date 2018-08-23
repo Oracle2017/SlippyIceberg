@@ -43,7 +43,7 @@ public class PlayerCollision : MonoBehaviour {
 	/// <summary>
 	/// Check if the player is completely under water. If it is then it resets the player.
 	/// </summary>
-	public bool WaterCollisionCheck()
+	public void WaterCollisionCheck()
 	{
 		// The Ray is on the top side
 		// TODO hit distance should be close to 0!
@@ -60,12 +60,7 @@ public class PlayerCollision : MonoBehaviour {
 
 		if (_hitTop)
 		{
-			return true;
-		}
-
-		else 
-		{
-			return false;
+			GameManager.currentPlayer.isDead = true;
 		}
 	}
 
@@ -75,8 +70,9 @@ public class PlayerCollision : MonoBehaviour {
 	/// <summary>
 	/// Check if the player is touching a platform. If yes then it readjusts the position.
 	/// </summary>
-	public void PlatformCollisionCheck(float _landSpeed)
+	public void PlatformCollisionCheck(float _landSpeed = 8)
 	{
+		// Landspeed = 8 because we are curently not using playerJump.cs anymore
 
 		float skinHeight = 0.3f;
 		rayLength = Mathf.Abs(_landSpeed * Time.deltaTime) + skinHeight;
@@ -159,6 +155,13 @@ public class PlayerCollision : MonoBehaviour {
 
 		}
 	}
+	 
+	public void UpdateSettings()
+	{
+		WaterCollisionCheck();
+		PlatformCollisionCheck();
+		DebugRays();
+	}
 
 	/// <summary>
 	/// Debugging player raycasts in the Unity Editor.
@@ -201,6 +204,11 @@ public class PlayerCollision : MonoBehaviour {
 			Score.amountOfCoins++;
 			print("touched coin");
 			Destroy(col.gameObject);
+		}
+
+		if (col.tag == "FallingBlock")
+		{
+			GameManager.currentPlayer.isDead = true;
 		}
 	}
 

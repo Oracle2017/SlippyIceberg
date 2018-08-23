@@ -28,7 +28,7 @@ public class PlayerJump : MonoBehaviour {
 	{
 		if (!isJumping)
 		{
-			if (Input.GetKeyDown(KeyCode.Space) && _isTouchingGround)
+			if ((Input.GetKeyDown(KeyCode.Space) || (Input.touchCount > 0)) && _isTouchingGround)
 			{
 				Jump();
 			}

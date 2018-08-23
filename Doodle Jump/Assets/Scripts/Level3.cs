@@ -11,18 +11,27 @@ public class Level3 : Level {
 	[SerializeField] float scaleXTarget = 1.6f;
 	Vector3 currentMoveVelocity;
 	GameObject blocksFolder;
-	float blockWidth;
+	[HideInInspector] public static Vector3 blockSize;
 	bool isGrowing;
 	int blockNr;
 	bool shouldBlockWait;
 	int amountOfBlockfoldersSpawned;
-	int amountOfBlockfoldersLimit = 3;
+	int amountOfBlockfoldersLimit = 10;
+
+	bool shouldWait;
+	float moveWaitTimer;
 
 	public override void StartSettings () {
 		Reset();
 	}
 
 	public override void UpdateSettings () {
+		if (shouldWait)
+		{
+			print("is waiting");
+			Wait(1);
+			return;
+		}
 
 		CenterPlatform();
 
@@ -64,12 +73,12 @@ public class Level3 : Level {
 
 		for (int i = 0; i < amountOfBlocks; i++)
 		{
-			Vector3 _pos = new Vector3(i * (blockWidth + seperationDist), 0);
+			Vector3 _pos = new Vector3(i * (blockSize.x + seperationDist), 0);
 			print("position block " + i + " = " + _pos);
 			Instantiate(blockPrefab, _pos, Quaternion.identity, blocksFolder.transform);
 		}
 			
-		float _totalWidth = (amountOfBlocks - 1) * (blockWidth + seperationDist);
+		float _totalWidth = (amountOfBlocks - 1) * (blockSize.x + seperationDist);
 
 		blocksFolder.transform.position = new Vector3(- _totalWidth / 2, startPosY);
 	}
@@ -112,26 +121,27 @@ public class Level3 : Level {
 		_platformScaleChanger.ChangeScaleTo(scaleXTarget, 1.5f, false);
 	}
 
+	void Wait(float _waitTime)
+	{
+		if (moveWaitTimer < _waitTime)
+		{
+			moveWaitTimer+= Time.deltaTime;
+			return;
+		}
+
+		shouldWait = false;
+	}
+
 	public override void Reset()
 	{
 		base.Reset();
 
-		/*if (blocksFolder != null)
-		{
-			for (int i = 0; i < blocksFolder.transform.childCount; i++)
-			{
-				Destroy(blocksFolder.transform.GetChild(i).gameObject);
-			}
+		shouldWait = true;
+		moveWaitTimer = 0;
 
-			blocksFolder.transform.position = Vector3.zero;
-		}
+		blockSize = blockPrefab.GetComponent<SpriteRenderer>().sprite.bounds.size;
 
-		else {
-			blocksFolder = Instantiate(new GameObject("Blocks Folder"), Vector3.zero, Quaternion.identity);
-		}*/
-			
 
-		blockWidth = blockPrefab.GetComponent<SpriteRenderer>().sprite.bounds.size.x;
 		isGrowing = false;
 		currentMoveVelocity = Vector3.zero;
 		//blocksFolder = Instantiate(new GameObject("Blocks Folder"), Vector3.zero, Quaternion.identity);

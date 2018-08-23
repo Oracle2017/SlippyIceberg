@@ -54,7 +54,6 @@ public class Level : MonoBehaviour {
 
 		else 
 		{
-			print("not waiting");
 			return false;
 		}
 	}

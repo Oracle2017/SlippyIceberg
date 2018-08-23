@@ -28,6 +28,8 @@ public class GameManager : MonoBehaviour {
 	int amountOfLevelsPassed;
 
 	[HideInInspector] public static GameObject GUICanvas;
+
+	[HideInInspector] public static float screenHeight;
 	 
 
 	// Use this for initialization
@@ -69,6 +71,7 @@ public class GameManager : MonoBehaviour {
 		// Settings
 		waitTime = startWaitTime;
 		currentLevel = -1;
+		screenHeight = Camera.main.orthographicSize * 2.0f;
 	}
 	
 	// Update is called once per frame
@@ -86,6 +89,7 @@ public class GameManager : MonoBehaviour {
 
 		else 
 		{
+			currentPlayer.spriteRenderer.enabled = false;
 			gameOver.DisplayWindow();
 		}
 	}
@@ -136,6 +140,8 @@ public class GameManager : MonoBehaviour {
 	public void RestartGame()
 	{
 		amountOfLevelsPassed = 0;
+
+		currentPlayer.spriteRenderer.enabled = true;		
 		currentPlayer.Reset();
 		currentPlatform.Reset();
 		gameOver.CloseWindow();
@@ -146,6 +152,8 @@ public class GameManager : MonoBehaviour {
 		GameManager.currentPlatform.moveSpeed = GameManager.currentPlatform.startMoveSpeed;
 		GameManager.currentPlatform.rotationSpeed = GameManager.currentPlatform.startRotationSpeed;
 		waitTime = startWaitTime;
+
+
 		print("reset");
 	}
 }

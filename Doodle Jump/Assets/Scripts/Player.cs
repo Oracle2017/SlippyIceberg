@@ -11,10 +11,12 @@ public class Player : MonoBehaviour {
 	[SerializeField] PlayerCollision playerCollision;
 	[SerializeField] PlayerJump playerJump;
 	[SerializeField] bool slip;
+	[SerializeField] float landingSpeed = 8;
 
 	// Reset Variables
 	Vector3 startPos;
 	[HideInInspector] public bool isDead;
+	[HideInInspector] public SpriteRenderer spriteRenderer;
 
 	// Use this for initialization
 	public void StartSettings () {
@@ -22,24 +24,22 @@ public class Player : MonoBehaviour {
 
 		playerMovement.StartSettings();
 		playerCollision.StartSettings();
+
+		spriteRenderer = GetComponent<SpriteRenderer>();
 	}
 	
 	// Update is called once per frame
 	public void UpdatePlayer () {
 
-		if (isDead)
-			return;
+		/*if (isDead)
+			return;*/
 
 		//transform.localRotation = Quaternion.identity;
 
-		if (playerCollision.WaterCollisionCheck())
-		{
-			isDead = true;
-		}
-
-
+		/*playerCollision.WaterCollisionCheck();
 		playerCollision.PlatformCollisionCheck(playerJump.landingSpeed);
-		playerCollision.DebugRays();
+		playerCollision.DebugRays();*/
+		playerCollision.UpdateSettings();
 
 		playerMovement.Move(playerCollision.collisionInfo.touchingObstacle);
 
@@ -54,8 +54,11 @@ public class Player : MonoBehaviour {
 			playerMovement.SlipPlayer(playerCollision.collisionInfo.slopeAngle);
 		}
 
-		playerJump.UpdateSettings(playerCollision.collisionInfo.touchingObstacle);
-
+		//playerJump.UpdateSettings(playerCollision.collisionInfo.touchingObstacle);
+		if (!playerCollision.collisionInfo.touchingObstacle)
+		{
+			transform.position -= new Vector3(0, landingSpeed * Time.deltaTime, 0);
+		}
 
 	}
 
@@ -64,6 +67,6 @@ public class Player : MonoBehaviour {
 		isDead = false;
 		transform.position = startPos;
 		playerCollision.Reset();
-		playerJump.Reset();
+		//playerJump.Reset();
 	}
 }
