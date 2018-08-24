@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviour {
 
 		else 
 		{
-			currentPlayer.spriteRenderer.enabled = false;
+			currentPlayer.gameObject.SetActive(false);
 			gameOver.DisplayWindow();
 		}
 	}
@@ -141,7 +141,7 @@ public class GameManager : MonoBehaviour {
 	{
 		amountOfLevelsPassed = 0;
 
-		currentPlayer.spriteRenderer.enabled = true;		
+		currentPlayer.gameObject.SetActive(true);
 		currentPlayer.Reset();
 		currentPlatform.Reset();
 		gameOver.CloseWindow();

@@ -5,7 +5,6 @@ using UnityEngine;
 public class Level2 : Level {
 	// Platform vars
 	float platformMoveTimer;
-	[SerializeField] float scaleXTarget = 0.25f;
 	float currentVelocity;
 
 	// Use this for initialization
@@ -14,27 +13,9 @@ public class Level2 : Level {
 	}
 
 	public override void UpdateSettings () {
-		
-		// Wait til stabilizing is done
-		if (!(
-			GameManager.currentPlatform.currentRotation >= -0.1f &&
-			GameManager.currentPlatform.currentRotation <= 0.1f))
-		{
-			return;
-		}
-
-		ShrinkPlatform();
-
-		// Wait til scaling is done
-		if (!(GameManager.currentPlatform.transform.localScale.x >= scaleXTarget - 0.1f &&
-			GameManager.currentPlatform.transform.localScale.x <= scaleXTarget + 0.1f))
-		{
-			return;
-		}
-			
 		base.UpdateSettings();
 
-		if (!IsWaiting(GameManager.waitTime))
+		if (isPrepared)
 		{
 			MoveLeftAndRight(2.45f);
 		}
@@ -51,16 +32,13 @@ public class Level2 : Level {
 		GameManager.currentPlatform.transform.position = new Vector3(platformPosX, GameManager.currentPlatform.transform.position.y);
 	}
 
-	void ShrinkPlatform()
-	{
-		// Shrink and stop
-		Platform_ScaleChanger _platformScaleChanger = GameManager.currentPlatform.GetComponent<Platform_ScaleChanger>();
-		_platformScaleChanger.ChangeScaleTo(scaleXTarget, 1.5f, true);
-	}
-
 	public override void Reset()
 	{
 		base.Reset();
+		shouldStabilize = true;
+		shouldCenterPosition = false;
+		shouldScale = true;
+
 
 		platformMoveTimer = 0;
 		currentVelocity = 0;
