@@ -36,7 +36,7 @@ public abstract class Platform : MonoBehaviour {
 	float roundTimeLimit;
 	float roundTimer;
 
-	[HideInInspector] public float obstacleSpriteHeight;
+	[HideInInspector] public Vector3 obstacleSpriteSize;
 	[HideInInspector] public Vector3 obstacleStartScale;
 
 	public virtual void StartSettings()
@@ -49,7 +49,7 @@ public abstract class Platform : MonoBehaviour {
 		startRotationMultiplier = rotationMultiplier; // Amplitude
 		startMoveSpeed = moveSpeed;
 
-		obstacleSpriteHeight = transform.GetComponent<SpriteRenderer>().sprite.bounds.size.y;
+		obstacleSpriteSize = transform.GetComponent<SpriteRenderer>().sprite.bounds.size;
 		obstacleStartScale = transform.localScale;
 
 		roundTimeLimit = 2f;
