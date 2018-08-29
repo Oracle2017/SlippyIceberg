@@ -116,19 +116,25 @@ public class GameManager : MonoBehaviour {
 			{
 				// Decrease rotation speed
 				float temp_rotationSpeed = GameManager.currentPlatform.rotationSpeed * GameManager.currentPlatform.SpeedIncrease; 
-				GameManager.currentPlatform.rotationSpeed = (temp_rotationSpeed <= GameManager.currentPlatform.rotationSpeedLimit)? 
+				GameManager.currentPlatform.rotationSpeed = (temp_rotationSpeed < GameManager.currentPlatform.rotationSpeedLimit)? 
 					temp_rotationSpeed: 
 					GameManager.currentPlatform.rotationSpeed;
 
 				// Decrease move speed
 				float temp_moveSpeed = GameManager.currentPlatform.moveSpeed * GameManager.currentPlatform.moveSpeedIncrease; 
-				GameManager.currentPlatform.moveSpeed = (temp_moveSpeed <= GameManager.currentPlatform.moveSpeedLimit)? 
+				GameManager.currentPlatform.moveSpeed = (temp_moveSpeed < GameManager.currentPlatform.moveSpeedLimit)? 
 					temp_moveSpeed: 
 					GameManager.currentPlatform.moveSpeed;
 
 				// Decrease move speed
+				float temp_scaleSpeed = GameManager.currentPlatform.scaleSpeed * (1/GameManager.currentPlatform.scaleSpeedIncrease); 
+				GameManager.currentPlatform.scaleSpeed = (temp_scaleSpeed > GameManager.currentPlatform.scaleSpeedLimit)? 
+					temp_scaleSpeed: 
+					GameManager.currentPlatform.scaleSpeed;
+
+				// Decrease waiting transitions
 				float temp_waitLimit = waitTime * waitTimeDecreaseSpeed; 
-				waitTime = (temp_waitLimit >= waitTimeLimit)? 
+				waitTime = (temp_waitLimit > waitTimeLimit)? 
 					temp_waitLimit: 
 					waitTime;
 			}

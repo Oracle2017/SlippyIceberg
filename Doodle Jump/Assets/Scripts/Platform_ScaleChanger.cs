@@ -33,6 +33,7 @@ public class Platform_ScaleChanger : MonoBehaviour {
 			//print("_guiScalingStartDist = " + _guiScalingStartDist);
 			Vector3 _guiScalingEndDist =  new Vector3(_obstacleSpriteSize.x * newScale.x / 2, 0, 0);
 			GUI_Manager.guiScaling.UpdateSettings(transform.position, _guiScalingStartDist, _guiScalingEndDist);
+
 		}
 
 		if (isWaiting)
@@ -43,13 +44,11 @@ public class Platform_ScaleChanger : MonoBehaviour {
 
 		if (isScaling)
 		{
-			
-
 			//print("_guiScalingEndDist = " + _guiScalingEndDist);
 
 
 			transform.localScale = Vector3.SmoothDamp(transform.localScale, newScale, ref currentScaleVelocity, transitionSpeed);
-			spriteRenderer.color = scalingColor;
+
 			if (transform.localScale.x - newScale.x <= 0.05f && 
 				transform.localScale.x - newScale.x >= -0.05f)
 			{
@@ -87,6 +86,7 @@ public class Platform_ScaleChanger : MonoBehaviour {
 
 		isWaiting = true;
 		waitTimer = 0;
+		spriteRenderer.color = scalingColor;
 		//GetComponent<Platform>().stop = _platformStop;
 	}
 		

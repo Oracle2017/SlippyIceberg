@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class GameOver : MonoBehaviour {
 	[SerializeField] Text timeScoreText;
-	[SerializeField] Text timeHighscoreText;
+	//[SerializeField] Text timeHighscoreText;
 	[SerializeField] Text coinsScoreText;
-	[SerializeField] Text coinsHighscoreText;
+	//[SerializeField] Text coinsHighscoreText;
 	[SerializeField] Text stageScoreText;
 	[SerializeField] Text stageHighscoreText;
 	Vector3 targetScale;
@@ -47,9 +47,9 @@ public class GameOver : MonoBehaviour {
 
 		timeHighscoreText.text = "HIGHSCORE\t\t" + PlayerPrefs.GetInt("Highscore");*/
 
-		SetScore(Score.currentLvl, "stageHighscore", stageScoreText, stageHighscoreText, "HIGHSCORE\t\t");
-		SetScore(Score.amountOfCoins, "coinsHighscore", coinsScoreText, coinsHighscoreText);
-		SetScore((int) Score.currentTime, "timeHighscore", timeScoreText, timeHighscoreText);
+		SetScore(Score.currentLvl, "stageHighscore", stageScoreText, stageHighscoreText);
+		coinsScoreText.text = Score.amountOfCoins.ToString(); //SetScore(Score.amountOfCoins, "coinsHighscore", coinsScoreText, coinsHighscoreText);
+		timeScoreText.text = ((int )Score.currentTime).ToString() + " s"; //SetScore((int) Score.currentTime, "timeHighscore", timeScoreText, timeHighscoreText);
 
 	}
 

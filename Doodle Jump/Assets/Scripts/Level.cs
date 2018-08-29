@@ -93,7 +93,7 @@ public class Level : MonoBehaviour {
 	void ScalePlatform()
 	{
 		Platform_ScaleChanger _platformScaleChanger = GameManager.currentPlatform.GetComponent<Platform_ScaleChanger>();
-		_platformScaleChanger.ChangeScaleTo(scaleXTarget, 2f, false);
+		_platformScaleChanger.ChangeScaleTo(scaleXTarget, GameManager.currentPlatform.scaleSpeed, false);
 	}
 		
 

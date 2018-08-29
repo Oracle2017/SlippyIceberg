@@ -12,12 +12,20 @@ public abstract class Platform : MonoBehaviour {
 	float startRotationMultiplier;
 	[HideInInspector] public Vector3 startPos;
 
-	[Header("Speed of the rotation")]
+	[Header("Speed of the movement")]
 	[HideInInspector] public float startMoveSpeed; 
 	[SerializeField] public float moveSpeed = 40f;
 	[SerializeField] public float moveSpeedIncrease = 1.5f;
 	[SerializeField] public float moveSpeedLimit = 120f;
+	[Space(10)]
 
+	[Header("Speed of the scaling")]
+	[SerializeField] public float scaleSpeed = 2f;
+	[SerializeField] public float scaleSpeedIncrease = 1.5f;
+	[SerializeField] public float scaleSpeedLimit = 0.5f;
+	[Space(10)]
+
+	[Header("Speed of the rotation")]
 	[HideInInspector] public float startRotationSpeed; 
 	[SerializeField] public float rotationSpeed = 0.1f;
 	[SerializeField] public float SpeedIncrease = 1.5f;
@@ -33,8 +41,8 @@ public abstract class Platform : MonoBehaviour {
 	bool isChangingSpeed;
 	bool isChangingAmplitude;
 	//[HideInInspector] public bool platformShouldWait;
-	float roundTimeLimit;
-	float roundTimer;
+	//float roundTimeLimit;
+	//float roundTimer;
 
 	[HideInInspector] public Vector3 obstacleSpriteSize;
 	[HideInInspector] public Vector3 obstacleStartScale;
@@ -52,7 +60,7 @@ public abstract class Platform : MonoBehaviour {
 		obstacleSpriteSize = transform.GetComponent<SpriteRenderer>().sprite.bounds.size;
 		obstacleStartScale = transform.localScale;
 
-		roundTimeLimit = 2f;
+		//roundTimeLimit = 2f;
 	}
 
 
@@ -173,7 +181,7 @@ public abstract class Platform : MonoBehaviour {
 		rotationMultiplier = startRotationMultiplier;
 		moveSpeed = startMoveSpeed;
 		//platformShouldWait = true;
-		roundTimer = 0;
+		//roundTimer = 0;
 		transform.localScale = obstacleStartScale;
 	}
 }
