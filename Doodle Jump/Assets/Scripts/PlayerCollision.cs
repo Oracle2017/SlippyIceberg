@@ -34,8 +34,8 @@ public class PlayerCollision : MonoBehaviour {
 	public void StartSettings () {
 		SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
 		// max width and height of a sprite of the animation.
-		spriteWidth = 2.40f;//spriteRenderer.sprite.bounds.size.x;
-		spriteHeight = 2.92f;//spriteRenderer.sprite.bounds.size.y;
+		spriteWidth = spriteRenderer.sprite.bounds.size.x;
+		spriteHeight = spriteRenderer.sprite.bounds.size.y;
 		raycastOrder = new int[] { 0, -1, 1 };
 	}
 	

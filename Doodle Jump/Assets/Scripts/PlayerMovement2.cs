@@ -52,6 +52,7 @@ public class PlayerMovement2 : MonoBehaviour {
 	[Header("PARTICLE EFFECTS")]
 
 	[SerializeField] ParticleSystem dustTrails;
+	[SerializeField] float emissionLimit = 10;
 
 
 
@@ -91,14 +92,21 @@ public class PlayerMovement2 : MonoBehaviour {
 		Debug.DrawRay(transform.position, movePosition, Color.red);
 		Debug.DrawRay(transform.position, -movePosition, Color.yellow);
 
+		var _emission = dustTrails.emission;
+		_emission.enabled = true;
+
 
 		#if MOBILE
 
 			float accelerationX = Mathf.Clamp(Input.acceleration.x * accelerometerMultiplier, -tiltLimit, tiltLimit);
 			accelerationX = (Mathf.Abs(accelerationX) < speedDeadZone)? 0: accelerationX;
+			_emission.rateOverTime = accelerationX * emissionLimit;
 
 			if (_isTouchingObstacle)
 			{
+				if (!dustTrails.isPlaying)
+					dustTrails.Play();
+
 				transform.position += Vector3.ClampMagnitude(accelerationX * movePosition, moveSpeedLimit);
 
 				if (accelerationX < 0)
@@ -106,8 +114,6 @@ public class PlayerMovement2 : MonoBehaviour {
 					spriteRenderer.flipX = true;
 					dustTrails.transform.localScale = (dustTrails.transform.localScale.x < 0)? 
 						dustTrails.transform.localScale: new Vector3(-dustTrails.transform.localScale.x, dustTrails.transform.localScale.y, dustTrails.transform.localScale.z);
-
-
 				}
 
 				else 
@@ -117,6 +123,9 @@ public class PlayerMovement2 : MonoBehaviour {
 						dustTrails.transform.localScale: new Vector3(-dustTrails.transform.localScale.x, dustTrails.transform.localScale.y, dustTrails.transform.localScale.z);
 
 				}
+				
+		
+				
 			}
 
 			else 
@@ -139,11 +148,15 @@ public class PlayerMovement2 : MonoBehaviour {
 				if (_isTouchingObstacle)
 				{
 					transform.position -= movePosition;
+					_emission.rateOverTime = emissionLimit;
+					if (!dustTrails.isPlaying)
+						dustTrails.Play();
 				}
 
 				else 
 				{
 					transform.position -= Vector3.right * moveSpeed * Time.deltaTime;
+					_emission.rateOverTime = 0;
 				}
 			}
 
@@ -156,14 +169,24 @@ public class PlayerMovement2 : MonoBehaviour {
 
 				if (_isTouchingObstacle)
 				{
+				
 					transform.position += movePosition;
+					_emission.rateOverTime = emissionLimit;
+					if (!dustTrails.isPlaying)
+						dustTrails.Play();
+
 				}
 
 				else 
 				{
 					transform.position += Vector3.right * moveSpeed * Time.deltaTime;
-
+					_emission.rateOverTime = 0;
 				}
+			}
+
+			else 
+			{
+				_emission.rateOverTime = 0;
 			}
 
 		#endif
@@ -176,6 +199,7 @@ public class PlayerMovement2 : MonoBehaviour {
 	//TODO: I think this should be ostacle independent
 	public void SlipPlayer(float _slopeAngle)
 	{
+
 		/*print("regular slope angle = " + _slopeAngle);
 		float angle = -1 * Vector2.SignedAngle(transform.right, Vector2.right);
 

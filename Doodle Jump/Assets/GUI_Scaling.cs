@@ -16,9 +16,9 @@ public class GUI_Scaling : MonoBehaviour {
 	public void UpdateSettings (Vector3 _position, Vector3 _startDist, Vector3 _endDist) {
 		
 		leftIcon.UpdateSettings(_position, -1 * _startDist, - 1 * _endDist);
-		print("left side transform.position.x - _endDist.x = " + (leftIcon.transform.position.x - (- 1 *_endDist.x)));
+		//print("left side transform.position.x - _endDist.x = " + (leftIcon.transform.position.x - (- 1 *_endDist.x)));
 
 		rightIcon.UpdateSettings(_position, _startDist, _endDist);
-		print("right side transform.position.x - _endDist.x = " + (rightIcon.transform.position.x - _endDist.x));
+		//print("right side transform.position.x - _endDist.x = " + (rightIcon.transform.position.x - _endDist.x));
 	}
 }

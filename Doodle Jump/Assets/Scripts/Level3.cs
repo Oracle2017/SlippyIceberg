@@ -24,16 +24,21 @@ public class Level3 : Level {
 	}
 
 	public override void UpdateSettings () {
-		if (shouldWait)
+		base.UpdateSettings();
+
+		if (!isPrepared)
+		{
+			return;
+		}
+
+		/*if (shouldWait)
 		{
 			print("is waiting");
 			Wait(1);
 			return;
-		}
+		}*/
 			
-		base.UpdateSettings();
-
-		if (!IsWaiting(GameManager.waitTime) && !shouldBlockWait && amountOfBlockfoldersSpawned < amountOfBlockfoldersLimit)
+		if (!shouldBlockWait && amountOfBlockfoldersSpawned < amountOfBlockfoldersLimit)
 		{
 			StartCoroutine(BlocksFallDownDomino(fallAfterSeconds));
 		}

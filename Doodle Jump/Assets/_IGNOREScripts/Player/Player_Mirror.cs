@@ -46,8 +46,11 @@ public class Player_Mirror : MonoBehaviour {
 		playerReflection = new GameObject(gameObject.name + " Reflection");
 		reflectionSprite = playerReflection.AddComponent<SpriteRenderer>();
 		reflectionSprite.sprite = GetComponent<SpriteRenderer>().sprite;
-		anim = playerReflection.AddComponent<Animator>();
-		anim.runtimeAnimatorController = GetComponent<Animator>().runtimeAnimatorController;
+		if (GetComponent<Animator>() != null)
+		{
+			anim = playerReflection.AddComponent<Animator>();
+			anim.runtimeAnimatorController = GetComponent<Animator>().runtimeAnimatorController;
+		}
 
 		/*
 		// Add collider to the reflection

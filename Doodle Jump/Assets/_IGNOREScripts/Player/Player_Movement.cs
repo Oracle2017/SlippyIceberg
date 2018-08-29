@@ -14,7 +14,6 @@ public class Player_Movement : MonoBehaviour {
 	[SerializeField] bool phoneInput;
 
 
-
 	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody2D>();
@@ -58,7 +57,6 @@ public class Player_Movement : MonoBehaviour {
 			rb.velocity = new Vector2(0, rb.velocity.y);
 		}
 			
-
 	}
 
 }
