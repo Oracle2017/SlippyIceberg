@@ -7,7 +7,7 @@ public class Player_Mirror : MonoBehaviour {
 	float spriteWidth;
 	GameObject playerReflection;
 	SpriteRenderer playerSprite;
-	SpriteRenderer reflectionSprite;
+	[HideInInspector] public SpriteRenderer reflectionSprite;
 	Animator anim;
 
 	// Use this for initialization

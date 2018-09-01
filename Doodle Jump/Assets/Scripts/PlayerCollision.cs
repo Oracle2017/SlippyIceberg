@@ -201,7 +201,7 @@ public class PlayerCollision : MonoBehaviour {
 		{
 			GameManager.amountOfLevelCoins--;
 			GameManager.levelCoinIndex++;
-			Score.amountOfCoins++;
+			Score.currentAmountOfCoins++;
 			print("touched coin");
 			Destroy(col.gameObject);
 		}

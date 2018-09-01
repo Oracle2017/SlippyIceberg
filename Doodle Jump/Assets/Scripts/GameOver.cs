@@ -16,7 +16,7 @@ public class GameOver : MonoBehaviour {
 	Image image;
 
 	// Use this for initialization
-	void Start () {
+	public void StartSettings () {
 		rectTransform = GetComponent<RectTransform>();
 
 		image = GetComponent<Image>();
@@ -48,8 +48,9 @@ public class GameOver : MonoBehaviour {
 		timeHighscoreText.text = "HIGHSCORE\t\t" + PlayerPrefs.GetInt("Highscore");*/
 
 		SetScore(Score.currentLvl, "stageHighscore", stageScoreText, stageHighscoreText);
-		coinsScoreText.text = Score.amountOfCoins.ToString(); //SetScore(Score.amountOfCoins, "coinsHighscore", coinsScoreText, coinsHighscoreText);
-		timeScoreText.text = ((int )Score.currentTime).ToString() + " s"; //SetScore((int) Score.currentTime, "timeHighscore", timeScoreText, timeHighscoreText);
+		coinsScoreText.text = Score.currentAmountOfCoins.ToString(); //SetScore(Score.amountOfCoins, "coinsHighscore", coinsScoreText, coinsHighscoreText);
+		PlayerPrefs.SetInt("amountOfDiamonds", Score.totalAmountOfCoins + Score.currentAmountOfCoins);
+		timeScoreText.text = ((int )Score.currentTime).ToString();// + "s"; //SetScore((int) Score.currentTime, "timeHighscore", timeScoreText, timeHighscoreText);
 
 	}
 

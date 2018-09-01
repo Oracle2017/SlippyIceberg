@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour {
 	[SerializeField] Score score;
 	[SerializeField] GameOver gameOver;
 	[SerializeField] GameObject coinPrefab;
+	[SerializeField] CosmeticsTab cosmeticsTab;
 
 	[SerializeField] Transform[] levelCoins;
 	[SerializeField] Level[] levels;
@@ -53,6 +54,9 @@ public class GameManager : MonoBehaviour {
 
 		currentPlatform.StartSettings();
 		currentPlayer.StartSettings();
+		score.StartSettings();
+		gameOver.StartSettings();
+		cosmeticsTab.StartSettings();
 
 
 		// GUI Canvas instantiation
@@ -76,6 +80,11 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			PlayerPrefs.DeleteAll();
+		}
 		
 		if (!currentPlayer.isDead)
 		{
