@@ -31,6 +31,8 @@ public class GameManager : MonoBehaviour {
 	[HideInInspector] public static GameObject GUICanvas;
 
 	[HideInInspector] public static float screenHeight;
+
+	public static bool isPausing;
 	 
 
 	// Use this for initialization
@@ -80,6 +82,17 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (Input.GetMouseButtonDown(0))
+		{
+			isPausing = !isPausing;
+		}
+
+
+		if (isPausing)
+		{
+			return;
+		}
+
 
 		if (Input.GetKeyDown(KeyCode.Space))
 		{

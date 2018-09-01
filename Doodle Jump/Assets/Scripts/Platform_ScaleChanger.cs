@@ -17,14 +17,14 @@ public class Platform_ScaleChanger : MonoBehaviour {
 	bool isWaiting;
 	Color startColor;
 
-	void Start()
+	public void StartSettings()
 	{
 		currentLocalScale = transform.localScale;
 		spriteRenderer = GetComponent<SpriteRenderer>();
 		startColor = spriteRenderer.color;
 	}
 
-	void Update()
+	public void UpdateSettings()
 	{
 		if (isScaling)
 		{

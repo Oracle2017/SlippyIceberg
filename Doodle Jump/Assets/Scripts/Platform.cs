@@ -20,6 +20,7 @@ public abstract class Platform : MonoBehaviour {
 	[Space(10)]
 
 	[Header("Speed of the scaling")]
+	[SerializeField] Platform_ScaleChanger scaleChanger;
 	[SerializeField] public float scaleSpeed = 2f;
 	[SerializeField] public float scaleSpeedIncrease = 1.5f;
 	[SerializeField] public float scaleSpeedLimit = 0.5f;
@@ -60,6 +61,8 @@ public abstract class Platform : MonoBehaviour {
 		obstacleSpriteSize = transform.GetComponent<SpriteRenderer>().sprite.bounds.size;
 		obstacleStartScale = transform.localScale;
 
+		scaleChanger.StartSettings();
+
 		//roundTimeLimit = 2f;
 	}
 
@@ -84,7 +87,7 @@ public abstract class Platform : MonoBehaviour {
 			return;
 		}*/
 			
-
+		scaleChanger.UpdateSettings();
 
 		if (shouldStabilize)
 		{

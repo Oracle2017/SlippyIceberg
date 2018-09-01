@@ -15,6 +15,8 @@ public class CosmeticsTab : MonoBehaviour {
 
 	public void DisplayWindow()
 	{
+		GameManager.isPausing = true;
+
 		Cosmetic_Previewer.singleton.Reset();
 
 		gameObject.SetActive(true);
@@ -24,5 +26,11 @@ public class CosmeticsTab : MonoBehaviour {
 			Cosmetic _cosmetic = cosmeticsParent.GetChild(i).GetComponent<Cosmetic>();
 			_cosmetic.Reset();
 		}
+	}
+
+	public void CloseWindow()
+	{
+		GameManager.isPausing = false;
+		gameObject.SetActive(false);
 	}
 }
