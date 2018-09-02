@@ -48,7 +48,7 @@ public class Cosmetic : MonoBehaviour {
 			print("unlocked");
 		}
 
-		else
+		else if (!isUnlocked && Score.totalAmountOfCoins < amountOfDiamonsNeeded)
 		{
 			_description = "You don't have enough diamonds. You need " + (amountOfDiamonsNeeded - Score.totalAmountOfCoins).ToString() + " more.";
 		}
@@ -69,6 +69,7 @@ public class Cosmetic : MonoBehaviour {
 
 			if (PlayerPrefs.GetInt("unlockedCosmetics_"+name) == 1)
 			{
+				isUnlocked = true;
 				amountOfDiamondsNeededText.text = "";
 				diamondImage.SetActive(false);
 			}

@@ -95,12 +95,11 @@ public class PlayerMovement2 : MonoBehaviour {
 		var _emission = dustTrails.emission;
 		_emission.enabled = true;
 
-
 		#if MOBILE
 
 			float accelerationX = Mathf.Clamp(Input.acceleration.x * accelerometerMultiplier, -tiltLimit, tiltLimit);
 			accelerationX = (Mathf.Abs(accelerationX) < speedDeadZone)? 0: accelerationX;
-			_emission.rateOverTime = accelerationX * emissionLimit;
+			_emission.rateOverTime = Math.Abs(accelerationX) * emissionLimit;
 
 			if (_isTouchingObstacle)
 			{
