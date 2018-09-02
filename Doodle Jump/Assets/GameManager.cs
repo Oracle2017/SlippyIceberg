@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour {
 	[SerializeField] GameOver gameOver;
 	[SerializeField] GameObject coinPrefab;
 	[SerializeField] CosmeticsTab cosmeticsTab;
+	[SerializeField] GUI_ControlsHelper guiControlsHelper;
+	//[SerializeField] GameObject guiHelperPrefab;
 
 	[SerializeField] Transform[] levelCoins;
 	[SerializeField] Level[] levels;
@@ -61,12 +63,13 @@ public class GameManager : MonoBehaviour {
 		cosmeticsTab.StartSettings();
 
 
+
+
 		// GUI Canvas instantiation
 		GUICanvas = Instantiate(new GameObject("GUI Canvas"), Vector3.zero, Quaternion.identity);
 		Canvas _canvas = GUICanvas.AddComponent<Canvas>();
 		_canvas.renderMode = RenderMode.ScreenSpaceCamera;
 		_canvas.worldCamera = Camera.main;
-
 
 		// Every level gets assigned the coin prefab
 		for (int i = 0; i < levels.Length; i++)
@@ -103,6 +106,15 @@ public class GameManager : MonoBehaviour {
 		{
 			LevelSwitcher();
 			levels[currentLevel].UpdateSettings();
+			/*if (guiHelper != null)
+			{
+				guiHelper.UpdateSettings();
+			}*/
+
+			if (Score.currentLvl == 1)
+			{
+				guiControlsHelper.UpdateSettings();
+			}
 
 			currentPlatform.UpdatePlatform();
 			currentPlayer.UpdatePlayer();
@@ -132,6 +144,27 @@ public class GameManager : MonoBehaviour {
 			Score.currentLvl = amountOfLevelsPassed;
 			currentLevel = (currentLevel + 1) % levels.Length;
 			levelCoinIndex = 0;
+
+			/*if (guiHelper == null && Score.currentLvl < 2)
+			{
+				GameObject _guiHelperGameObject = Instantiate(guiHelperPrefab, guiHelperPrefab.transform.position, Quaternion.identity, GUICanvas.transform);
+				guiHelper = _guiHelperGameObject.GetComponent<GUI_Helper>();
+				guiHelper.StartSettings();
+			}*/
+
+			print("current level = " + Score.currentLvl);
+			if (Score.currentLvl == 1)
+			{
+				guiControlsHelper.gameObject.SetActive(true);
+				guiControlsHelper.StartSettings();
+			}
+
+			else 
+			{
+				guiControlsHelper.gameObject.SetActive(false);
+			}
+
+
 
 			if (amountOfLevelsPassed > 1 && 
 				amountOfLevelsPassed % levels.Length == 1)
