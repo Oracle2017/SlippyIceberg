@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class Cosmetic_Previewer : MonoBehaviour {
 	[SerializeField] Image cosmeticImage;
 	[SerializeField] Text descriptionText;
+	[SerializeField] public Text amountOfCoins;
 	public static Cosmetic_Previewer singleton;
 
 	void Start()
@@ -23,5 +24,6 @@ public class Cosmetic_Previewer : MonoBehaviour {
 	public void Reset()
 	{
 		ChangePreview(GameManager.currentPlayer.spriteRenderer.sprite, "");
+		amountOfCoins.text = Score.totalAmountOfCoins.ToString();
 	}
 }

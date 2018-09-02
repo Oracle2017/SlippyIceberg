@@ -7,6 +7,7 @@ public class Cosmetic : MonoBehaviour {
 	[SerializeField] Image currentImage;
 	[SerializeField] Sprite unlockedSprite;
 	[SerializeField] string description;
+	[SerializeField] GameObject diamondImage;
 	bool isVisible;
 	bool isUnlocked;
 
@@ -24,7 +25,14 @@ public class Cosmetic : MonoBehaviour {
 			if (!isUnlocked)
 			{
 				PlayerPrefs.SetInt("unlockedCosmetics_"+name, 1);
+				diamondImage.SetActive(false);
 				amountOfDiamondsNeededText.text = "";
+
+				Score.totalAmountOfCoins -= amountOfDiamonsNeeded;
+				PlayerPrefs.SetInt("amountOfDiamonds", Score.totalAmountOfCoins);
+				Cosmetic_Previewer.singleton.amountOfCoins.text = Score.totalAmountOfCoins.ToString();
+				//GameManager.score.
+
 				isUnlocked = true;
 			}
 
@@ -36,18 +44,13 @@ public class Cosmetic : MonoBehaviour {
 			{
 				playerMirror.reflectionSprite.sprite = unlockedSprite;
 			}
-
-
-
+				
 			print("unlocked");
 		}
 
 		else
 		{
-			_description = "You don't have enough diamonds. You only need " + (amountOfDiamonsNeeded - Score.totalAmountOfCoins).ToString() + "more.";
-			print("not enough diamonds");
-			print("score = " + Score.totalAmountOfCoins);
-			print("amount of score needed =" + amountOfDiamonsNeeded);
+			_description = "You don't have enough diamonds. You need " + (amountOfDiamonsNeeded - Score.totalAmountOfCoins).ToString() + " more.";
 		}
 
 		Cosmetic_Previewer.singleton.ChangePreview(currentImage.sprite, _description);
@@ -67,6 +70,7 @@ public class Cosmetic : MonoBehaviour {
 			if (PlayerPrefs.GetInt("unlockedCosmetics_"+name) == 1)
 			{
 				amountOfDiamondsNeededText.text = "";
+				diamondImage.SetActive(false);
 			}
 
 		}

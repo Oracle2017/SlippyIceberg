@@ -49,7 +49,7 @@ public class GameOver : MonoBehaviour {
 
 		SetScore(Score.currentLvl, "stageHighscore", stageScoreText, stageHighscoreText);
 		coinsScoreText.text = Score.currentAmountOfCoins.ToString(); //SetScore(Score.amountOfCoins, "coinsHighscore", coinsScoreText, coinsHighscoreText);
-		PlayerPrefs.SetInt("amountOfDiamonds", Score.totalAmountOfCoins + Score.currentAmountOfCoins);
+		PlayerPrefs.SetInt("amountOfDiamonds", Score.totalAmountOfCoins);
 		timeScoreText.text = ((int )Score.currentTime).ToString();// + "s"; //SetScore((int) Score.currentTime, "timeHighscore", timeScoreText, timeHighscoreText);
 
 	}

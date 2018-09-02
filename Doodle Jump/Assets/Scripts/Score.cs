@@ -23,8 +23,7 @@ public class Score : MonoBehaviour {
 	public void UpdateScores()
 	{
 		currentLvlText.text = "STAGE " + currentLvl.ToString();
-		amountOfCoinsText.text = (currentAmountOfCoins + totalAmountOfCoins).ToString();
-
+		amountOfCoinsText.text = totalAmountOfCoins.ToString();
 		currentTime += Time.deltaTime;
 		//currentTimeText.text = ((int) currentTime).ToString();
 	}
