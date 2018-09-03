@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour {
 	[SerializeField] GameObject coinPrefab;
 	[SerializeField] CosmeticsTab cosmeticsTab;
 	[SerializeField] GUI_ControlsHelper guiControlsHelper;
+	[SerializeField] GUI_LevelStatus guiLevelStatus;
 	//[SerializeField] GameObject guiHelperPrefab;
 
 	[SerializeField] Transform[] levelCoins;
@@ -59,6 +60,7 @@ public class GameManager : MonoBehaviour {
 		currentPlatform.StartSettings();
 		currentPlayer.StartSettings();
 		score.StartSettings();
+		guiLevelStatus.StartSettings();
 		gameOver.StartSettings();
 		cosmeticsTab.StartSettings();
 
@@ -119,6 +121,7 @@ public class GameManager : MonoBehaviour {
 			currentPlatform.UpdatePlatform();
 			currentPlayer.UpdatePlayer();
 			score.UpdateScores();
+			guiLevelStatus.FillDiamond(levelCoinIndex - 1);
 		}
 
 		else 
@@ -140,6 +143,7 @@ public class GameManager : MonoBehaviour {
 
 		if (amountOfLevelCoins <= 0)
 		{
+			guiLevelStatus.Reset();
 			amountOfLevelsPassed++;
 			Score.currentLvl = amountOfLevelsPassed;
 			currentLevel = (currentLevel + 1) % levels.Length;
@@ -213,7 +217,7 @@ public class GameManager : MonoBehaviour {
 		GameManager.currentPlatform.moveSpeed = GameManager.currentPlatform.startMoveSpeed;
 		GameManager.currentPlatform.rotationSpeed = GameManager.currentPlatform.startRotationSpeed;
 		waitTime = startWaitTime;
-
+		guiLevelStatus.Reset();
 
 		print("reset");
 	}

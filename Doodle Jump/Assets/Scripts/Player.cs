@@ -20,12 +20,12 @@ public class Player : MonoBehaviour {
 
 	// Use this for initialization
 	public void StartSettings () {
+		spriteRenderer = GetComponent<SpriteRenderer>();
+
 		startPos = transform.position;
 
 		playerMovement.StartSettings();
 		playerCollision.StartSettings();
-
-		spriteRenderer = GetComponent<SpriteRenderer>();
 	}
 	
 	// Update is called once per frame

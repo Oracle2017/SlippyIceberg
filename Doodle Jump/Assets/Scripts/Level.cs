@@ -132,7 +132,7 @@ public class Level : MonoBehaviour {
 	{
 		// Coin stuff
 		index = 0;
-		GameManager.amountOfLevelCoins = 1;//levelCoins.childCount;
+		GameManager.amountOfLevelCoins = 5;//levelCoins.childCount;
 		previousAmountOfLevelCoins = -1;
 
 		if (currentCoin != null)

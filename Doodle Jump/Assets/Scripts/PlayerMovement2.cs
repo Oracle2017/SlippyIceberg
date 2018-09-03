@@ -15,6 +15,7 @@ public class PlayerMovement2 : MonoBehaviour {
 
 	[SerializeField] int moveSpeed = 8;
 	[SerializeField] float moveSpeedLimit = 8;
+	float localRotationZ;
 	// Additional move speed. min = 0°, max = 90°.
 	float minSlipVelocity;
 	float maxSlipVelocity;
@@ -137,6 +138,8 @@ public class PlayerMovement2 : MonoBehaviour {
 
 		#else
 
+			//float localRotationSpeed = 400;
+
 			if (Input.GetKey(KeyCode.LeftArrow))
 			{
 				dustTrails.transform.localScale = (dustTrails.transform.localScale.x < 0)? 
@@ -157,6 +160,10 @@ public class PlayerMovement2 : MonoBehaviour {
 					transform.position -= Vector3.right * moveSpeed * Time.deltaTime;
 					_emission.rateOverTime = 0;
 				}
+
+		/*localRotationZ -= localRotationSpeed * Time.deltaTime;
+		transform.localRotation = Quaternion.Euler(0, 0, localRotationZ);*/
+
 			}
 
 			else if (Input.GetKey(KeyCode.RightArrow))
@@ -181,6 +188,10 @@ public class PlayerMovement2 : MonoBehaviour {
 					transform.position += Vector3.right * moveSpeed * Time.deltaTime;
 					_emission.rateOverTime = 0;
 				}
+
+		/*localRotationZ += localRotationSpeed * Time.deltaTime;
+		transform.localRotation = Quaternion.Euler(0, 0, localRotationZ);*/
+
 			}
 
 			else 
