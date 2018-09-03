@@ -87,7 +87,27 @@ public class Level : MonoBehaviour {
 			GameManager.currentPlatform.transform.position,
 			GameManager.currentPlatform.startPos,
 			ref currentMoveVelocity, 
-			1f);
+			0.65f);
+
+		// TODO: this is only centering on the x axis
+
+		/*if (Mathf.Abs(Mathf.Abs(GameManager.currentPlatform.transform.position.x) - Mathf.Abs(GameManager.currentPlatform.startPos.x)) <= (GameManager.currentPlatform.moveSpeed * Time.deltaTime))
+		{
+			print("dist from center = " + (Mathf.Abs(GameManager.currentPlatform.transform.position.x) - Mathf.Abs(GameManager.currentPlatform.startPos.x)));
+			print("dist per frame = " + (GameManager.currentPlatform.moveSpeed * Time.deltaTime));
+			Debug.Break();
+			GameManager.currentPlatform.transform.position = GameManager.currentPlatform.startPos;
+		}
+
+		else if (GameManager.currentPlatform.transform.position.x < 0)
+		{
+			GameManager.currentPlatform.transform.position += new Vector3(GameManager.currentPlatform.moveSpeed * Time.deltaTime, 0);
+		}
+
+		else 
+		{
+			GameManager.currentPlatform.transform.position -= new Vector3(GameManager.currentPlatform.moveSpeed * Time.deltaTime, 0);
+		}*/
 	}
 
 	void ScalePlatform()
