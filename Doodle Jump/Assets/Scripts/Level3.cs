@@ -13,8 +13,8 @@ public class Level3 : Level {
 	[HideInInspector] public static Vector3 blockSize;
 	int blockNr;
 	bool shouldBlockWait;
-	int amountOfBlockfoldersSpawned;
-	int amountOfBlockfoldersLimit = 10;
+	//int amountOfBlockfoldersSpawned;
+	//int amountOfBlockfoldersLimit = 10;
 
 	bool shouldWait;
 	float moveWaitTimer;
@@ -38,7 +38,7 @@ public class Level3 : Level {
 			return;
 		}*/
 			
-		if (!shouldBlockWait && amountOfBlockfoldersSpawned < amountOfBlockfoldersLimit)
+		if (!shouldBlockWait)
 		{
 			StartCoroutine(BlocksFallDownDomino(fallAfterSeconds));
 		}
@@ -76,7 +76,7 @@ public class Level3 : Level {
 			InstantiateBlocks();
 			blockNr = 0;
 			shouldBlockWait = false;
-			amountOfBlockfoldersSpawned++;
+			//amountOfBlockfoldersSpawned++;
 			yield break;
 		}
 
@@ -116,7 +116,7 @@ public class Level3 : Level {
 		blockSize = blockPrefab.GetComponent<SpriteRenderer>().sprite.bounds.size;
 		blockNr = 0;
 		shouldBlockWait = false;
-		amountOfBlockfoldersSpawned = 0;
+		//amountOfBlockfoldersSpawned = 0;
 
 		InstantiateBlocks();
 	}
