@@ -5,14 +5,15 @@ using UnityEngine.UI;
 
 public class Cosmetic : MonoBehaviour {
 	[SerializeField] Image currentImage;
-	[SerializeField] Sprite unlockedSprite;
+	[SerializeField] public Sprite unlockedSprite;
 	[SerializeField] string description;
 	[SerializeField] GameObject diamondImage;
 	bool isVisible;
-	bool isUnlocked;
+	public bool isUnlocked;
+	public bool isNew;
 
 	[Header("Conditions")]
-	[SerializeField] int amountOfDiamonsNeeded;
+	[SerializeField] public int amountOfDiamonsNeeded;
 	[SerializeField] Text amountOfDiamondsNeededText;
 
 
@@ -20,7 +21,7 @@ public class Cosmetic : MonoBehaviour {
 	{
 		string _description = description;
 
-		if (isVisible && Score.totalAmountOfCoins >= amountOfDiamonsNeeded)
+		if (isVisible && (Score.totalAmountOfCoins >= amountOfDiamonsNeeded || isUnlocked))
 		{
 			if (!isUnlocked)
 			{
@@ -35,6 +36,10 @@ public class Cosmetic : MonoBehaviour {
 
 				isUnlocked = true;
 			}
+
+
+			PlayerPrefs.SetInt("currentCosmeticChildNr", transform.GetSiblingIndex());
+			PlayerPrefs.SetString("currentCosmeticDescription", _description);
 
 			GameManager.currentPlayer.spriteRenderer.sprite = unlockedSprite;
 
@@ -62,7 +67,16 @@ public class Cosmetic : MonoBehaviour {
 
 		if (Score.totalAmountOfCoins >= amountOfDiamonsNeeded || PlayerPrefs.GetInt("visibleCosmetics_"+name) == 1)
 		{
-			PlayerPrefs.SetInt("visibleCosmetics_"+name, 1);
+			if (PlayerPrefs.GetInt("visibleCosmetics_"+name) == 0)
+			{
+				PlayerPrefs.SetInt("visibleCosmetics_"+name, 1);
+				isNew = true;
+			}
+
+			else 
+			{
+				isNew = false;
+			}
 
 			currentImage.sprite = unlockedSprite;
 			isVisible = true;

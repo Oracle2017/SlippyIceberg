@@ -218,6 +218,7 @@ public class GameManager : MonoBehaviour {
 		GameManager.currentPlatform.rotationSpeed = GameManager.currentPlatform.startRotationSpeed;
 		waitTime = startWaitTime;
 		guiLevelStatus.Reset();
+		cosmeticsTab.CheckNewVisible();
 
 		print("reset");
 	}

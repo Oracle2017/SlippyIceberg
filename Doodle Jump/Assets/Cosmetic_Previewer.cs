@@ -23,7 +23,8 @@ public class Cosmetic_Previewer : MonoBehaviour {
 
 	public void Reset()
 	{
-		ChangePreview(GameManager.currentPlayer.spriteRenderer.sprite, "");
+		string _description = PlayerPrefs.GetString("currentCosmeticDescription");
+		ChangePreview(GameManager.currentPlayer.spriteRenderer.sprite, _description);
 		amountOfCoins.text = Score.totalAmountOfCoins.ToString();
 	}
 }
