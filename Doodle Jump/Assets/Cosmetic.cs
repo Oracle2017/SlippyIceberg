@@ -8,7 +8,7 @@ public class Cosmetic : MonoBehaviour {
 	[SerializeField] public Sprite unlockedSprite;
 	[SerializeField] string description;
 	[SerializeField] GameObject diamondImage;
-	bool isVisible;
+	public bool isVisible;
 	public bool isUnlocked;
 	public bool isNew;
 

@@ -100,7 +100,7 @@ public class PlayerMovement2 : MonoBehaviour {
 
 			float accelerationX = Mathf.Clamp(Input.acceleration.x * accelerometerMultiplier, -tiltLimit, tiltLimit);
 			accelerationX = (Mathf.Abs(accelerationX) < speedDeadZone)? 0: accelerationX;
-			_emission.rateOverTime = Math.Abs(accelerationX) * emissionLimit;
+			_emission.rateOverTime = Mathf.Abs(accelerationX) * emissionLimit;
 
 			if (_isTouchingObstacle)
 			{

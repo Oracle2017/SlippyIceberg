@@ -63,7 +63,7 @@ public class CosmeticsTab : MonoBehaviour {
 				return;
 			}
 
-			else if (!_cosmetic.isUnlocked || i >= cosmeticsParent.childCount - 1)
+			else if (!_cosmetic.isVisible || i >= cosmeticsParent.childCount - 1)
 			{
 				return;
 			}
