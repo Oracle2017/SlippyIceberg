@@ -214,11 +214,10 @@ public class GameManager : MonoBehaviour {
 		levels[currentLevel].Reset();
 		currentLevel = -1;
 		amountOfLevelCoins = 0;
-		GameManager.currentPlatform.moveSpeed = GameManager.currentPlatform.startMoveSpeed;
-		GameManager.currentPlatform.rotationSpeed = GameManager.currentPlatform.startRotationSpeed;
 		waitTime = startWaitTime;
 		guiLevelStatus.Reset();
 		cosmeticsTab.CheckNewVisible();
+
 
 		print("reset");
 	}

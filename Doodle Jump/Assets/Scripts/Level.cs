@@ -46,8 +46,8 @@ public class Level : MonoBehaviour {
 		}
 
 		if (shouldCenterPosition && !(
-			GameManager.currentPlatform.transform.position.x >= GameManager.currentPlatform.startPos.x - 0.1f &&
-			GameManager.currentPlatform.transform.position.x <= GameManager.currentPlatform.startPos.x + 0.1f)) 
+			GameManager.currentPlatform.transform.position.x >= GameManager.currentPlatform.startPos.x - 0.05f &&
+			GameManager.currentPlatform.transform.position.x <= GameManager.currentPlatform.startPos.x + 0.05f)) 
 		{
 			CenterPlatform();
 			return;

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Cosmetic : MonoBehaviour {
 	[SerializeField] Image currentImage;
 	[SerializeField] public Sprite unlockedSprite;
-	[SerializeField] string description;
+	[SerializeField] public string description;
 	[SerializeField] GameObject diamondImage;
 	public bool isVisible;
 	public bool isUnlocked;

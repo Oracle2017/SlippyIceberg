@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class FallingBlock : MonoBehaviour {
-	[SerializeField] float speed = 10;
+	[SerializeField] float speed;
 	[HideInInspector] public bool canFall;
 
 	void Start()

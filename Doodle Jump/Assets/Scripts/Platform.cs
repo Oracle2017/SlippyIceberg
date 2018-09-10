@@ -9,7 +9,6 @@ public abstract class Platform : MonoBehaviour {
 
 	// For resetting values when player replays
 
-	float startRotationMultiplier;
 	[HideInInspector] public Vector3 startPos;
 
 	[Header("Speed of the movement")]
@@ -21,6 +20,7 @@ public abstract class Platform : MonoBehaviour {
 
 	[Header("Speed of the scaling")]
 	[SerializeField] Platform_ScaleChanger scaleChanger;
+	[HideInInspector] public float startScaleSpeed;
 	[SerializeField] public float scaleSpeed = 2f;
 	[SerializeField] public float scaleSpeedIncrease = 1.5f;
 	[SerializeField] public float scaleSpeedLimit = 0.5f;
@@ -55,8 +55,8 @@ public abstract class Platform : MonoBehaviour {
 		startPos = transform.position;
 
 		startRotationSpeed = rotationSpeed; // Speed
-		startRotationMultiplier = rotationMultiplier; // Amplitude
 		startMoveSpeed = moveSpeed;
+		startScaleSpeed = scaleSpeed;
 
 		obstacleSpriteSize = transform.GetComponent<SpriteRenderer>().sprite.bounds.size;
 		obstacleStartScale = transform.localScale;
@@ -181,10 +181,13 @@ public abstract class Platform : MonoBehaviour {
 		rotationVelocity = 0f;
 		transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
 		rotationSpeed = startRotationSpeed;
-		rotationMultiplier = startRotationMultiplier;
 		moveSpeed = startMoveSpeed;
 		//platformShouldWait = true;
 		//roundTimer = 0;
 		transform.localScale = obstacleStartScale;
+
+		moveSpeed = startMoveSpeed;
+		rotationSpeed = startRotationSpeed;
+		scaleSpeed = startScaleSpeed;
 	}
 }
