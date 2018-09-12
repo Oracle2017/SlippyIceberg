@@ -23,7 +23,7 @@ public class Level3 : Level {
 	public override void StartSettings () {
 		blocksFolders = new List<GameObject>();
 		Reset();
-		InstantiateBlocks();
+		//InstantiateBlocks();
 	}
 
 	public override void UpdateSettings () {
@@ -109,7 +109,7 @@ public class Level3 : Level {
 		moveWaitTimer = 0;
 
 		blockSize = blockPrefab.GetComponent<SpriteRenderer>().sprite.bounds.size;
-		blockNr = 0;
+		blockNr = int.MaxValue;
 		shouldBlockWait = false;
 
 		canDomino = true;
