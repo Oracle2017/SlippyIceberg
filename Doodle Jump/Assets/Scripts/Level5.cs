@@ -3,7 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Level5 : Level3 {
-	bool isWaiting = true;
+	bool isWaiting;
+
+	public override void StartSettings () {
+		blocksFolders = new List<GameObject>();
+		Reset();
+	}
 
 	public override void UpdateSettings () {
 		base.UpdateSettings();
@@ -15,7 +20,7 @@ public class Level5 : Level3 {
 
 		if (!isWaiting)
 		{
-			StartCoroutine(BlocksFallDownGap(2));
+			StartCoroutine(BlocksFallDownGap(5));
 		}
 	}
 
@@ -24,17 +29,18 @@ public class Level5 : Level3 {
 		isWaiting = true;
 
 		InstantiateBlocks();
-		int r = Random.Range(0, blocksFolders.Count);
 
 		GameObject _blocksFolder = blocksFolders[blocksFolders.Count-1];
+		int r = Random.Range(0, _blocksFolder.transform.childCount);
+		print("_blocksFolder.transform.childCount = " + _blocksFolder.transform.childCount);
+		print(" r = " + r);
 
 		for (int i = 0; i < _blocksFolder.transform.childCount; i++)
 		{
-			FallingBlock _block = _blocksFolder.transform.GetChild(i).GetComponent<FallingBlock>();
-			_block.canFall = true;
+			_blocksFolder.transform.GetChild(i).GetComponent<FallingBlock>().canFall = true;;
 		}
 
-		Destroy(_blocksFolder.transform.GetChild(r));
+		Destroy(_blocksFolder.transform.GetChild(r).gameObject);
 
 		yield return new WaitForSeconds(_waitTime);
 
@@ -44,5 +50,7 @@ public class Level5 : Level3 {
 	public override void Reset()
 	{
 		base.Reset();
+		canDomino = false;
+		isWaiting = false;
 	}
 }

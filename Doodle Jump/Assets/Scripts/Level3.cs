@@ -17,11 +17,13 @@ public class Level3 : Level {
 	//int amountOfBlockfoldersLimit = 10;
 
 	bool shouldWait;
+	protected bool canDomino;
 	float moveWaitTimer;
 
 	public override void StartSettings () {
 		blocksFolders = new List<GameObject>();
 		Reset();
+		InstantiateBlocks();
 	}
 
 	public override void UpdateSettings () {
@@ -32,7 +34,7 @@ public class Level3 : Level {
 			return;
 		}
 			
-		if (!shouldBlockWait)
+		if (!shouldBlockWait && canDomino)
 		{
 			StartCoroutine(BlocksFallDownDomino(fallAfterSeconds));
 		}
@@ -46,7 +48,7 @@ public class Level3 : Level {
 		for (int i = 0; i < amountOfBlocks; i++)
 		{
 			Vector3 _pos = new Vector3(i * (blockSize.x + seperationDist), 0);
-			print("position block " + i + " = " + _pos);
+			//print("position block " + i + " = " + _pos);
 			Instantiate(blockPrefab, _pos, Quaternion.identity, _blocksFolder.transform);
 		}
 			
@@ -109,8 +111,8 @@ public class Level3 : Level {
 		blockSize = blockPrefab.GetComponent<SpriteRenderer>().sprite.bounds.size;
 		blockNr = 0;
 		shouldBlockWait = false;
-		//amountOfBlockfoldersSpawned = 0;
 
-		InstantiateBlocks();
+		canDomino = true;
+		//amountOfBlockfoldersSpawned = 0;
 	}
 }

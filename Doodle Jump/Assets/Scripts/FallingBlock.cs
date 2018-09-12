@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FallingBlock : MonoBehaviour {
 	[SerializeField] float speed;
-	[HideInInspector] public bool canFall;
+	public bool canFall;
 
 	void Start()
 	{
