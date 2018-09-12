@@ -37,7 +37,8 @@ public class Level5 : Level3 {
 
 		for (int i = 0; i < _blocksFolder.transform.childCount; i++)
 		{
-			_blocksFolder.transform.GetChild(i).GetComponent<FallingBlock>().canFall = true;;
+			_blocksFolder.transform.GetChild(i).GetComponent<FallingBlock>().canFall = true;
+			print(_blocksFolder.transform.GetChild(i).GetComponent<FallingBlock>().canFall);
 		}
 
 		Destroy(_blocksFolder.transform.GetChild(r).gameObject);

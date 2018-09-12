@@ -8,7 +8,7 @@ public class FallingBlock : MonoBehaviour {
 
 	void Start()
 	{
-		canFall = false;
+		
 	}
 
 	// Update is called once per frame
