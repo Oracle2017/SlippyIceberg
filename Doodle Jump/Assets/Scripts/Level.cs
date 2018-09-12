@@ -19,6 +19,7 @@ public class Level : MonoBehaviour {
 	protected bool isPrepared;
 	protected Vector3 currentMoveVelocity;
 	[SerializeField] protected float scaleXTarget;
+
 	// TODO reset all this!
 
 	public virtual void StartSettings () {
@@ -55,7 +56,7 @@ public class Level : MonoBehaviour {
 
 		if (shouldScale)
 		{
-			ScalePlatform();
+			ScalePlatform(scaleXTarget);
 			shouldScale = false;
 		}
 			
@@ -110,10 +111,10 @@ public class Level : MonoBehaviour {
 		}*/
 	}
 
-	void ScalePlatform()
+	protected void ScalePlatform(float _xTarget)
 	{
 		Platform_ScaleChanger _platformScaleChanger = GameManager.currentPlatform.GetComponent<Platform_ScaleChanger>();
-		_platformScaleChanger.ChangeScaleTo(scaleXTarget, GameManager.currentPlatform.scaleSpeed, false);
+		_platformScaleChanger.ChangeScaleTo(_xTarget, GameManager.currentPlatform.scaleSpeed, false);
 	}
 		
 
@@ -126,8 +127,6 @@ public class Level : MonoBehaviour {
 			//currentCoin = Instantiate(coin.gameObject, coin.position, coin.rotation);
 			currentCoin = Instantiate(coinPrefab, coin.position, Quaternion.identity);
 			index = (index + 1) % levelCoins.childCount;
-
-
 		}
 
 		previousAmountOfLevelCoins = GameManager.amountOfLevelCoins;

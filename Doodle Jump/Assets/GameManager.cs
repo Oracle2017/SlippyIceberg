@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		PlayerPrefs.DeleteAll();
 
 		// TODO: remove this in the end, just for debugging
 		currentPlatform = GameObject.FindObjectOfType<Platform>() as Platform;
@@ -97,12 +98,7 @@ public class GameManager : MonoBehaviour {
 		{
 			return;
 		}
-
-
-		if (Input.GetKeyDown(KeyCode.Space))
-		{
-			PlayerPrefs.DeleteAll();
-		}
+			
 		
 		if (!currentPlayer.isDead)
 		{

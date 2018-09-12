@@ -6,6 +6,7 @@ public class CosmeticsTab : MonoBehaviour {
 	[SerializeField] Transform cosmeticsParent;
 	[SerializeField] GameObject exclamationPoint;
 	[SerializeField] GUI_Messenger guiMessenger;
+
 	//[SerializeField] Cosmet cosmeticPreviewer;
 
 	// Use this for initialization
@@ -17,8 +18,8 @@ public class CosmeticsTab : MonoBehaviour {
 		GameManager.currentPlayer.spriteRenderer.sprite = _sprite;
 		exclamationPoint.SetActive(false);
 		guiMessenger.gameObject.SetActive(false);
-
 		gameObject.SetActive(false);
+
 
 		//Cosmetic_Previewer.StartSettings();
 	}
@@ -63,12 +64,7 @@ public class CosmeticsTab : MonoBehaviour {
 				Cosmetic _lockedCosmetic = cosmeticsParent.GetChild(_firstLockedIndex).GetComponent<Cosmetic>();
 
 				exclamationPoint.SetActive(true);
-				guiMessenger.Reset();
-				guiMessenger.siblingIndex = i;
-				guiMessenger.cosmeticImage.sprite = _lockedCosmetic.unlockedSprite;
-				guiMessenger.cosmeticDescription.text = _lockedCosmetic.description;
-				guiMessenger.amountOfDiamondsText.text = _lockedCosmetic.amountOfDiamonsNeeded.ToString();
-				guiMessenger.gameObject.SetActive(true);
+				guiMessenger.OpenWindow(i, _lockedCosmetic);
 
 				PlayerPrefs.SetInt("newCosmeticVisible", 1);
 				return;

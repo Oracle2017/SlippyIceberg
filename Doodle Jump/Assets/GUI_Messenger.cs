@@ -6,6 +6,8 @@ public class GUI_Messenger : MonoBehaviour {
 	[SerializeField] public Text cosmeticDescription;
 	[SerializeField] public Text amountOfDiamondsText;
 	[HideInInspector] public int siblingIndex;
+	[SerializeField] GameObject darkBackground;
+	string lockedCosmeticName;
 	RectTransform rectTransform;
 	Vector3 targetScale;
 	Vector3 scalingVelocity;
@@ -14,6 +16,7 @@ public class GUI_Messenger : MonoBehaviour {
 	public void Start () {
 		rectTransform = GetComponent<RectTransform>();
 		targetScale = rectTransform.localScale;
+		darkBackground.SetActive(false);
 		gameObject.SetActive(false);
 	}
 	
@@ -27,16 +30,29 @@ public class GUI_Messenger : MonoBehaviour {
 		rectTransform.localScale = Vector3.SmoothDamp(rectTransform.localScale, targetScale, ref scalingVelocity, 0.2f);
 	}
 
+	public void OpenWindow(int _siblingIndex, Cosmetic _lockedCosmetic)
+	{
+		Reset();
+		lockedCosmeticName = _lockedCosmetic.name;
+		siblingIndex = _siblingIndex;
+		cosmeticImage.sprite = _lockedCosmetic.unlockedSprite;
+		cosmeticDescription.text = _lockedCosmetic.description;
+		amountOfDiamondsText.text = _lockedCosmetic.amountOfDiamonsNeeded.ToString();
+		darkBackground.SetActive(true);
+		gameObject.SetActive(true);
+	}
+
 	public void CloseWindow()
 	{
 		GameManager.isPausing = false;
 		gameObject.SetActive(false);
+		darkBackground.SetActive(false);
 	}
 		
 
 	public void UnlockCosmetic()
 	{
-		PlayerPrefs.SetInt("unlockedCosmetics_"+name, 1);
+		PlayerPrefs.SetInt("unlockedCosmetics_"+lockedCosmeticName, 1);
 
 		Score.totalAmountOfCoins -= int.Parse(amountOfDiamondsText.text);
 		PlayerPrefs.SetInt("amountOfDiamonds", Score.totalAmountOfCoins);
