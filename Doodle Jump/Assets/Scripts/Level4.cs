@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Level4 : Level {
 	[SerializeField] float smallScaleXtarget;
-	float bigScaleXtarget;
+	//float bigScaleXtarget;
 	float currentScaleXTarget;
 
 	// Use this for initialization
@@ -21,7 +21,7 @@ public class Level4 : Level {
 		if (GameManager.currentPlatform.transform.localScale.x - currentScaleXTarget <= 0.05f && 
 			GameManager.currentPlatform.transform.localScale.x - currentScaleXTarget >= -0.05f)
 		{
-			currentScaleXTarget = (currentScaleXTarget == smallScaleXtarget)? bigScaleXtarget: smallScaleXtarget;
+			currentScaleXTarget = (currentScaleXTarget == smallScaleXtarget)? scaleXTarget: smallScaleXtarget;
 			ScalePlatform(currentScaleXTarget);
 		}
 	}
@@ -32,7 +32,7 @@ public class Level4 : Level {
 		shouldStabilize = true;
 		shouldCenterPosition = true;
 		shouldScale = true;
-		bigScaleXtarget = scaleXTarget;
-		currentScaleXTarget = smallScaleXtarget;
+		//bigScaleXtarget = scaleXTarget;
+		currentScaleXTarget = scaleXTarget;
 	}
 }

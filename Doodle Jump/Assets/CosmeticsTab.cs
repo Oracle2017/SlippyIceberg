@@ -17,7 +17,7 @@ public class CosmeticsTab : MonoBehaviour {
 		Sprite _sprite = _cosmetic.unlockedSprite;
 		GameManager.currentPlayer.spriteRenderer.sprite = _sprite;
 		exclamationPoint.SetActive(false);
-		guiMessenger.gameObject.SetActive(false);
+		//guiMessenger.gameObject.SetActive(false);
 		gameObject.SetActive(false);
 
 

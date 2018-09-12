@@ -9,9 +9,9 @@ public class Level3 : Level {
 	[SerializeField] float startPosY;
 	[SerializeField] float fallAfterSeconds = 0.4f;
 
-	List<GameObject> blocksFolders;
+	protected List<GameObject> blocksFolders;
 	[HideInInspector] public static Vector3 blockSize;
-	int blockNr;
+	protected int blockNr;
 	bool shouldBlockWait;
 	//int amountOfBlockfoldersSpawned;
 	//int amountOfBlockfoldersLimit = 10;
@@ -31,13 +31,6 @@ public class Level3 : Level {
 		{
 			return;
 		}
-
-		/*if (shouldWait)
-		{
-			print("is waiting");
-			Wait(1);
-			return;
-		}*/
 			
 		if (!shouldBlockWait)
 		{
@@ -45,7 +38,7 @@ public class Level3 : Level {
 		}
 	}
 
-	void InstantiateBlocks()
+	protected void InstantiateBlocks()
 	{
 		GameObject _blocksFolder = Instantiate(new GameObject("Blocks Folder"), Vector3.zero, Quaternion.identity);
 		blocksFolders.Add(_blocksFolder);
@@ -93,17 +86,7 @@ public class Level3 : Level {
 			shouldBlockWait = false;
 		}
 	}
-
-	void Wait(float _waitTime)
-	{
-		if (moveWaitTimer < _waitTime)
-		{
-			moveWaitTimer+= Time.deltaTime;
-			return;
-		}
-
-		shouldWait = false;
-	}
+		
 
 	public override void Reset()
 	{
