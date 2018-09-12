@@ -53,6 +53,7 @@ public class PlayerMovement2 : MonoBehaviour {
 	[Header("PARTICLE EFFECTS")]
 
 	[SerializeField] ParticleSystem dustTrails;
+	float dustTrailsPosX;
 	[SerializeField] float emissionLimit = 10;
 
 
@@ -71,13 +72,12 @@ public class PlayerMovement2 : MonoBehaviour {
 
 	// Use this for initialization
 	public void StartSettings () {
+		dustTrailsPosX = dustTrails.transform.localPosition.x;
 
 		minSlipVelocity = 0;
 		maxSlipVelocity = moveSpeed;
 
 		spriteRenderer = GetComponent<SpriteRenderer>();
-
-
 	}
 
 	public void Move(bool _isTouchingObstacle)
@@ -114,6 +114,8 @@ public class PlayerMovement2 : MonoBehaviour {
 					spriteRenderer.flipX = true;
 					dustTrails.transform.localScale = (dustTrails.transform.localScale.x < 0)? 
 						dustTrails.transform.localScale: new Vector3(-dustTrails.transform.localScale.x, dustTrails.transform.localScale.y, dustTrails.transform.localScale.z);
+				dustTrails.transform.localPosition = new Vector3(-dustTrailsPosX, dustTrails.transform.localPosition.y, dustTrails.transform.localPosition.z);
+
 				}
 
 				else 
@@ -121,7 +123,7 @@ public class PlayerMovement2 : MonoBehaviour {
 					spriteRenderer.flipX = false;
 					dustTrails.transform.localScale = (dustTrails.transform.localScale.x >= 0)? 
 						dustTrails.transform.localScale: new Vector3(-dustTrails.transform.localScale.x, dustTrails.transform.localScale.y, dustTrails.transform.localScale.z);
-
+					dustTrails.transform.localPosition = new Vector3(dustTrailsPosX, dustTrails.transform.localPosition.y, dustTrails.transform.localPosition.z);
 				}
 				
 		
@@ -144,7 +146,9 @@ public class PlayerMovement2 : MonoBehaviour {
 			{
 				dustTrails.transform.localScale = (dustTrails.transform.localScale.x < 0)? 
 				dustTrails.transform.localScale: new Vector3(-dustTrails.transform.localScale.x, dustTrails.transform.localScale.y, dustTrails.transform.localScale.z);
+				dustTrails.transform.localPosition = new Vector3(-dustTrailsPosX, dustTrails.transform.localPosition.y, dustTrails.transform.localPosition.z);
 				
+
 				spriteRenderer.flipX = true;
 
 				if (_isTouchingObstacle)
@@ -170,6 +174,8 @@ public class PlayerMovement2 : MonoBehaviour {
 			{
 				dustTrails.transform.localScale = (dustTrails.transform.localScale.x >= 0)? 
 				dustTrails.transform.localScale: new Vector3(-dustTrails.transform.localScale.x, dustTrails.transform.localScale.y, dustTrails.transform.localScale.z);
+				dustTrails.transform.localPosition = new Vector3(dustTrailsPosX, dustTrails.transform.localPosition.y, dustTrails.transform.localPosition.z);
+
 
 				spriteRenderer.flipX = false;
 
