@@ -6,6 +6,7 @@ public class LevelTransitor : MonoBehaviour {
 	[SerializeField] GameObject diamonds2X;
 	[SerializeField] float messageTime;
 	[SerializeField] GameObject glitterParticleEffect;
+	[SerializeField] GameObject birthdayGlitterParticleEffect;
 	GameObject currentGameObject;
 	bool isBlinking;
 	bool canBlink;
@@ -17,9 +18,10 @@ public class LevelTransitor : MonoBehaviour {
 
 	public void StageCompleted()
 	{
-		GameObject _particleEffect = Instantiate(glitterParticleEffect, glitterParticleEffect.transform.position, Quaternion.identity);
-		print("instantiate glitter effect");
-		Destroy(_particleEffect, 5f);
+		GameObject _startusParticle = Instantiate(glitterParticleEffect, glitterParticleEffect.transform.position, Quaternion.identity);
+		Destroy(_startusParticle, 5f);
+		GameObject _birthdayParticle = Instantiate(birthdayGlitterParticleEffect, birthdayGlitterParticleEffect.transform.position, Quaternion.identity);
+		Destroy(_birthdayParticle, 5f);
 	}
 
 	// Update is called once per frame
