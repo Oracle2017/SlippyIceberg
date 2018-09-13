@@ -38,7 +38,7 @@ public class Score : MonoBehaviour {
 		currentLvl = 0;
 		totalAmountOfCoins = PlayerPrefs.GetInt("amountOfDiamonds"); 
 		currentAmountOfCoins = 0;
-		print( PlayerPrefs.GetInt("amountOfDiamonds"));
+		//print( PlayerPrefs.GetInt("amountOfDiamonds"));
 
 		currentTime = 0f;
 		coinIncrementer = 1;

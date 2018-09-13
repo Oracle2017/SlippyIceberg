@@ -19,15 +19,29 @@ public class Level3 : Level {
 	bool shouldWait;
 	protected bool canDomino;
 	float moveWaitTimer;
+	float waitTimer;
+	bool firstBlocksInstantiated;
 
 	public override void StartSettings () {
 		blocksFolders = new List<GameObject>();
 		Reset();
-
-		Invoke("InstantiateBlocks", 3.5f);
 	}
 
 	public override void UpdateSettings () {
+		if (canDomino)
+		{
+			if (ShouldWait(5.1f))
+			{
+				return;
+			}
+
+			if (!firstBlocksInstantiated)
+			{
+				InstantiateBlocks();
+				firstBlocksInstantiated = true;
+			}
+		}
+
 		base.UpdateSettings();
 
 		if (!isPrepared)
@@ -39,6 +53,17 @@ public class Level3 : Level {
 		{
 			StartCoroutine(BlocksFallDownDomino(fallAfterSeconds));
 		}
+	}
+
+	bool ShouldWait(float _waitTime)
+	{
+		if (waitTimer < _waitTime)
+		{
+			waitTimer += Time.deltaTime;
+			return true;
+		}
+
+		return false;
 	}
 
 	protected void InstantiateBlocks()
@@ -120,6 +145,8 @@ public class Level3 : Level {
 		shouldBlockWait = false;
 
 		canDomino = true;
+		waitTimer = 0f;
+		firstBlocksInstantiated = false;
 		//amountOfBlockfoldersSpawned = 0;
 	}
 }

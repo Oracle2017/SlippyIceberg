@@ -7,8 +7,8 @@ public class GUI_LevelStatus : MonoBehaviour {
 	Sprite emptyDiamond;
 	[SerializeField] Sprite filledDiamond;
 	List<Image> diamondImgs;
-	bool isFilled;
-	bool isInRoutine;
+	[HideInInspector] public bool isFilled;
+	[HideInInspector] public bool isInRoutine;
 
 	// Use this for initialization
 	public void StartSettings () {
@@ -35,6 +35,11 @@ public class GUI_LevelStatus : MonoBehaviour {
 	{
 		isInRoutine = true;
 		yield return new WaitForSeconds(_waitTime);
+		if (!isFilled)
+		{
+			//already reseted in filldiamond
+			yield break;
+		}
 		Reset();
 		isFilled = false;
 		isInRoutine = false;
@@ -45,14 +50,21 @@ public class GUI_LevelStatus : MonoBehaviour {
 		if (_index < 0)
 			return;
 
-		diamondImgs[_index].sprite = filledDiamond;
+		if (_index == 0 && isFilled)
+		{
+			Reset();
+		}
 
-		print(_index);
-
-		if (_index == diamondImgs.Count - 1)
+		else if (_index == diamondImgs.Count - 1)
 		{
 			isFilled = true;
 		}
+
+		diamondImgs[_index].sprite = filledDiamond;
+
+		//print(_index);
+
+
 	}
 
 	public void Reset()

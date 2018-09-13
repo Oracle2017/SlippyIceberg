@@ -122,7 +122,7 @@ public class Level : MonoBehaviour {
 	{
 		if (GameManager.amountOfLevelCoins != previousAmountOfLevelCoins)
 		{
-			print("instantiate new coin!");
+			//print("instantiate new coin!");
 			coin = levelCoins.GetChild(index);
 			//currentCoin = Instantiate(coin.gameObject, coin.position, coin.rotation);
 			currentCoin = Instantiate(coinPrefab, coin.position, Quaternion.identity);
@@ -134,7 +134,7 @@ public class Level : MonoBehaviour {
 
 	protected bool IsWaiting(float _waitTimeLimit)
 	{
-		print("waiting = " + waitTimer + " s.");
+		//print("waiting = " + waitTimer + " s.");
 
 		if (waitTimer < _waitTimeLimit)
 		{

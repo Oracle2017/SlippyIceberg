@@ -158,7 +158,7 @@ public class GameManager : MonoBehaviour {
 				guiHelper.StartSettings();
 			}*/
 
-			print("current level = " + Score.currentLvl);
+			//print("current level = " + Score.currentLvl);
 			if (Score.currentLvl == 1)
 			{
 				guiControlsHelper.gameObject.SetActive(true);
