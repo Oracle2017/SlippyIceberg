@@ -198,7 +198,8 @@ public class GameManager : MonoBehaviour {
 					temp_waitLimit: 
 					waitTime;
 
-				score.CoinMultiplier(2);
+				//score.CoinMultiplier(2);
+				Score.coinIncrementer *= 2;
 				levelTransitor.Diamonds2X();
 			}
 		}

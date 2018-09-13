@@ -25,6 +25,5 @@ public class Coin : MonoBehaviour {
 	void OnDestroy()
 	{
 		GameObject _coinRewardGameObject = Instantiate(GUI_feedback, transform.position, Quaternion.identity, GameManager.GUICanvas.transform);
-		_coinRewardGameObject.GetComponent<Text>().text = "+" + Score.coinIncrementer;
 	}
 }

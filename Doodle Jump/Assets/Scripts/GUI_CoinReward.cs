@@ -9,7 +9,7 @@ public class GUI_CoinReward : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		GUItext = gameObject.GetComponent<Text>();
-		GUItext.text = "+1";
+		GUItext.text = "+" + Score.coinIncrementer;
 	}
 	
 	// Update is called once per frame
