@@ -23,7 +23,8 @@ public class Level3 : Level {
 	public override void StartSettings () {
 		blocksFolders = new List<GameObject>();
 		Reset();
-		//InstantiateBlocks();
+
+		Invoke("InstantiateBlocks", 3f);
 	}
 
 	public override void UpdateSettings () {
@@ -49,7 +50,8 @@ public class Level3 : Level {
 		{
 			Vector3 _pos = new Vector3(i * (blockSize.x + seperationDist), 0);
 			//print("position block " + i + " = " + _pos);
-			Instantiate(blockPrefab, _pos, Quaternion.identity, _blocksFolder.transform);
+			GameObject _blockGameObject = Instantiate(blockPrefab, _pos, Quaternion.identity, _blocksFolder.transform);
+			_blockGameObject.GetComponent<FallingBlock>().canFall = false;
 		}
 			
 		float _totalWidth = (amountOfBlocks - 1) * (blockSize.x + seperationDist);
@@ -59,6 +61,11 @@ public class Level3 : Level {
 
 	IEnumerator BlocksFallDownDomino(float _waitTime)
 	{
+		if (blocksFolders.Count <= 0)
+		{
+			yield break;
+		}
+
 		/*for (int i = 0; i < blocksFolder.transform.childCount; i++)
 		{
 			yield return new WaitForSeconds(_waitTime);
@@ -109,7 +116,7 @@ public class Level3 : Level {
 		moveWaitTimer = 0;
 
 		blockSize = blockPrefab.GetComponent<SpriteRenderer>().sprite.bounds.size;
-		blockNr = int.MaxValue;
+		blockNr = 0;
 		shouldBlockWait = false;
 
 		canDomino = true;

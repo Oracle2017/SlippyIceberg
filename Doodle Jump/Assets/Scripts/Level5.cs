@@ -13,10 +13,13 @@ public class Level5 : Level3 {
 	public override void UpdateSettings () {
 		base.UpdateSettings();
 
+		print("isPrepared = " + isPrepared);
+
 		if (!isPrepared)
 		{
 			return;
 		}
+
 
 		if (!isWaiting)
 		{
@@ -32,13 +35,11 @@ public class Level5 : Level3 {
 
 		GameObject _blocksFolder = blocksFolders[blocksFolders.Count-1];
 		int r = Random.Range(0, _blocksFolder.transform.childCount);
-		print("_blocksFolder.transform.childCount = " + _blocksFolder.transform.childCount);
-		print(" r = " + r);
 
 		for (int i = 0; i < _blocksFolder.transform.childCount; i++)
 		{
 			_blocksFolder.transform.GetChild(i).GetComponent<FallingBlock>().canFall = true;
-			print(_blocksFolder.transform.GetChild(i).GetComponent<FallingBlock>().canFall);
+
 		}
 
 		Destroy(_blocksFolder.transform.GetChild(r).gameObject);

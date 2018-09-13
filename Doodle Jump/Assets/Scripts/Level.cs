@@ -134,6 +134,8 @@ public class Level : MonoBehaviour {
 
 	protected bool IsWaiting(float _waitTimeLimit)
 	{
+		print("waiting = " + waitTimer + " s.");
+
 		if (waitTimer < _waitTimeLimit)
 		{
 			waitTimer += Time.deltaTime;

@@ -170,22 +170,22 @@ public class GameManager : MonoBehaviour {
 				amountOfLevelsPassed % levels.Length == 1)
 			{
 				// Decrease rotation speed
-				float temp_rotationSpeed = GameManager.currentPlatform.rotationSpeed * GameManager.currentPlatform.SpeedIncrease; 
-				GameManager.currentPlatform.rotationSpeed = (temp_rotationSpeed < GameManager.currentPlatform.rotationSpeedLimit)? 
+				float temp_rotationSpeed = currentPlatform.rotationSpeed * currentPlatform.SpeedIncrease; 
+				currentPlatform.rotationSpeed = (temp_rotationSpeed < currentPlatform.rotationSpeedLimit)? 
 					temp_rotationSpeed: 
-					GameManager.currentPlatform.rotationSpeed;
+					currentPlatform.rotationSpeed;
 
 				// Decrease move speed
-				float temp_moveSpeed = GameManager.currentPlatform.moveSpeed * GameManager.currentPlatform.moveSpeedIncrease; 
-				GameManager.currentPlatform.moveSpeed = (temp_moveSpeed < GameManager.currentPlatform.moveSpeedLimit)? 
+				float temp_moveSpeed = currentPlatform.moveSpeed * currentPlatform.moveSpeedIncrease; 
+				GameManager.currentPlatform.moveSpeed = (temp_moveSpeed < currentPlatform.moveSpeedLimit)? 
 					temp_moveSpeed: 
 					GameManager.currentPlatform.moveSpeed;
 
 				// Decrease move speed
-				float temp_scaleSpeed = GameManager.currentPlatform.scaleSpeed * (1/GameManager.currentPlatform.scaleSpeedIncrease); 
-				GameManager.currentPlatform.scaleSpeed = (temp_scaleSpeed > GameManager.currentPlatform.scaleSpeedLimit)? 
+				float temp_scaleSpeed = currentPlatform.scaleSpeed * (1/currentPlatform.scaleSpeedIncrease); 
+				currentPlatform.scaleSpeed = (temp_scaleSpeed > currentPlatform.scaleSpeedLimit)? 
 					temp_scaleSpeed: 
-					GameManager.currentPlatform.scaleSpeed;
+					currentPlatform.scaleSpeed;
 
 				// Decrease waiting transitions
 				float temp_waitLimit = waitTime * waitTimeDecreaseSpeed; 
