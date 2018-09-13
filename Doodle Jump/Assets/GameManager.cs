@@ -103,6 +103,7 @@ public class GameManager : MonoBehaviour {
 		
 		if (!currentPlayer.isDead)
 		{
+			guiLevelStatus.FillDiamond(levelCoinIndex - 1);
 			LevelSwitcher();
 			levels[currentLevel].UpdateSettings();
 			/*if (guiHelper != null)
@@ -118,7 +119,6 @@ public class GameManager : MonoBehaviour {
 			currentPlatform.UpdatePlatform();
 			currentPlayer.UpdatePlayer();
 			score.UpdateScores();
-			guiLevelStatus.FillDiamond(levelCoinIndex - 1);
 		}
 
 		else 
@@ -144,7 +144,8 @@ public class GameManager : MonoBehaviour {
 			{
 				levelTransitor.StageCompleted();
 			}
-			guiLevelStatus.Reset();
+
+			//guiLevelStatus.Reset();
 			amountOfLevelsPassed++;
 			Score.currentLvl = amountOfLevelsPassed;
 			currentLevel = (currentLevel + 1) % levels.Length;
@@ -223,6 +224,7 @@ public class GameManager : MonoBehaviour {
 		guiLevelStatus.Reset();
 		levelTransitor.Reset();
 		cosmeticsTab.CheckNewVisible();
+		levelCoinIndex = 0;
 
 
 		print("reset");

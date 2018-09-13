@@ -7,6 +7,8 @@ public class GUI_LevelStatus : MonoBehaviour {
 	Sprite emptyDiamond;
 	[SerializeField] Sprite filledDiamond;
 	List<Image> diamondImgs;
+	bool isFilled;
+	bool isInRoutine;
 
 	// Use this for initialization
 	public void StartSettings () {
@@ -20,6 +22,23 @@ public class GUI_LevelStatus : MonoBehaviour {
 			diamondImgs.Add(_img);
 		}
 	}
+
+	void Update()
+	{
+		if (isFilled && !isInRoutine)
+		{
+			StartCoroutine(StayFilled(5));
+		}
+	}
+
+	IEnumerator StayFilled(float _waitTime)
+	{
+		isInRoutine = true;
+		yield return new WaitForSeconds(_waitTime);
+		Reset();
+		isFilled = false;
+		isInRoutine = false;
+	}
 	
 	// Update is called once per frame
 	public void FillDiamond (int _index) {
@@ -27,6 +46,13 @@ public class GUI_LevelStatus : MonoBehaviour {
 			return;
 
 		diamondImgs[_index].sprite = filledDiamond;
+
+		print(_index);
+
+		if (_index == diamondImgs.Count - 1)
+		{
+			isFilled = true;
+		}
 	}
 
 	public void Reset()
@@ -35,5 +61,8 @@ public class GUI_LevelStatus : MonoBehaviour {
 		{
 			diamondImgs[i].sprite = emptyDiamond;
 		}	
+
+		isFilled = false;
+		isInRoutine = false;
 	}
 }

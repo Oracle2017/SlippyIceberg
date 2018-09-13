@@ -52,10 +52,12 @@ public class LevelTransitor : MonoBehaviour {
 
 	public void Reset()
 	{
-		if (currentGameObject != null)
+		currentGameObject = null;
+		isBlinking = false;
+		/*if (currentGameObject != null)
 		{
 			currentGameObject.SetActive(false);
-		}
+		}*/
 		canBlink = false;
 	}
 }
