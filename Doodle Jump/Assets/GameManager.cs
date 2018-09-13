@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour {
 	[SerializeField] CosmeticsTab cosmeticsTab;
 	[SerializeField] GUI_ControlsHelper guiControlsHelper;
 	[SerializeField] GUI_LevelStatus guiLevelStatus;
+	[SerializeField] LevelTransitor levelTransitor;
 	//[SerializeField] GameObject guiHelperPrefab;
 
 	[SerializeField] Transform[] levelCoins;
@@ -64,7 +65,7 @@ public class GameManager : MonoBehaviour {
 		guiLevelStatus.StartSettings();
 		gameOver.StartSettings();
 		cosmeticsTab.StartSettings();
-
+		levelTransitor.StartSettings();
 
 
 
@@ -192,6 +193,9 @@ public class GameManager : MonoBehaviour {
 				waitTime = (temp_waitLimit > waitTimeLimit)? 
 					temp_waitLimit: 
 					waitTime;
+
+				score.CoinMultiplier(2);
+				levelTransitor.Diamonds2X();
 			}
 		}
 
@@ -212,6 +216,7 @@ public class GameManager : MonoBehaviour {
 		amountOfLevelCoins = 0;
 		waitTime = startWaitTime;
 		guiLevelStatus.Reset();
+		levelTransitor.Reset();
 		cosmeticsTab.CheckNewVisible();
 
 

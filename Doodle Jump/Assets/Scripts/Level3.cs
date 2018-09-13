@@ -24,7 +24,7 @@ public class Level3 : Level {
 		blocksFolders = new List<GameObject>();
 		Reset();
 
-		Invoke("InstantiateBlocks", 3f);
+		Invoke("InstantiateBlocks", 3.5f);
 	}
 
 	public override void UpdateSettings () {

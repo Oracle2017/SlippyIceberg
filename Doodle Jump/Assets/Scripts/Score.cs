@@ -9,6 +9,7 @@ public class Score : MonoBehaviour {
 	[SerializeField] Text currentLvlText;
 	[HideInInspector] public static int totalAmountOfCoins;
 	[HideInInspector] public static int currentAmountOfCoins;
+	[HideInInspector] public static int coinIncrementer;
 	[SerializeField] Text amountOfCoinsText;
 
 	[HideInInspector] public static double currentTime;
@@ -19,13 +20,17 @@ public class Score : MonoBehaviour {
 		Reset();
 	}
 
-
 	public void UpdateScores()
 	{
 		currentLvlText.text = "STAGE " + currentLvl.ToString();
 		amountOfCoinsText.text = totalAmountOfCoins.ToString();
 		currentTime += Time.deltaTime;
 		//currentTimeText.text = ((int) currentTime).ToString();
+	}
+
+	public void CoinMultiplier(int _multiplier)
+	{
+		coinIncrementer *= 2;
 	}
 
 	public void Reset()
@@ -36,6 +41,7 @@ public class Score : MonoBehaviour {
 		print( PlayerPrefs.GetInt("amountOfDiamonds"));
 
 		currentTime = 0f;
+		coinIncrementer = 1;
 	}
 		
 }

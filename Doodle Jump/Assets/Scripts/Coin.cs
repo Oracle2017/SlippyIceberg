@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Coin : MonoBehaviour {
 	float timer;
@@ -23,6 +24,7 @@ public class Coin : MonoBehaviour {
 
 	void OnDestroy()
 	{
-		GameObject coinRewardGameObject = Instantiate(GUI_feedback, transform.position, Quaternion.identity, GameManager.GUICanvas.transform);
+		GameObject _coinRewardGameObject = Instantiate(GUI_feedback, transform.position, Quaternion.identity, GameManager.GUICanvas.transform);
+		_coinRewardGameObject.GetComponent<Text>().text = "+" + Score.coinIncrementer;
 	}
 }
