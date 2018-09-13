@@ -140,6 +140,10 @@ public class GameManager : MonoBehaviour {
 
 		if (amountOfLevelCoins <= 0)
 		{
+			if (amountOfLevelsPassed > 0)
+			{
+				levelTransitor.StageCompleted();
+			}
 			guiLevelStatus.Reset();
 			amountOfLevelsPassed++;
 			Score.currentLvl = amountOfLevelsPassed;

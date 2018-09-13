@@ -5,6 +5,7 @@ using UnityEngine;
 public class LevelTransitor : MonoBehaviour {
 	[SerializeField] GameObject diamonds2X;
 	[SerializeField] float messageTime;
+	[SerializeField] GameObject glitterParticleEffect;
 	GameObject currentGameObject;
 	bool isBlinking;
 	bool canBlink;
@@ -12,6 +13,13 @@ public class LevelTransitor : MonoBehaviour {
 	public void StartSettings()
 	{
 		Reset();
+	}
+
+	public void StageCompleted()
+	{
+		GameObject _particleEffect = Instantiate(glitterParticleEffect, glitterParticleEffect.transform.position, Quaternion.identity);
+		print("instantiate glitter effect");
+		Destroy(_particleEffect, 5f);
 	}
 
 	// Update is called once per frame
