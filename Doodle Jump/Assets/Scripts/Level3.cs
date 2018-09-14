@@ -30,7 +30,7 @@ public class Level3 : Level {
 	public override void UpdateSettings () {
 		if (canDomino)
 		{
-			if (ShouldWait(5.1f))
+			if (ShouldWait(3f))
 			{
 				return;
 			}
