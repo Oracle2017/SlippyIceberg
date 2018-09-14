@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour {
 
 	[SerializeField] Transform[] levelCoins;
 	[SerializeField] Level[] levels;
+	[HideInInspector] public static int levelsLength;
 
 	[Space(10)]
 	[Header("Stage Transition Settings")]
@@ -30,7 +31,7 @@ public class GameManager : MonoBehaviour {
 	[HideInInspector] public static int amountOfLevelCoins;
 	[HideInInspector] public static int levelCoinIndex; // amount of coins catched in a level
 	int currentLevel;
-	int amountOfLevelsPassed;
+	[HideInInspector] public static int amountOfLevelsPassed;
 
 	[HideInInspector] public static GameObject GUICanvas;
 
@@ -66,7 +67,7 @@ public class GameManager : MonoBehaviour {
 		gameOver.StartSettings();
 		cosmeticsTab.StartSettings();
 		levelTransitor.StartSettings();
-
+		levelsLength = levels.Length;
 
 
 		// GUI Canvas instantiation
@@ -171,6 +172,13 @@ public class GameManager : MonoBehaviour {
 			}
 
 
+			if (amountOfLevelsPassed > 1 &&
+				amountOfLevelsPassed % 4 == 0)
+			{
+				Score.coinIncrementer *= 2;
+				levelTransitor.Diamonds2X();
+			}
+
 
 			if (amountOfLevelsPassed > 1 && 
 				amountOfLevelsPassed % levels.Length == 1)
@@ -199,9 +207,6 @@ public class GameManager : MonoBehaviour {
 					temp_waitLimit: 
 					waitTime;
 
-				//score.CoinMultiplier(2);
-				Score.coinIncrementer *= 2;
-				levelTransitor.Diamonds2X();
 			}
 		}
 

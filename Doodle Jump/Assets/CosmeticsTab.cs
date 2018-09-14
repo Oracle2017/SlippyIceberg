@@ -56,11 +56,11 @@ public class CosmeticsTab : MonoBehaviour {
 			Cosmetic _cosmetic = cosmeticsParent.GetChild(i).GetComponent<Cosmetic>();
 			_cosmetic.Reset();
 
-			print ("cosmetic " + i + " is new ? " + _cosmetic.isNew);
+			//print ("cosmetic " + i + " is new ? " + _cosmetic.isNew);
 
 			if (_cosmetic.isNew)
 			{
-				print(_cosmetic.name + " is new! should open window!");
+				//print(_cosmetic.name + " is new! should open window!");
 				int _firstLockedIndex = i;
 				Cosmetic _lockedCosmetic = cosmeticsParent.GetChild(_firstLockedIndex).GetComponent<Cosmetic>();
 

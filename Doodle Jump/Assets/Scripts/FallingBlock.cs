@@ -8,7 +8,11 @@ public class FallingBlock : MonoBehaviour {
 
 	void Start()
 	{
-		
+		if (GameManager.amountOfLevelsPassed > 1 && 
+			GameManager.amountOfLevelsPassed % GameManager.levelsLength == 1)
+		{
+			speed *= 2 * (int) (GameManager.amountOfLevelsPassed / GameManager.levelsLength); 
+		}
 	}
 
 	// Update is called once per frame
