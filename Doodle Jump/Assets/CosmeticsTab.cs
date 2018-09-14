@@ -42,10 +42,10 @@ public class CosmeticsTab : MonoBehaviour {
 	public void CheckNewVisible()
 	{
 		// No need to check
-		if (PlayerPrefs.GetInt("newCosmeticVisible") == 1)
+		/*if (PlayerPrefs.GetInt("newCosmeticVisible") == 1)
 		{
 			return;
-		}
+		}*/
 
 		// Check starting
 
@@ -60,6 +60,7 @@ public class CosmeticsTab : MonoBehaviour {
 
 			if (_cosmetic.isNew)
 			{
+				print(_cosmetic.name + " is new! should open window!");
 				int _firstLockedIndex = i;
 				Cosmetic _lockedCosmetic = cosmeticsParent.GetChild(_firstLockedIndex).GetComponent<Cosmetic>();
 
