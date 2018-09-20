@@ -23,7 +23,7 @@ public class Level5 : Level3 {
 
 		if (!isWaiting)
 		{
-			StartCoroutine(BlocksFallDownGap(5));
+			StartCoroutine(BlocksFallDownGap(3.5f));
 		}
 	}
 

@@ -12,6 +12,8 @@ public class FallingBlock : MonoBehaviour {
 			GameManager.amountOfLevelsPassed % GameManager.levelsLength == 1)
 		{
 			speed *= 2 * (int) (GameManager.amountOfLevelsPassed / GameManager.levelsLength); 
+			print(speed);
+			Debug.Break();
 		}
 	}
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class GameManager : MonoBehaviour {
 	[Header("Prefabs")]
@@ -40,9 +41,14 @@ public class GameManager : MonoBehaviour {
 	public static bool isPausing;
 	 
 
+	/*[MenuItem("Edit/Reset Playerprefs")] public static void DeletePlayerPrefs() { PlayerPrefs.DeleteAll(); }*/
+
 	// Use this for initialization
 	void Start () {
-		PlayerPrefs.DeleteAll();
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			PlayerPrefs.DeleteAll();
+		}
 
 		// TODO: remove this in the end, just for debugging
 		currentPlatform = GameObject.FindObjectOfType<Platform>() as Platform;

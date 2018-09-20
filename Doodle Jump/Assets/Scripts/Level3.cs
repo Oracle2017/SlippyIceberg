@@ -19,7 +19,7 @@ public class Level3 : Level {
 	bool shouldWait;
 	protected bool canDomino;
 	float moveWaitTimer;
-	float waitTimer;
+	float waitTimer2;
 	bool firstBlocksInstantiated;
 
 	public override void StartSettings () {
@@ -57,9 +57,9 @@ public class Level3 : Level {
 
 	bool ShouldWait(float _waitTime)
 	{
-		if (waitTimer < _waitTime)
+		if (waitTimer2 < _waitTime)
 		{
-			waitTimer += Time.deltaTime;
+			waitTimer2 += Time.deltaTime;
 			return true;
 		}
 
@@ -145,7 +145,7 @@ public class Level3 : Level {
 		shouldBlockWait = false;
 
 		canDomino = true;
-		waitTimer = 0f;
+		waitTimer2 = 0f;
 		firstBlocksInstantiated = false;
 		//amountOfBlockfoldersSpawned = 0;
 	}
